@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
 import './App.css';
 
-// SVG Component for Swap Icon
 const Swap = () => {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-    >
-      <path d="M4.29 8.71a1 1 0 011.42 0L8 11.59V4a1 1 0 112 0v7.59l2.29-2.88a1 1 0 111.42 1.42l-4 5a1 1 0 01-1.42 0l-4-5a1 1 0 010-1.42zM19.71 15.29a1 1 0 00-1.42 0L16 18.41V11a1 1 0 10-2 0v7.41l-2.29-2.88a1 1 0 00-1.42 1.42l4 5a1 1 0 001.42 0l4-5a1 1 0 000-1.42z" />
+    <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" fill="currentColor" class="swap-icon" width="100" height="100">
+      <path d="M8 5l-4 4h3v6h2V9h3l-4-4z"/>
+      <path d="M16 19l4-4h-3v-6h-2v6h-3l4 4z" />
     </svg>
   );
 };
