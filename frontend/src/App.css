@@ -3,3 +3,16 @@
   position: fixed;
   top: 0;
 }
+body{
+  padding-left:20px;
+}
+p{
+  color:#0a0a0a;
+}
+h2{
+  color:#18b6fa;
+}
+.submit{
+  background-color:#18b6fa ;
+  color: #fafafa;
+}
