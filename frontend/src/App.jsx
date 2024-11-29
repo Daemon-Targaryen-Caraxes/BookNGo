@@ -1,9 +1,9 @@
 import './App.css'
-
+import Busticket from'./assets/Bus-ticket/index';
 function App() {
   return (
     <div className='main'>
-    <h1>hello world</h1>
+      <Busticket/>
     </div>
   )
 }
