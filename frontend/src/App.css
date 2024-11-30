@@ -9,13 +9,16 @@ body{
 p{
   color:#0a0a0a;
 }
+
 h2{
   color:#18b6fa;
 }
+
 .submit{
   background-color:#18b6fa ;
   color: #fafafa;
 }
+
 body, html {
   margin: 0;
   padding: 0;
@@ -90,10 +93,6 @@ h1 {
 .tabs button.active {
   background-color: #007bff;
   color: white;
-}
-
-.tabs button:hover {
-  background-color: #ddd;
 }
 
 .form {
