@@ -2,7 +2,7 @@ import React from 'react'
 
 const HomePageHeading = () => {
   return (
-    <h1>Welcome To Travel</h1>
+    <h1 className='home-page-heading '>Welcome To Travel</h1>
   )
 }
 
