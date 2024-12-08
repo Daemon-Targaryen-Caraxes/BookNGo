@@ -3,7 +3,6 @@ import './LoginPageStyles.css'
 import { Link, useLocation } from 'react-router-dom';
 
 const LoginPage = () => {
-  const location = useLocation();
 
   return (
     <form action="" className='login-page'>
@@ -14,8 +13,8 @@ const LoginPage = () => {
       <input type="text" id='password' placeholder='Enter Your Password' /><br />
       <a className='forgot-password' href="www.google.com">Forget Password ?</a><br />
       <div className='buttons'>
-        <Link to={'/signup'}><input className='signup' type="button" value="Signup" /></Link>
-        <Link to={'/train'}><input type="submit" value="Submit" className='submit' /></Link>
+        <Link to={'/signup'}><button className='signup' type="button" value="Signup" >Signup</button></Link>
+        <Link to={'/search  '}><button type="submit" value="Submit" className='submit'>Submit</button></Link>
       </div>
     </form>
   )

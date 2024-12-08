@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import './App.css';
 
 const Swap = () => {
@@ -20,45 +20,46 @@ function Venkat() {
     setTo(temp);
   };
 
-  const renderForm = () => {
-    switch (selectedService) {
-      case 'flight':
-        return (
-          <div className="form">
-            <input type="text" placeholder="From" value={from} onChange={(e) => setFrom(e.target.value)} />
-            <button className="swap-btn" onClick={handleSwap}>
-              <Swap />
-            </button>
-            <input type="text" placeholder="To" value={to} onChange={(e) => setTo(e.target.value)} />
-            <input type="datetime-local" />
-          </div>
-        );
-      case 'train':
-        return (
-          <div className="form">
-            <input type="text" placeholder="Station From" value={from} onChange={(e) => setFrom(e.target.value)} />
-            <button className="swap-btn" onClick={handleSwap}>
-              <Swap />
-            </button>
-            <input type="text" placeholder="Station To" value={to} onChange={(e) => setTo(e.target.value)} />
-            <input type="datetime-local" />
-          </div>
-        );
-      case 'bus':
-        return (
-          <div className="form">
-            <input type="text" placeholder="Bus Stop From" value={from} onChange={(e) => setFrom(e.target.value)} />
-            <button className="swap-btn" onClick={handleSwap}>
-              <Swap />
-            </button>
-            <input type="text" placeholder="Bus Stop To" value={to} onChange={(e) => setTo(e.target.value)} />
-            <input type="datetime-local" />
-          </div>
-        );
-      default:
-        return null;
-    }
-  };
+  switch (selectedService) {
+    case 'flight':
+      return (
+        <div className="form">
+          <input type="text" placeholder="From" value={from} onChange={(e) => setFrom(e.target.value)} />
+          <button className="swap-btn" onClick={handleSwap}>
+            <Swap />
+          </button>
+          <input type="text" placeholder="To" value={to} onChange={(e) => setTo(e.target.value)} />
+          <input type="datetime-local" />
+        </div>
+      );
+    case 'train':
+      return (
+        <div className="form">
+          <input type="text" placeholder="Station From" value={from} onChange={(e) => setFrom(e.target.value)} />
+          <button className="swap-btn" onClick={handleSwap}>
+            <Swap />
+          </button>
+          <input type="text" placeholder="Station To" value={to} onChange={(e) => setTo(e.target.value)} />
+          <input type="datetime-local" />
+        </div>
+      );
+    case 'bus':
+      return (
+        <div className="form">
+          <input type="text" placeholder="Bus Stop From" value={from} onChange={(e) => setFrom(e.target.value)} />
+          <button className="swap-btn" onClick={handleSwap}>
+            <Swap />
+          </button>
+          <input type="text" placeholder="Bus Stop To" value={to} onChange={(e) => setTo(e.target.value)} />
+          <input type="datetime-local" />
+        </div>
+      );
+    default:
+      return null;
+  }
+};
+
+const renderForm = () => {
 
   return (
     <div className="container">
@@ -85,4 +86,5 @@ function Venkat() {
   );
 }
 
+export { Swap };
 export default Venkat;
