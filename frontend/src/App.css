@@ -1,0 +1,9 @@
+:root {
+  --color1: #48cae4;
+  --color2: #ade8f4;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
