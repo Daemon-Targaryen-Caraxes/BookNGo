@@ -6,19 +6,25 @@ import BusSection from './BusSection/BusSection'
 import TrainSection from './TrainSection/TrainSection'
 import FlightSection from './FlightSection/FlightSection'
 import AppName from './AppName/AppName'
+import Signup from '../Signup/Signup'
 
 const HomePage = () => {
   return (
     <div className='home-page'>
       <HomePageHeading />
-      <Link to={'/login'}>
-        <div className='sections'>
+      <div className='sections'>
+        <Link to={'/login'}>
           <BusSection />
+        </Link>
+        <Link to={'/login'}>
           <TrainSection />
+        </Link>
+        <Link to={'/login'}>
           <FlightSection />
-        </div>
-      </Link>
+        </Link>
+      </div>
       <AppName />
+      <Signup />
     </div>
   )
 }
