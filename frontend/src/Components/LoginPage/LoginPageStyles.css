@@ -4,15 +4,16 @@
 }
 
 .login-page {
-  width: 40vw;
-  margin: auto;
-  font-size: 15px;
-  text-align: center;
+  width: 30vw;
+  margin: 60px auto;
+  padding: 25px;
+  box-shadow: 4px 3px 20px 2px rgb(90, 89, 89);
+  background-color: aliceblue;
 }
 
 .login-page input {
-  width: 50%;
-  margin: 10px;
+  width: 100%;
+  margin-top: 10px;
   height: 30px;
   border-radius: 5px;
 }
@@ -27,7 +28,7 @@
 }
 
 .forgot-password{
-  margin-right: 85px;
+  margin-top: 10px;
   float: right;
 }
 
@@ -42,6 +43,6 @@
 }
 
 body{
-  background-image: linear-gradient(rgb(60, 60, 248) 50%,white 100%);
+  /* background-image: linear-gradient(rgb(60, 60, 248) 50%,white 100%); */
   background-repeat: no-repeat;
 }

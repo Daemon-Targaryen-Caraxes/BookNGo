@@ -1,5 +1,28 @@
-.container {
-  width: 50vw;
+.form-container {
+  width: 30vw;
+  margin: 25px auto;
+  padding: 25px;
+  box-shadow: 4px 3px 20px 2px rgb(90, 89, 89);
+  background-color: aliceblue;
 }
 
+.form-container h1{
+  margin-bottom: 5px;
+}
 
+.form-container input{
+  width: 95%;
+  height: 20px;
+  margin: 5px 0px;
+}
+
+input[type=radio]{
+  width: 10%;
+  height: 15px;
+}
+
+.signup-button{
+  width: 100px;
+  margin: 10px 120px;
+  height: 30px;
+}
