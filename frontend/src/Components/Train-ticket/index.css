@@ -1,0 +1,80 @@
+.train {
+  display: flex ;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  width: 100%;
+}
+
+.train-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  width: 700px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.train-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.train-header h3 {
+  margin: 0;
+  color: #f37021;
+}
+
+.running-status a {
+  color: #f37021;
+  text-decoration: none;
+}
+
+.train-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.train-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.train-duration {
+  font-size: 14px;
+  color: #888;
+}
+
+.classes {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.class-card {
+  background: #e9fbe8;
+  border: 1px solid #c9ebc7;
+  border-radius: 4px;
+  padding: 8px;
+  text-align: center;
+  width: 140px;
+}
+
+.availability-btn {
+  background: #f37021;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.availability-btn:hover {
+  background: #e3610f;
+}

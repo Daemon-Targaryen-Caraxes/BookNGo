@@ -15,7 +15,7 @@ const LoginPage = () => {
       <a className='forgot-password' href="www.google.com">Forget Password ?</a><br />
       <div className='buttons'>
         <Link to={'/signup'}><input className='signup' type="button" value="Signup" /></Link>
-        <Link to={'/'}><input type="submit" value="Submit" className='submit' /></Link>
+        <Link to={'/train'}><input type="submit" value="Submit" className='submit' /></Link>
       </div>
     </form>
   )
