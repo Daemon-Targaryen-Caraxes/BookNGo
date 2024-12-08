@@ -19,7 +19,7 @@ const Signup = () => {
           <label htmlFor="Email:">Email:</label>
           <input className="email" type="text" id="Email" placeholder="Ex:project@gmail.com" />
         </div>
-        <div>
+        <div className="gender">
           Gender:
           <input type="radio" id="Male" value="Male" name='gender' />
           <label htmlFor="male"> Male</label>
@@ -45,7 +45,7 @@ const Signup = () => {
           <input className="password" type="Number" id="Password" placeholder="*" />
         </div>
         <Link><button className="signup-button">Signup</button></Link>
-        <p className="p1">Already have an account? Login</p>
+        <Link to={"/login"}>Already have an account? Login</Link>
       </form>
     </div>
   )

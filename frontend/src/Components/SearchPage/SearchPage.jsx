@@ -5,13 +5,13 @@ const SearchPage = () => {
 
   const Swap = () => {
     return (
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="swap-icon" width="50" height="50">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="50" height="50">
         <path d="M8 5l-4 4h3v6h2V9h3l-4-4z" />
         <path d="M16 19l4-4h-3v-6h-2v6h-3l4 4z" />
       </svg>
     );
   };
-
+  console.log("hello");
   return (
     <div className='search-container'>
       <h1>Welcome To BookNGo</h1>
