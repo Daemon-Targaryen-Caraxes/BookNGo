@@ -9,7 +9,7 @@ img {
 }
 
 .home-page {
-  color: white;
+  color: rgb(203, 201, 201);
   text-align: center;
   height: 100vh;
   width: 100vw;
@@ -19,6 +19,26 @@ img {
 }
 
 .sections {
+  margin: 50px;
   display: flex;
   justify-content: center;
+  gap: 80px;
+}
+
+.home-page-heading {
+  font-size: 50px;
+  padding: 20px;
+}
+
+.app-name {
+  font-family: sans-serif;
+  font-family: "Yuji Mai", serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 50px;
+}
+
+.red {
+  /* color: red; */
+  color: pink;
 }
