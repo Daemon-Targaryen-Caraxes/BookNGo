@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import './SignupStyles.css'
 
 const Signup = () => {
@@ -43,7 +44,7 @@ const Signup = () => {
           <label htmlFor="Email:">Confrm <br />Password:</label>
           <input className="password" type="Number" id="Password" placeholder="*" />
         </div>
-        <button className="signup-button">Signup</button>
+        <Link><button className="signup-button">Signup</button></Link>
         <p className="p1">Already have an account? Login</p>
       </form>
     </div>
