@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 const LoginPage = () => {
   const location = useLocation();
-  console.log(location.state.type);
+
   return (
     <form action="" className='login-page'>
       <h1 className='login-page-header'>Login To Your Account</h1>
