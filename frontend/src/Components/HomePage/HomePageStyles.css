@@ -33,7 +33,6 @@ img {
 }
 
 .red {
-  /* color: red; */
   color: pink;
 }
 
@@ -44,7 +43,7 @@ a{
 }
 
 .sections a:hover {
-  background-color: white;
+  background-color: #ffe2cd;
   transition: 1s;
   border-radius: 10px;
 }

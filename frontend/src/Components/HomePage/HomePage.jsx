@@ -14,11 +14,10 @@ const HomePage = () => {
       <HomePageHeading />
       <div className='sections'>
         <Link to={'/login'} state={{ type: 'bus' }}><BusSection /></Link>
-        <Link to={'/login'} state={{ type: 'bus' }}><TrainSection /></Link>
-        <Link to={'/login'} state={{ type: 'bus' }}><FlightSection /></Link>
+        <Link to={'/login'} state={{ type: 'train' }}><TrainSection /></Link>
+        <Link to={'/login'} state={{ type: 'flight' }}><FlightSection /></Link>
       </div>
       <AppName />
-      <Signup />
     </div>
   )
 }
