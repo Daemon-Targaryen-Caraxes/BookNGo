@@ -40,4 +40,11 @@ img {
 a{
   color: rgb(203, 201, 201); 
   text-decoration: none;
+  color: black;
+}
+
+.sections a:hover {
+  background-color: white;
+  transition: 1s;
+  border-radius: 10px;
 }

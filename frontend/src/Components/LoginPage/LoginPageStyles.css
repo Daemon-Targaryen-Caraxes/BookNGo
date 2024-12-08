@@ -6,29 +6,42 @@
 .login-page {
   width: 40vw;
   margin: auto;
-  font-size: 20px;
+  font-size: 15px;
+  text-align: center;
 }
 
 .login-page input {
-  width: 30%;
+  width: 50%;
   margin: 10px;
-  width: 230px;
   height: 30px;
   border-radius: 5px;
-  font-size: 10px;
 }
 
 .login-page .signup, .login-page .submit{
-  width: 50px;
+  width: 65px;
   height: 30px;
 }
 
-.login-page .submit{
-  margin-left: 250px;
+.login-page .signup{
+  margin-top: 11px;
 }
 
-.login-page .forgot-password{
-  margin-right: 150px;
-  font-size: 13px;
+.forgot-password{
+  margin-right: 85px;
   float: right;
+}
+
+.buttons{
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.forgot-password:hover{
+  text-decoration:underline;
+}
+
+body{
+  background-image: linear-gradient(rgb(60, 60, 248) 50%,white 100%);
+  background-repeat: no-repeat;
 }

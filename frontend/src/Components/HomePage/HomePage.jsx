@@ -13,15 +13,9 @@ const HomePage = () => {
     <div className='home-page'>
       <HomePageHeading />
       <div className='sections'>
-        <Link to={'/login'}>
-          <BusSection />
-        </Link>
-        <Link to={'/login'}>
-          <TrainSection />
-        </Link>
-        <Link to={'/login'}>
-          <FlightSection />
-        </Link>
+        <Link to={'/login'} state={{ type: 'bus' }}><BusSection /></Link>
+        <Link to={'/login'} state={{ type: 'bus' }}><TrainSection /></Link>
+        <Link to={'/login'} state={{ type: 'bus' }}><FlightSection /></Link>
       </div>
       <AppName />
       <Signup />

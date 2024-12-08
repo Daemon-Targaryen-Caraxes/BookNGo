@@ -11,8 +11,10 @@ const LoginPage = () => {
       <label htmlFor="password">Passaword:</label>
       <input type="text" id='password' placeholder='Enter Your Password' /><br />
       <a className='forgot-password' href="www.google.com">Forget Password ?</a><br />
-      <input className='signup' type="button" value="Signup" />
+      <div className='buttons'>
+      <Link to={'/signup'}><input className='signup' type="button" value="Signup" /></Link>
       <input type="submit" value="Submit" className='submit' />
+      </div>
     </form>
   )
 }
