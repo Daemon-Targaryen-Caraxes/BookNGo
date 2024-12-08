@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Routes, Outlet } from 'react-router-dom';
 import Signup from "./Components/Signup/Signup";
 import SearchPage from "./Components/SearchPage/SearchPage";
 import Train from "./Components/Train-ticket";
-import SearchForm from "./Components/searchresult/TrainSearchResult.jsx";
+import SearchForm from "./Components/searchresult/TrainSearchResult.jsx"; 
 
 const App = () => {
   return (
