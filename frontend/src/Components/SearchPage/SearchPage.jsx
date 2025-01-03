@@ -1,5 +1,6 @@
 import React from 'react'
 import './SearchPageStyles.css'
+import { Link } from 'react-router-dom';
 
 const SearchPage = () => {
 
@@ -11,7 +12,7 @@ const SearchPage = () => {
       </svg>
     );
   };
-  console.log("hello");
+
   return (
     <div className='search-container'>
       <h1>Welcome To BookNGo</h1>
@@ -34,7 +35,7 @@ const SearchPage = () => {
         <button className='today'>Today</button>
         <button className='tomorrow'>Tomorrow</button>
       </div>
-      <button className='search'>Search Here</button>
+      <Link to={'/payment'}><button className='search'>Search Here</button></Link>
     </div>
   )
 }
