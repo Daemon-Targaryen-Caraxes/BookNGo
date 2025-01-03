@@ -1,23 +1,20 @@
-import HomePage from "./Components/HomePage/HomePage";
-import './App.css'
-import LoginPage from "./Components/LoginPage/LoginPage";
-import { BrowserRouter, Route, Routes, Outlet } from 'react-router-dom';
-import Signup from "./Components/Signup/Signup";
-import SearchPage from "./Components/SearchPage/SearchPage";
-import Train from "./Components/Train-ticket";
-import SearchForm from "./Components/searchresult/TrainSearchResult.jsx"; 
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Home from "./components/Home";
+import Login from "./components/userside/Userlogin";
+import SignUp from "./components/userside/Usersignup";
+import "./App.css";
 
 const App = () => {
   return (
-    <BrowserRouter>
+    <Router>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="login" element={<LoginPage />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/search" element={<SearchPage />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
-    </BrowserRouter>
-  )
-}
+    </Router>
+  );
+};
 
 export default App;
