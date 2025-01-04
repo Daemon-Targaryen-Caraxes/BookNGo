@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-
+import Header from "../header";
+import { useNavigate } from "react-router-dom";
 const SignUp = () => {
+  const navigate =useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     phone: "",
@@ -51,6 +53,8 @@ const SignUp = () => {
   };
 
   return (
+    <>
+    <Header/>
     <div className="container">
       <h2>Sign Up Page</h2>
       {error && <p className="error">{error}</p>}
@@ -67,9 +71,10 @@ const SignUp = () => {
         <input type="text" name="aadhaar" placeholder="Aadhaar Number"  value={formData.aadhaar}  onChange={handleChange}/>
         <input type="password" name="password"  placeholder="Password"  value={formData.password} onChange={handleChange} />
         <input  type="password"  name="confirmPassword"  placeholder="Confirm Password" value={formData.confirmPassword} onChange={handleChange} />
-        <button type="submit">Sign Up</button>
+        <button type="submit" onClick={()=>navigate("/TravelSearchForm")}>Sign Up</button>
       </form>
     </div>
+    </>
   );
 };
 
