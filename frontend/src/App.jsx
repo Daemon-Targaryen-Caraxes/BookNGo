@@ -1,4 +1,4 @@
-import './App.css'
+import './App.css';
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
@@ -6,7 +6,6 @@ import Login from "./components/userside/Userlogin";
 import SignUp from "./components/userside/Usersignup";
 import AdminLogin from "./components/adminside/Adminlogin";
 import TravelSearchForm from "./components/userside/TravelSearchForm";
-import "./App.css";
 
 const App = () => {
   return (

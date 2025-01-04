@@ -60,8 +60,8 @@ const SignUp = () => {
       <h2>Sign Up Page</h2>
       {error && <p className="error">{error}</p>}
       <form onSubmit={handleSubmit}>
-        <input name="username" placeholder="Username"  value={formData.username} onChange={handleChange}/>
-        <input  name="phone"   placeholder="Phone Number" value={formData.phone}  onChange={handleChange} />
+        <input type="text" name="username" placeholder="Username"  value={formData.username} onChange={handleChange}/>
+        <input type="number" name="phone"   placeholder="Phone Number" value={formData.phone}  onChange={handleChange} />
         <select name="gender" value={formData.gender} onChange={handleChange}>
           <option value="">Select Gender</option>
           <option value="Male">Male</option>
@@ -70,7 +70,7 @@ const SignUp = () => {
         </select>
         <input type="date"  name="dob" placeholder="Date of Birth" value={formData.dob} onChange={handleChange} />
         <input type="text" name="aadhaar" placeholder="Aadhaar Number"  value={formData.aadhaar}  onChange={handleChange}/>
-        <input name="userId" placeholder="UserId"  value={formData.userid} onChange={handleChange}/>
+        <input type="text" placeholder="UserId"  value={formData.userid} onChange={handleChange}/>
         <input type="password" name="password"  placeholder="Password"  value={formData.password} onChange={handleChange} />
         <input  type="password"  name="confirmPassword"  placeholder="Confirm Password" value={formData.confirmPassword} onChange={handleChange} />
         <button type="submit" onClick={()=>navigate("/TravelSearchForm")}>Sign Up</button>

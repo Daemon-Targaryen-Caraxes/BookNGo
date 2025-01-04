@@ -12,24 +12,24 @@ const Home = () => {
   const closePopup = () => {
     setShowPopup(false);
   };
-
   return (
     <>
       <Header />
       <div className="container">
-        <h1>Welcome to BookNow</h1>
+        {/* <h1>Welcome to BookNGO</h1> */}
         <button onClick={handleUserClick}>Are you User?</button>
         <button onClick={() => navigate("AdminLogin")}>Are you Admin?</button>
-
         {showPopup && (
-          <div className="popup">
-            <div className="popup-content">
-              <button className="close-button" onClick={closePopup}>
+          <div className="popup" onClick={closePopup}>
+            <div className="popup-con">
+              {/* <div className="close">
+              <button  onClick={closePopup}> Close</button>
+              </div> */}
               <h2>Do you have an account?</h2>
+              <div className="yesnobuttton">
               <button onClick={() => navigate("/login")}>Yes</button>
               <button onClick={() => navigate("/signup")}>No</button>
-                Close
-              </button>
+              </div>
             </div>
           </div>
         )}
