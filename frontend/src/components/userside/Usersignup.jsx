@@ -9,6 +9,7 @@ const SignUp = () => {
     gender: "",
     dob: "",
     aadhaar: "",
+    userid:"",
     password: "",
     confirmPassword: "",
   });
@@ -69,6 +70,7 @@ const SignUp = () => {
         </select>
         <input type="date"  name="dob" placeholder="Date of Birth" value={formData.dob} onChange={handleChange} />
         <input type="text" name="aadhaar" placeholder="Aadhaar Number"  value={formData.aadhaar}  onChange={handleChange}/>
+        <input name="userId" placeholder="UserId"  value={formData.userid} onChange={handleChange}/>
         <input type="password" name="password"  placeholder="Password"  value={formData.password} onChange={handleChange} />
         <input  type="password"  name="confirmPassword"  placeholder="Confirm Password" value={formData.confirmPassword} onChange={handleChange} />
         <button type="submit" onClick={()=>navigate("/TravelSearchForm")}>Sign Up</button>

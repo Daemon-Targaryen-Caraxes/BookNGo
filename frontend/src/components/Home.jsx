@@ -24,10 +24,10 @@ const Home = () => {
         {showPopup && (
           <div className="popup">
             <div className="popup-content">
+              <button className="close-button" onClick={closePopup}>
               <h2>Do you have an account?</h2>
               <button onClick={() => navigate("/login")}>Yes</button>
               <button onClick={() => navigate("/signup")}>No</button>
-              <button className="close-button" onClick={closePopup}>
                 Close
               </button>
             </div>
