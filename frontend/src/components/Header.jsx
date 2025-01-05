@@ -18,7 +18,8 @@ const headerStyle = {
 
 const titleStyle = {
   margin: 0,
-  fontSize: "55px",
+  fontSize: "60px",
+  textShadow: "3px 5px 0px rgba(161, 154, 154, 0.6)"
 };
 
 export default Header;
