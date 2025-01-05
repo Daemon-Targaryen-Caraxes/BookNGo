@@ -76,6 +76,14 @@ body.popup-active {
   background-color: white;
   color: black;
 }
+.popup-con div{
+  display: flex;
+  justify-content: space-around;
+}
+.popup-con div button{
+  padding: 3px 10px;
+  font-size: 24px;
+}
 .popup-content h2 {
   margin-bottom: 20px;
 }
@@ -118,7 +126,7 @@ body.popup-active {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 50px;
+  padding: 10px;
   width: 100%;
   max-width: 400px;
   margin: 0 auto;
@@ -219,7 +227,7 @@ button:hover {
 
 .container-button{
   display: flex;
-  margin-top: 220px;
+  margin-top: 350px;
   gap:150px;
   align-items: center;
   justify-content: center;
@@ -229,6 +237,6 @@ button:hover {
   font-size: 20px;
 }
 .container h2{
-  color: white;
+  color: rgb(162, 245, 162);
   font-size: 45px;
 }
