@@ -24,9 +24,9 @@ const Login = () => {
       <div className="container">
         <h2>Login Page</h2>
         <form onSubmit={handleLogin}>
-          <input type="text"  placeholder="User ID"  value={userId}  onChange={(e) => setUserId(e.target.value)}  required/>
-          <input type="password"  placeholder="Password" value={password}  onChange={(e) => setPassword(e.target.value) }required  />
-          {error && <p style={{ color: "red" }}>{error}</p>}
+          <input type="text"  placeholder="User ID"   onChange={(e) => setUserId(e.target.value)}  required/>
+          <input type="password"  placeholder="Password" onChange={(e) => setPassword(e.target.value) }required  />
+          {/* {error && <p style={{ color: "red" }}>{error}</p>} */}
           <button type="submit">Login</button>
         </form>
       </div>
