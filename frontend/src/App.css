@@ -187,8 +187,12 @@ label {
   font-size: 14px;
   font-weight: bold;
   color: #555;
+  cursor: pointer;
 }
 
+input{
+  cursor: pointer;
+}
 input[type="text"],
 input[type="Number"],
 input[type="Date"],

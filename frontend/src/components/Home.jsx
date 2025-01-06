@@ -16,7 +16,6 @@ const Home = () => {
     <>
       <Header />
       <div className="container-button">
-        {/* <h1>Welcome to BookNGO</h1> */}
         <button onClick={handleUserClick}>Are you User?</button>
         <button onClick={() => navigate("AdminLogin")}>Are you Admin?</button>
         {showPopup && (

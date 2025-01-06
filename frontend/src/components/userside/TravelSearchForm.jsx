@@ -29,7 +29,7 @@ const TravelSearchForm = () => {
           <input type="text" id="from" name="from" value={formData.from} onChange={handleInputChange} required />
         </div>
         <div className="form-group">
-          <label htmlFor="to">To:</label>
+          <label htmlFor="to"> To:</label>
           <input type="text" id="to" name="to" value={formData.to} onChange={handleInputChange} required />
         </div>
         <div className="form-group">
