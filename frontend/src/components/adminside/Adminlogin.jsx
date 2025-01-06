@@ -7,11 +7,6 @@ function AdminLogin() {
   const [error, setError] = useState('');
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // if (!username || !password) {
-    //   setError('Username and password are required!');
-    //   return;
-    // }
     if (username === 'admin' && password === 'admin123') {
       setError('');
       alert('Login successful');
