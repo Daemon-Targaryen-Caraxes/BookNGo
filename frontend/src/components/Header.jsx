@@ -2,9 +2,11 @@ import React from "react";
 
 const Header = () => {
   return (
+    <>
     <header style={headerStyle}>
       <h1 style={titleStyle}>WELCOME TO  BOOKNGO</h1>
     </header>
+   </>
   );
 };
 

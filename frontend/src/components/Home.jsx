@@ -22,9 +22,6 @@ const Home = () => {
         {showPopup && (
           <div className="popup" onClick={closePopup}>
             <div className="popup-con">
-              {/* <div className="close">
-              <button  onClick={closePopup}> Close</button>
-              </div> */}
               <h2>Do you have an account?</h2>
               <div className="yesnobuttton">
               <button onClick={() => navigate("/login")}>Yes</button>

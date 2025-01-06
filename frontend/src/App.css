@@ -240,3 +240,18 @@ button:hover {
   color: rgb(162, 245, 162);
   font-size: 45px;
 }
+.popup-content h3{
+  color: rgb(162, 245, 162);
+  font-size: 40px;
+}
+.popup-content div label{
+  color: white;
+  font-size: 20px;
+}
+.form-group{
+  display: flex;
+  align-items: center;
+}
+.form-group label{
+  font-size: 300px;
+}

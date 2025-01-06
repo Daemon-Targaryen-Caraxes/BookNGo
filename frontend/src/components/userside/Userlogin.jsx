@@ -10,17 +10,14 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-
     if (!userId || !password) {
       setError("Please enter both User ID and Password."); 
       return;
     }
-
     setError("");
     alert(`Logged in with User ID: ${userId}`);
     navigate("/TravelSearchForm");
   };
-
   return (
     <>
       <Header />
