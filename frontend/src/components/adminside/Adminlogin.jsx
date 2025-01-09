@@ -26,6 +26,7 @@ function AdminLogin() {
     setIsClicked(true);
     
     if(fetchedUsername === username && fetchedPassword === password){
+      setError(false);
       console.log('Login successfully');
       navigate('/enquiry');
     } else {

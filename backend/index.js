@@ -5,12 +5,9 @@ const cors = require('cors');
 const app = express();
 const PORT = 3000;
 
-app.use(cors());
-
 app.use(cors({
     origin: 'http://localhost:5173',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
-    allowedHeaders: ['Content-Type', 'Authorization'], 
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],  
 }));
 
 app.use(express.json());
@@ -19,17 +16,12 @@ mongoose.connect('mongodb://localhost:27017/BookNGo')
     .then(() => console.log('MongoDB Connected'))
     .catch(err => console.error('MongoDB Connection Error:', err));
 
-
 const AdminSchema = new mongoose.Schema({
     adminName: { type: String, required: true },
     password: { type: String, required: true },
 });
 
-
-
-const Admin = mongoose.model('Admin', AdminSchema, 'admins'); 
-
-// Routes
+const Admin = mongoose.model('Admin', AdminSchema); 
 
 app.get('/', (req, res) => {
     res.send('Welcome to the API!');
