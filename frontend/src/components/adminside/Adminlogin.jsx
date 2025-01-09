@@ -29,7 +29,7 @@ function AdminLogin() {
       console.log('Login successfully');
       navigate('/enquiry');
     } else {
-      console.log("not");
+      setError(true);
     }
 
   };
@@ -47,7 +47,7 @@ function AdminLogin() {
           <label htmlFor="password">Password</label>
           <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter password" required />
         </div>
-        {error && <p className="error">{error}</p>}
+        {error && <p className="error">Wrong Password or username</p>}
         <button type="submit">Login</button>
       </form>
     </div>

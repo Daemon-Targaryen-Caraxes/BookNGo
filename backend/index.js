@@ -1,28 +1,24 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors')
+const cors = require('cors');
 
 const app = express();
 const PORT = 3000;
 
 app.use(cors());
 
-// Alternatively, specify allowed origins
 app.use(cors({
-    origin: 'http://localhost:5173', // Replace with your frontend's URL
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed HTTP methods
-    allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+    allowedHeaders: ['Content-Type', 'Authorization'], 
 }));
 
-// Middleware
 app.use(express.json());
 
-// MongoDB Connection
 mongoose.connect('mongodb://localhost:27017/BookNGo')
     .then(() => console.log('MongoDB Connected'))
     .catch(err => console.error('MongoDB Connection Error:', err));
 
-// Define Schemas and Models
 
 const AdminSchema = new mongoose.Schema({
     adminName: { type: String, required: true },
@@ -40,10 +36,9 @@ app.get('/', (req, res) => {
 });
 
 app.get('/admin', async (req, res) => {
-    console.log('GET /admin route hit'); // Debug log
     try {
         const admin = await Admin.findOne();
-        console.log('Admin Document:', admin); // Debug log
+        console.log('Admin Document:', admin);
         if (!admin) {
             return res.status(404).json({ error: 'Admin not found' });
         }
@@ -54,7 +49,6 @@ app.get('/admin', async (req, res) => {
     }
 });
 
-// Start the Server
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
