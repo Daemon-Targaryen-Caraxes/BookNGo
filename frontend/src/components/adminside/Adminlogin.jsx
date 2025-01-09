@@ -1,20 +1,37 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "./AdminLoginStyles.css"
 
 function AdminLogin() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [fetchedUsername, setFetchedUsername] = useState('');
+  const [fetchedPassword, setFetchPassword] = useState('');
+  const [isClicked, setIsClicked] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch("http://localhost:3000/admin");
+      const data = await response.json();
+      setFetchedUsername(data.adminName);
+      setFetchPassword(data.password);
+    }
+    fetchData();
+  }, [isClicked]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (username === 'admin' && password === 'admin123') {
-      setError('');
-      alert('Login successful');
+    setIsClicked(true);
+    
+    if(fetchedUsername === username && fetchedPassword === password){
+      console.log('Login successfully');
     } else {
-      setError('Invalid username or password');
+      console.log("not");
     }
+
   };
 
+  console.log(fetchedUsername, fetchedPassword);
   return (
     <div className="login-container">
       <h2 className='admin-login'>Admin Login</h2>
