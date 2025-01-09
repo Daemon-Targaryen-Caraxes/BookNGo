@@ -5,6 +5,7 @@ import Login from "./components/userside/Userlogin";
 import SignUp from "./components/userside/Usersignup";
 import AdminLogin from "./Components/AdminSide/AdminLogin";
 import TravelSearchForm from "./components/userside/TravelSearchForm";
+import Enquiry from './Components/AdminSide/Enquiry';
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
         <Route path="/AdminLogin" element={<AdminLogin />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/enquiry" element={<Enquiry />}/>
       </Routes>
     </Router>
   );

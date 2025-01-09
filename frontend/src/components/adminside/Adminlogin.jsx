@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import "./AdminLoginStyles.css"
+import { useNavigate } from 'react-router-dom';
 
 function AdminLogin() {
+  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -25,6 +27,7 @@ function AdminLogin() {
     
     if(fetchedUsername === username && fetchedPassword === password){
       console.log('Login successfully');
+      navigate('/enquiry');
     } else {
       console.log("not");
     }
