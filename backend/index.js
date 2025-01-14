@@ -19,9 +19,15 @@ mongoose.connect('mongodb://localhost:27017/BookNGo')
 const AdminSchema = new mongoose.Schema({
     adminName: { type: String, required: true },
     password: { type: String, required: true },
-});
+}, {collection: "Admin"});
 
 const Admin = mongoose.model('Admin', AdminSchema); 
+
+const newAdmin = new Admin({adminName: "hemeswar", password: "hemeswar123"})
+
+newAdmin.save()
+  .then(() => console.log("Saved successfully"))
+  .catch((err) => console.log("Oops you get an error and the error is", err))
 
 app.get('/', (req, res) => {
     res.send('Welcome to the API!');
@@ -29,7 +35,8 @@ app.get('/', (req, res) => {
 
 app.get('/admin', async (req, res) => {
     try {
-        const admin = await Admin.findOne();
+        Admin.insertMany([{adminName: "meghana", password: "meghana123zll"}])
+        const admin = await Admin.find();
         console.log('Admin Document:', admin);
         if (!admin) {
             return res.status(404).json({ error: 'Admin not found' });
