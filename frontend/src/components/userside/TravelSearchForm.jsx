@@ -24,26 +24,28 @@ const TravelSearchForm = () => {
       <Header />
       <form className="popup-content" onSubmit={handleSubmit}>
         <h3>Train, Bus & Flight Search</h3>
-        <div className="form-group">
-          <label htmlFor="from">From:</label>
-          <input type="text" id="from" name="from" value={formData.from} onChange={handleInputChange} required />
-        </div>
-        <div className="form-group">
-          <label htmlFor="to"> To:</label>
-          <input type="text" id="to" name="to" value={formData.to} onChange={handleInputChange} required />
-        </div>
-        <div className="form-group">
-          <label htmlFor="date">Date:</label>
-          <input type="date" id="date" name="date" value={formData.date} onChange={handleInputChange} required />
-        </div>
-        <div className="form-group">
-          <label htmlFor="mode">Mode:</label>
-          <select id="mode" name="mode" value={formData.mode} onChange={handleInputChange} required  >
+        <table>
+        <tr className="form-group">
+          <td><label htmlFor="from">From:</label></td>
+          <td><input type="text" id="from" name="from" value={formData.from} onChange={handleInputChange} required /></td>
+        </tr>
+        <tr className="form-group">
+         <td> <label htmlFor="to"> To:</label></td>
+         <td> <input type="text" id="to" name="to" value={formData.to} onChange={handleInputChange} required /></td>
+        </tr>
+        <tr className="form-group">
+          <td><label htmlFor="date">Date:</label></td>
+          <td><input type="date" id="date" name="date" value={formData.date} onChange={handleInputChange} required /></td>
+        </tr>
+        <tr className="form-group">
+         <td> <label htmlFor="mode">Mode:</label></td>
+         <td> <select id="mode" name="mode" value={formData.mode} onChange={handleInputChange} required  >
             <option value="bus">Bus</option>
             <option value="train">Train</option>
             <option value="flight">Flight</option>
-          </select>
-        </div>
+          </select></td>
+        </tr>
+        </table>
         <button type="submit">Search</button>
       </form>
     </>
