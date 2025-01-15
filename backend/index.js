@@ -13,6 +13,7 @@ app.use(express.json());
 mongoose.connect('mongodb://localhost:27017/BookNGo')
     .then(() => console.log('MongoDB Connected'))
     .catch(err => console.error('MongoDB Connection Error:', err));
+
 const AdminSchema = new mongoose.Schema({
     adminName: { type: String, required: true },
     password: { type: String, required: true },
@@ -24,7 +25,7 @@ newAdmin.save()
     .catch((err) => console.log("Oops you get an error and the error is", err))
 app.get('/admin', async (req, res) => {
     try {
-        Admin.insertMany([{ adminName: "meghana", password: "meghana123zll" }])
+        Admin.insertMany([{ adminName: "Venkat14424", password: "Sai@venkat14424" }])
         const admin = await Admin.find();
         console.log('Admin Document:', admin);
         if (!admin) {
