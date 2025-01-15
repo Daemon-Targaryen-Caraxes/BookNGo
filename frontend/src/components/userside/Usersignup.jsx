@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import Header from "../header";
 import { useNavigate } from "react-router-dom";
+import Header from "../Header";
+
 const SignUp = () => {
-  const navigate =useNavigate();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     phone: "",
     gender: "",
     dob: "",
     aadhaar: "",
-    userid:"",
+    userid: "",
     password: "",
     confirmPassword: "",
   });
@@ -21,7 +22,7 @@ const SignUp = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     if (!formData.username || !formData.phone || !formData.gender || !formData.dob || !formData.aadhaar || !formData.password || !formData.confirmPassword) {
@@ -40,9 +41,27 @@ const SignUp = () => {
       setError("Phone number must be 10 digits.");
       return;
     }
-    alert("Sign-Up Successful!");
-    navigate("/TravelSearchForm")
-    console.log("User Data:", formData);
+
+    try {
+      const response = await fetch('http://localhost:3000/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      const result = await response.json();
+      if (response.ok) {
+        alert("Sign-Up Successful!");
+        navigate("/TravelSearchForm");
+      } else {
+        setError(result.error);
+      }
+    } catch (err) {
+      console.error(err);
+      setError("Error signing up.");
+    }
+
     setFormData({
       username: "",
       phone: "",
@@ -56,27 +75,27 @@ const SignUp = () => {
 
   return (
     <>
-    <Header/>
-    <div className="container">
-      <h2>Sign Up Page</h2>
-      {error && <p className="error">{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="username" placeholder="Username"  value={formData.username} onChange={handleChange} required/>
-        <input type="number" name="phone"   placeholder="Phone Number" value={formData.phone}  onChange={handleChange} required />
-        <select name="gender" value={formData.gender} onChange={handleChange} required>
-          <option value="">Select Gender</option>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-          <option value="Other">Other</option>
-        </select>
-        <input type="date"  name="dob" placeholder="Date of Birth" value={formData.dob} onChange={handleChange} required />
-        <input type="text" name="aadhaar" placeholder="Aadhaar Number"  value={formData.aadhaar}  onChange={handleChange} required/>
-        <input type="text" name="userid" placeholder="UserId"  value={formData.userid} onChange={handleChange} required/>
-        <input type="password" name="password"  placeholder="Password"  value={formData.password} onChange={handleChange}  required/>
-        <input  type="password"  name="confirmPassword"  placeholder="Confirm Password" value={formData.confirmPassword} onChange={handleChange} required />
-        <button type="submit">Sign Up</button>
-      </form>
-    </div>
+      <Header />
+      <div className="container">
+        <h2>Sign Up</h2>
+        {error && <p className="error">{error}</p>}
+        <form onSubmit={handleSubmit}>
+          <input type="text" name="username" value={formData.username} onChange={handleChange} placeholder="Username" required />
+          <input type="text" name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone Number" required />
+          <select name="gender" value={formData.gender} onChange={handleChange} required>
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+          <input type="date" name="dob" value={formData.dob} onChange={handleChange} required />
+          <input type="text" name="aadhaar" value={formData.aadhaar} onChange={handleChange} placeholder="Aadhaar Number" required />
+          <input type="text" name="userid" value={formData.userid} onChange={handleChange} placeholder="User ID" required />
+          <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password" required />
+          <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} placeholder="Confirm Password" required />
+          <button type="submit">Sign Up</button>
+        </form>
+      </div>
     </>
   );
 };
