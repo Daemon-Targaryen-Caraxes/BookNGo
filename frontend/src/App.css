@@ -260,3 +260,29 @@ button:hover {
 .form-group label{
   font-size: 30px;
 }
+.admin-container {
+  color: white;
+   display: flex;
+   flex-direction: column;
+  margin: 20px auto;
+  align-items: center;
+  text-align: center;
+}
+.admin-container h1{
+  color: white;
+  font-size: 60px;
+  margin-bottom: 20px;
+}
+.admin-subcomponent {
+  padding: 10px;
+  margin: 10px 0;
+  font-size: 25px;
+}
+.admin-container button{
+  width: 350px;
+  font-size: 25px;
+  margin: 20px;
+}
+.form-group input{
+  width: 260px;
+}

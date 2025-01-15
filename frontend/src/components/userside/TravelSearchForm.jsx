@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Header from "../header";
+import Header from "../Header";
 
 const TravelSearchForm = () => {
   const [formData, setFormData] = useState({
@@ -21,7 +21,7 @@ const TravelSearchForm = () => {
   };
   return (
     <>
-      <Header />
+      <Header/>
       <form className="popup-content" onSubmit={handleSubmit}>
         <h3>Train, Bus & Flight Search</h3>
         <table>

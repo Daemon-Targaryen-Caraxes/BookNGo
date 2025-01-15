@@ -1,12 +1,18 @@
 import React from 'react'
-
+import Header from "../Header"
+import { useNavigate } from 'react-router-dom';
 const Enquiry = () => {
+  const navigate = useNavigate()
   return (
-    <div className="login-container">
-      <h2 className='admin-login'>Enquiry</h2>
-      
-    </div>
-  )
+    <>
+      <Header />
+      <div className="admin-container">
+        <h1>Admin</h1>
+        <button onClick={() => navigate('/adminEnquiry')}>Admin Enquiry</button>
+        <button onClick={() => navigate('/AddTransport')}>Add Train/Flight/Bus</button>
+      </div>
+    </>
+  );
 }
 
 export default Enquiry

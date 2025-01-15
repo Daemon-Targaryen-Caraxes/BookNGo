@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './AdminLoginStyles.css';
+import Header from "../Header"
 import { useNavigate } from 'react-router-dom';
 
 function AdminLogin() {
@@ -32,21 +33,24 @@ function AdminLogin() {
   };
 
   return (
-    <div className="login-container">
-      <h2 className="admin-login">Admin Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">Username</label>
-          <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Enter username" required />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter password" required />
-        </div>
-        {error && <p className="error">Wrong Password or Username</p>}
-        <button type="submit">Login</button>
-      </form>
-    </div>
+    <>
+      <Header />
+      <div className="login-container">
+        <h2 className="admin-login">Admin Login</h2>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="username">adminName :</label>
+            <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Enter username" required />
+          </div>
+          <div>
+            <label htmlFor="password">Password :</label>
+            <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter password" required />
+          </div>
+          {error && <p className="error">Wrong Password or Username</p>}
+          <button type="submit">Login</button>
+        </form>
+      </div>
+    </>
   );
 }
 
