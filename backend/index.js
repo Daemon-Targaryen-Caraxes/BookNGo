@@ -61,7 +61,6 @@ const User = mongoose.model('User', UserSchema);
 
 app.post('/signup', async (req, res) => {
     const { username, phone, gender, dob, aadhaar, userid, password, confirmPassword } = req.body;
-    console.log(req.body);
     
     if (password !== confirmPassword) {
         return res.status(400).json({ error: 'Passwords do not match' });
@@ -90,10 +89,6 @@ app.post('/signup', async (req, res) => {
         res.status(500).json({ error: 'Failed to register user', details: err });
     }
 });
-
-// app.get('/signup', (req, res) => {
-//     console.log(req.body);
-// })
 
 app.post('/login', async (req, res) => {
     console.log(req.body);
