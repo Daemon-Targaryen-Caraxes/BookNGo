@@ -8,6 +8,7 @@ import TravelSearchForm from "./components/userside/TravelSearchForm";
 import Admin from './components/adminside/Admin';
 import Enquiry from './components/adminside/Enquiry';
 import AddTransport from './components/adminside/AddTransport';
+import PassengerEnquiry from './Components/AdminSide/PassengerEnquiry';
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="/enquiry" element={<Enquiry/>}/>
         <Route path='/adminEnquiry' element={<Admin/>}/>
         <Route path="/AddTransport" element={<AddTransport/>}/>
+        <Route path='/passengerEnquiry' element={<PassengerEnquiry />}></Route>
       </Routes>
     </Router>
   );
