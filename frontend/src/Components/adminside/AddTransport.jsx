@@ -20,8 +20,8 @@ const AddTransport = () => {
             <tr className="form-group">
               <td><label>Total Seats:</label></td>
               <td><input type="text" name="totalSeats" /></td>
-              <td><label>Mode:</label></td>
-              <td> <select id="mode" name="mode" required> <option value="bus">Bus</option> <option value="train">Train</option> <option value="flight">Flight</option> </select></td>
+              <td><label id="startI">Date:</label></td>
+              <td><input type="text" name="startId" /></td>
             </tr>
             <tr className="form-group">
               <td><label>AC Seats:</label></td>
@@ -30,14 +30,14 @@ const AddTransport = () => {
               <td><input type="text" name="amount" /></td>
             </tr>
             <tr className="form-group">
-              <td><label>Time:</label></td>
-              <td><input type="text" name="time" /></td>
               <td><label>Normal Seats:</label></td>
               <td><input type="text" name="normalSeats" /></td>
+              <td><label>Mode:</label></td>
+              <td> <select id="mode" name="mode" required> <option value="bus">Bus</option> <option value="train">Train</option> <option value="flight">Flight</option> </select></td>
             </tr>
             <tr className="form-group">
-              <td><label>Start ID:</label></td>
-              <td><input type="text" name="startId" /></td>
+              <td><label>Time:</label></td>
+              <td><input type="text" name="time" /></td>
             </tr>
           </table>
           <button type="submit" className="submit-button">Add</button>

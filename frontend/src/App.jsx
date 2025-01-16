@@ -5,7 +5,7 @@ import Login from "./components/userside/Userlogin";
 import SignUp from "./components/userside/Usersignup";
 import AdminLogin from './components/adminside/Adminlogin';
 import TravelSearchForm from "./components/userside/TravelSearchForm";
-import AdminEnquiry from './components/adminside/AdminEnquiry';
+import Admin from './components/adminside/Admin';
 import Enquiry from './components/adminside/Enquiry';
 import AddTransport from './components/adminside/AddTransport';
 
@@ -19,7 +19,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/enquiry" element={<Enquiry/>}/>
-        <Route path='/adminEnquiry' element={<AdminEnquiry/>}/>
+        <Route path='/adminEnquiry' element={<Admin/>}/>
         <Route path="/AddTransport" element={<AddTransport/>}/>
       </Routes>
     </Router>
