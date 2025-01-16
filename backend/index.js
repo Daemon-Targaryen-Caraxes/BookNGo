@@ -5,11 +5,14 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const app = express();
 const PORT = 3000;
+
 app.use(cors({
     origin: 'http://localhost:5173',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
 }));
+
 app.use(express.json());
+
 mongoose.connect('mongodb://localhost:27017/BookNGo')
     .then(() => console.log('MongoDB Connected'))
     .catch(err => console.error('MongoDB Connection Error:', err));
@@ -41,9 +44,9 @@ app.get('/admin', async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
-mongoose.connect('mongodb://localhost:27017/BookNGo')
-    .then(() => console.log('MongoDB Connected'))
-    .catch(err => console.error('MongoDB Connection Error:', err));
+// mongoose.connect('mongodb://localhost:27017/BookNGo')
+//     .then(() => console.log('MongoDB Connected'))
+//     .catch(err => console.error('MongoDB Connection Error:', err));
 const UserSchema = new mongoose.Schema({
     username: { type: String, required: true },
     phone: { type: String, required: true },
@@ -53,16 +56,23 @@ const UserSchema = new mongoose.Schema({
     userid: { type: String, unique: true, required: true },
     password: { type: String, required: true },
 }, { collection: "Users" });
+
 const User = mongoose.model('User', UserSchema);
+
 app.post('/signup', async (req, res) => {
     const { username, phone, gender, dob, aadhaar, userid, password, confirmPassword } = req.body;
+    console.log(req.body);
+    
     if (password !== confirmPassword) {
         return res.status(400).json({ error: 'Passwords do not match' });
     }
+    
     const userExist = await User.findOne({ userid });
+    
     if (userExist) {
         return res.status(400).json({ error: 'User ID already exists' });
     }
+    
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({
         username,
@@ -80,7 +90,13 @@ app.post('/signup', async (req, res) => {
         res.status(500).json({ error: 'Failed to register user', details: err });
     }
 });
+
+// app.get('/signup', (req, res) => {
+//     console.log(req.body);
+// })
+
 app.post('/login', async (req, res) => {
+    console.log(req.body);
     const { userid, password } = req.body;
     const user = await User.findOne({ userid });
     if (!user) {
@@ -93,6 +109,7 @@ app.post('/login', async (req, res) => {
     const token = jwt.sign({ userId: user._id }, 'your_secret_key', { expiresIn: '1h' });
     res.json({ message: 'Login successful', token });
 });
+
 app.get('/', (req, res) => {
     res.send('Welcome to the API!');
 });
