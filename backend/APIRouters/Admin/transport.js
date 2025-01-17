@@ -36,6 +36,18 @@ transportRouter.post('/add-transport', async (req, res) => {
   }
 });
 
+transportRouter.post('/get-transport', async (req, res) => {
+  try {
+    const { from, to, date, mode } = req.body;
+    const data = await Transport.find({ from, to, date, mode });
+    console.log(data);
+    res.json(data);
+  } catch (err) {
+    console.error('Error fetching transport:', err);
+    res.status(500).json({ message: 'Internal server error', error: err.message });
+  }
+});
+
 transportRouter.get('/transport', async (req, res) => {
   try {
     const transport = await Transport.find();

@@ -15,9 +15,26 @@ const TravelSearchForm = () => {
       [name]: value,
     }));
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log("Form Data Submitted:", formData);
+    try {
+      const response = await fetch('http://localhost:3000/transport/get-transport', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      const result = await response.json();
+      if (response.ok) {
+          console.log(result)
+      } else {
+        alert(result.message || 'Error adding transport');
+      }
+    } catch (error) {
+      alert('Error connecting to the server');
+      console.error(error);
+    }
   };
   return (
     <>
