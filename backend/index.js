@@ -1,8 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import bcrypt from "bcryptjs"
-import jwt from "jsonwebtoken"
+import userRouter from "./User/user.js";
 import adminRouter from "./Admin/admin.js";
 const app = express();
 const PORT = 3000;
@@ -12,13 +11,13 @@ app.use(cors({
   origin: 'http://localhost:5173',
   methods: ['GET', 'POST', 'PUT', 'DELETE']
 }));
-app.use(express.json());
 
 mongoose.connect('mongodb://localhost:27017/BookNGo')
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.error('MongoDB Connection Error:', err));
 
 app.use('/admin', adminRouter);
+app.use('/user', userRouter);
 
 
 const transportSchema = new mongoose.Schema({

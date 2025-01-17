@@ -1,5 +1,10 @@
-const express = require("express");
+import express from "express";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
 const userRouter = express.Router();
+
+userRouter.use(express.json());
 
 const UserSchema = new mongoose.Schema({
   username: { type: String, required: true },
@@ -45,4 +50,4 @@ userRouter.post('/login', async (req, res) => {
   res.json({ message: 'Login successful', token });
 });
 
-
+export default userRouter;

@@ -1,6 +1,6 @@
-const express = require('express');
+import express from "express";
+import mongoose from "mongoose";
 const adminRouter = express.Router();
-const mongoose = require('mongoose')
 
 const AdminSchema = new mongoose.Schema({
     adminName: { type: String, required: true },
@@ -25,4 +25,4 @@ adminRouter.get('/', async (req, res) => {
     }
 });
 
-module.exports = adminRouter;
+export default adminRouter;
