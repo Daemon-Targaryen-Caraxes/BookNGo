@@ -3,28 +3,23 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const adminRouter = require('./Admin/admin.js');
 
 const app = express();
-const adminRouter = require('./Admin/admin.js');
 const PORT = 3000;
 
-// Middleware
 app.use(cors({
   origin: 'http://localhost:5173',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE']
 }));
 app.use(express.json());
 
-// MongoDB Connection
 mongoose.connect('mongodb://localhost:27017/BookNGo')
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.error('MongoDB Connection Error:', err));
 
-// Routers
 app.use('/admin', adminRouter);
 
-// User Schema and Model
 const UserSchema = new mongoose.Schema({
   username: { type: String, required: true },
   phone: { type: String, required: true },
@@ -36,7 +31,6 @@ const UserSchema = new mongoose.Schema({
 }, { collection: 'Users' });
 const User = mongoose.model('User', UserSchema);
 
-// User Routes
 app.post('/signup', async (req, res) => {
   const { username, phone, gender, dob, aadhaar, userid, password, confirmPassword } = req.body;
   if (password !== confirmPassword) {
@@ -70,7 +64,6 @@ app.post('/login', async (req, res) => {
   res.json({ message: 'Login successful', token });
 });
 
-// Transport Schema and Model
 const transportSchema = new mongoose.Schema({
   from: { type: String, required: true },
   to: { type: String, required: true },
@@ -87,8 +80,7 @@ const transportSchema = new mongoose.Schema({
 });
 const Transport = mongoose.model('Transport', transportSchema);
 
-// Transport Routes
-app.post('/api/add-transport', async (req, res) => {
+app.post('/add-transport', async (req, res) => {
   try {
     const newTransport = new Transport(req.body);
     await newTransport.save();
@@ -112,12 +104,10 @@ app.get('/transport', async (req, res) => {
   }
 });
 
-// Default Route
 app.get('/', (req, res) => {
   res.send('Welcome to the API!');
 });
 
-// Start Server
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
