@@ -103,8 +103,8 @@ const AddTransport = () => {
         </form>
       </div>
       {showPopup && (
-        <div className="popup-overlay">
-          <div className="popup-box">
+        <div className="popup">
+          <div className="popup-con">
             <h2>Added Successfully!</h2>
             <button onClick={handlePopupClose} className="popup-button">OK</button>
           </div>
