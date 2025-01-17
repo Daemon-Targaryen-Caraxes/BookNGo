@@ -26,7 +26,7 @@ const AddTransport = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:3000/add-transport', {
+      const response = await fetch('http://localhost:3000/transport/add-transport', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

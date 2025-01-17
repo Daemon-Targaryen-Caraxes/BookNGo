@@ -43,7 +43,7 @@ const SignUp = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:3000/signup', {
+      const response = await fetch('http://localhost:3000/user/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -62,15 +62,15 @@ const SignUp = () => {
       setError("Error signing up.");
     }
 
-    setFormData({
-      username: "",
-      phone: "",
-      gender: "",
-      dob: "",
-      aadhaar: "",
-      password: "",
-      confirmPassword: "",
-    });
+    // setFormData({
+    //   username: "",
+    //   phone: "",
+    //   gender: "",
+    //   dob: "",
+    //   aadhaar: "",
+    //   password: "",
+    //   confirmPassword: "",
+    // });
   };
 
   return (

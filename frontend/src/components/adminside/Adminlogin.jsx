@@ -36,7 +36,7 @@ function AdminLogin() {
     <>
       <Header />
       <div className="login-container">
-        <h2 className="admin-login">Admin Login</h2>
+        <h2 className="admin-login text-5xl">Admin Login</h2>
         <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="username">adminName :</label>
