@@ -26,18 +26,20 @@ const AddTransport = () => {
             <tr className="form-group">
               <td><label>AC Seats:</label></td>
               <td><input type="text" name="acSeats" /></td>
-              <td><label>Amount:</label></td>
+              <td><label>AC seat Amount:</label></td>
               <td><input type="text" name="amount" /></td>
             </tr>
             <tr className="form-group">
               <td><label>Normal Seats:</label></td>
               <td><input type="text" name="normalSeats" /></td>
-              <td><label>Mode:</label></td>
-              <td> <select id="mode" name="mode" required> <option value="bus">Bus</option> <option value="train">Train</option> <option value="flight">Flight</option> </select></td>
+              <td><label>Normal seat Amount:</label></td>
+              <td><input type="text" name="amount" /></td>
             </tr>
             <tr className="form-group">
               <td><label>Time:</label></td>
               <td><input type="text" name="time" /></td>
+              <td><label>Mode:</label></td>
+              <td> <select id="mode" name="mode" required> <option value="bus">Bus</option> <option value="train">Train</option> <option value="flight">Flight</option> </select></td>
             </tr>
           </table>
           <button type="submit" className="submit-button">Add</button>
