@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-
 const app = express();
 const adminRouter = require('./Admin/admin.js');
 const PORT = 3000;
