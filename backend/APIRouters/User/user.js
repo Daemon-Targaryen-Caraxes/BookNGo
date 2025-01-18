@@ -15,6 +15,7 @@ const UserSchema = new mongoose.Schema({
   userid: { type: String, unique: true, required: true },
   password: { type: String, required: true },
 }, { collection: 'Users' });
+
 const User = mongoose.model('User', UserSchema);
 
 userRouter.post('/signup', async (req, res) => {
@@ -49,5 +50,19 @@ userRouter.post('/login', async (req, res) => {
   const token = jwt.sign({ userId: user._id }, 'your_secret_key', { expiresIn: '1h' });
   res.json({ message: 'Login successful', token });
 });
+
+userRouter.get('/:userNumber', async (req, res) => {
+  const givenNumber = req.params.userNumber;
+  try{
+    const userExist = await User.findOne({ phone: givenNumber });
+    if(!userExist){
+      return res.status(400).json({ error: "user not found with this number"});
+    }
+    return res.json(userExist);
+  } catch(error) {
+    console.log(error);
+    return res.status(500).json({error: "Internal Server Error"});
+  }
+})
 
 export default userRouter;
