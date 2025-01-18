@@ -69,10 +69,16 @@ const AddTransport = () => {
               <td><input type="text" name="name" value={formData.name} onChange={handleChange} /></td>
             </tr>
             <tr className="form-group">
+              <td><label>Mode:</label></td>
+              <td>
+                <select name="mode" value={formData.mode} onChange={handleChange} required>
+                  <option value="bus">Bus</option>
+                  <option value="train">Train</option>
+                  <option value="flight">Flight</option>
+                </select>
+              </td>
               <td><label>Total Seats:</label></td>
               <td><input type="text" name="totalSeats" value={formData.totalSeats} onChange={handleChange} /></td>
-              <td><label>Date:</label></td>
-              <td><input type="date" name="date" value={formData.date} onChange={handleChange} /></td>
             </tr>
             <tr className="form-group">
               <td><label>AC Seats:</label></td>
@@ -87,16 +93,10 @@ const AddTransport = () => {
               <td><input type="text" name="normalSeatAmount" value={formData.normalSeatAmount} onChange={handleChange} /></td>
             </tr>
             <tr className="form-group">
+              <td><label>Date:</label></td>
+              <td><input type="date" name="date" value={formData.date} onChange={handleChange} /></td>
               <td><label>Time:</label></td>
               <td><input type="time" name="time" value={formData.time} onChange={handleChange} /></td>
-              <td><label>Mode:</label></td>
-              <td>
-                <select name="mode" value={formData.mode} onChange={handleChange} required>
-                  <option value="bus">Bus</option>
-                  <option value="train">Train</option>
-                  <option value="flight">Flight</option>
-                </select>
-              </td>
             </tr>
           </table>
           <button type="submit" className="submit-button">Add</button>
