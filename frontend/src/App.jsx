@@ -9,6 +9,7 @@ import Admin from './components/adminside/Admin';
 import Enquiry from './components/adminside/Enquiry';
 import AddTransport from './components/adminside/AddTransport';
 import PassengerEnquiry from './Components/AdminSide/PassengerEnquiry';
+import PassengerDetails from './Components/AdminSide/PassengerDetails';
 
 const App = () => {
   return (
@@ -16,13 +17,14 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/TravelSearchForm" element={<TravelSearchForm />} />
-        <Route path="/AdminLogin" element={<AdminLogin/>} />
+        <Route path="/AdminLogin" element={<AdminLogin />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/enquiry" element={<Enquiry/>}/>
-        <Route path='/adminEnquiry' element={<Admin/>}/>
-        <Route path="/AddTransport" element={<AddTransport/>}/>
-        <Route path='/passengerEnquiry' element={<PassengerEnquiry />}></Route>
+        <Route path="/enquiry" element={<Enquiry />} />
+        <Route path='/adminEnquiry' element={<Admin />} />
+        <Route path="/AddTransport" element={<AddTransport />} />
+        <Route path='/passengerEnquiry' element={<PassengerEnquiry />} />
+        <Route path='/:userPhone' element={<PassengerDetails />} />
       </Routes>
     </Router>
   );
