@@ -285,3 +285,134 @@ button:hover {
 .form-group input{
   width: 260px;
 }
+
+/* General container styles */
+.search-results {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+.results-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.train-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Header styles */
+.train-header {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.train-name {
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.train-running-days {
+  color: #777;
+}
+
+.train-type {
+  font-weight: bold;
+  color: #555;
+}
+
+/* Timing styles */
+.train-timing {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.departure,
+.arrival {
+  text-align: center;
+}
+
+.time {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.station {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.date {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.duration {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #007bff;
+}
+
+/* Class and pricing styles */
+.train-class {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.class-card {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  background: #f9f9f9;
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+}
+
+.class-name {
+  font-weight: bold;
+  color: #555;
+}
+
+.status {
+  font-size: 0.9rem;
+  color: green;
+}
+
+.price {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.train-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.availability-btn {
+  padding: 10px 20px;
+  background-color: #ff5722;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.availability-btn:hover {
+  background-color: #e64a19;
+}

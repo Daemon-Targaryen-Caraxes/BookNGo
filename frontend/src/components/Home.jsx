@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "./header";
+import Header from "./Header";
 const Home = () => {
   const [showPopup, setShowPopup] = useState(false);
   const navigate = useNavigate();

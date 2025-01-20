@@ -10,6 +10,7 @@ import Enquiry from './components/adminside/Enquiry';
 import AddTransport from './components/adminside/AddTransport';
 import PassengerEnquiry from './Components/AdminSide/PassengerEnquiry';
 import PassengerDetails from './Components/AdminSide/PassengerDetails';
+import SearchResults from './components/userside/SearchResults';
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
         <Route path="/AddTransport" element={<AddTransport />} />
         <Route path='/passengerEnquiry' element={<PassengerEnquiry />} />
         <Route path='/:userPhone' element={<PassengerDetails />} />
+        <Route path='/searchResults' element={<SearchResults/>}/>
       </Routes>
     </Router>
   );
