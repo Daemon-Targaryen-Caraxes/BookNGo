@@ -11,6 +11,7 @@ import AddTransport from './components/adminside/AddTransport';
 import PassengerEnquiry from './Components/AdminSide/PassengerEnquiry';
 import PassengerDetails from './Components/AdminSide/PassengerDetails';
 import SearchResults from './components/userside/SearchResults';
+import BookingForm from './components/userside/BookingForm';
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
         <Route path='/passengerEnquiry' element={<PassengerEnquiry />} />
         <Route path='/:userPhone' element={<PassengerDetails />} />
         <Route path='/searchResults' element={<SearchResults/>}/>
+        <Route path="/booking" element={<BookingForm/>} />
       </Routes>
     </Router>
   );
