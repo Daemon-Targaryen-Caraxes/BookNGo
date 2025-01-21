@@ -44,9 +44,10 @@ const TravelSearchForm = () => {
   };
 
   return (
-    <>
+    <><h1 className="header">Travel Search Application</h1>
       <form className="popup-content" onSubmit={handleSubmit}>
-        <h3>Train, Bus & Flight Search</h3>
+        {/* <h3>Train, Bus & Flight Search</h3> */}
+        <h3> <br/></h3>
         <table>
           <tbody>
             <tr className="form-group">

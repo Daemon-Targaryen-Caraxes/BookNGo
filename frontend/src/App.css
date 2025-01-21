@@ -129,13 +129,9 @@ body.popup-active {
   width: 100%;
   max-width: 400px;
   margin: 0 auto;
-  padding: 10px;
   text-align: center;
 }
 
-h2 {
-  margin-bottom: 20px;
-}
 
 form {
   display: flex;
@@ -285,8 +281,6 @@ button:hover {
 .form-group input{
   width: 260px;
 }
-
-/* General container styles */
 .search-results {
   font-family: Arial, sans-serif;
   padding: 20px;
@@ -295,7 +289,7 @@ button:hover {
 .results-container {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
 }
 
 .train-card {
@@ -303,17 +297,14 @@ button:hover {
   border-radius: 8px;
   background: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  padding: 15px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
 }
 
-/* Header styles */
 .train-header {
   display: flex;
   flex-direction: column;
-  gap: 5px;
 }
 
 .train-name {
@@ -330,7 +321,6 @@ button:hover {
   color: #555;
 }
 
-/* Timing styles */
 .train-timing {
   display: flex;
   justify-content: space-between;
@@ -364,20 +354,18 @@ button:hover {
   color: #007bff;
 }
 
-/* Class and pricing styles */
 .train-class {
   display: flex;
-  gap: 10px;
+  gap: 20px;
   flex-wrap: wrap;
 }
 
 .class-card {
   border: 1px solid #ddd;
   border-radius: 5px;
-  padding: 10px;
+  padding: 5px;
   background: #f9f9f9;
   flex: 1;
-  min-width: 120px;
   text-align: center;
 }
 
@@ -403,16 +391,22 @@ button:hover {
 }
 
 .availability-btn {
-  padding: 10px 20px;
+  padding: 5px 20px;
   background-color: #ff5722;
   color: #fff;
   border: none;
   border-radius: 5px;
-  font-size: 1rem;
+  font-size: 1.3rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 .availability-btn:hover {
   background-color: #e64a19;
+}
+
+.header{
+  text-align: center;
+  font-size: 50px;
+  color: white;
 }

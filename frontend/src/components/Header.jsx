@@ -14,7 +14,7 @@ const headerStyle = {
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  padding: "25px", 
+  padding: "25px 0 0 0", 
   color: "white",
 };
 

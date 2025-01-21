@@ -35,7 +35,7 @@ const TrainCard = ({ train }) => {
         </div>
       </div>
       <div className="train-actions">
-        <button className="availability-btn">Show Availability</button>
+        <button className="availability-btn">book</button>
       </div>
     </div>
   );
