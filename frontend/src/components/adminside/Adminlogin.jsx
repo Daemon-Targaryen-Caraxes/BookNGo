@@ -39,11 +39,11 @@ function AdminLogin() {
         <h2 className="admin-login text-5xl">Admin Login</h2>
         <form onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="username">adminName :</label>
+            <label htmlFor="username" style={{fontSize:"20px",color:'white'}}>adminName :</label>
             <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Enter username" required />
           </div>
           <div>
-            <label htmlFor="password">Password :</label>
+            <label htmlFor="password" style={{fontSize:"20px",color:'white'}}>Password :</label>
             <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter password" required />
           </div>
           {error && <p className="error">Wrong Password or Username</p>}
