@@ -4,7 +4,6 @@ import { useLocation } from 'react-router-dom'
 const PassengerDetails = () => {
   const [fetchedData, setFetchedData] = useState({});
   const location = useLocation();
-  console.log(fetchedData);
   
   useEffect(() => {
     const fetchData = async () => {
@@ -16,8 +15,6 @@ const PassengerDetails = () => {
   }, []);
 
   const { username, phone, gender, dob, userid, aadhaar } = fetchedData;
-  // console.log(username, phone, gender, dob, userid, aadhaar);
-  console.log(phone.slice(0,10));
 
   return (
     <div className='m-auto my-24 w-96 p-5 text-white'>
