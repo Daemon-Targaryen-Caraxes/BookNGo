@@ -16,7 +16,6 @@ const PassengerDetails = () => {
   }, []);
 
   const { username, phone, gender, dob, userid, aadhaar } = fetchedData;
-  // console.log(username, phone, gender, dob, userid, aadhaar);
   console.log(phone.slice(0,10));
 
   return (
