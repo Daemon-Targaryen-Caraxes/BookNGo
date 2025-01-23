@@ -4,7 +4,6 @@ import { useLocation } from 'react-router-dom'
 const PassengerDetails = () => {
   const [fetchedData, setFetchedData] = useState({});
   const location = useLocation();
-  console.log(fetchedData);
   
   useEffect(() => {
     const fetchData = async () => {

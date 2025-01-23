@@ -13,12 +13,12 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE']
 }));
 
-mongoose.connect('mongodb://localhost:27017/BookNGo')
+mongoose.connect('mongodb://127.0.0.1:27017/BookNGo', { family: 4 })
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.error('MongoDB Connection Error:', err));
 
 app.use('/admin', adminRouter);
-app.use('/user', userRouter);
+app.use('/user', userRouter)
 app.use('/transport', transportRouter)
 
 

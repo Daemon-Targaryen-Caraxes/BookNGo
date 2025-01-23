@@ -24,6 +24,7 @@ userRouter.post('/signup', async (req, res) => {
     return res.status(400).json({ error: 'Passwords do not match' });
   }
   const userExist = await User.findOne({ userid });
+
   if (userExist) {
     return res.status(400).json({ error: 'User ID already exists' });
   }
@@ -39,7 +40,8 @@ userRouter.post('/signup', async (req, res) => {
 
 userRouter.post('/login', async (req, res) => {
   const { userid, password } = req.body;
-  const user = await User.findOne({ userid });
+  console.log(userid, password)
+  const user = await User.findOne({ username: userid });
   if (!user) {
     return res.status(400).json({ error: 'User not found' });
   }
