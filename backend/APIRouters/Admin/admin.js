@@ -11,7 +11,8 @@ const Admin = mongoose.model('Admin', AdminSchema);
 adminRouter.get('/', async (req, res) => {
     try {
         if((await Admin.find()).length < 1){
-            Admin.insertMany([{ adminName: "hemeswar", password: "hemeswar123" }])
+            Admin.insertMany([{ adminName: "hemeswar", password: "hemeswar123" },
+                { adminName: "Venkat14424", password: "Sai@venkat14424"}])
         }
         const admin = await Admin.find();
         // console.log('Admin Document:', admin);

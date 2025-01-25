@@ -1,33 +1,32 @@
-import React, { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import React from "react";
+import { useLocation } from "react-router-dom";
 
-const PassengerDetails = () => {
-  const [fetchedData, setFetchedData] = useState({});
+const Ticket = () => {
   const location = useLocation();
-  
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(`http://localhost:3000/user/${location.pathname.slice(1)}`);
-      const data = await response.json();
-      setFetchedData(data);
-    }
-    fetchData();
-  }, []);
-
-  const { username, phone, gender, dob, userid, aadhaar } = fetchedData;
-  console.log(phone.slice(0,10));
+  const { bookingDetails } = location.state || {};
 
   return (
-    <div className='m-auto my-24 w-96 p-5 text-white'>
-      <h1 className='text-center text-3xl'>Passenger Details</h1>
-      <div>Passenger Name: {username}</div>
-      <div>Passenger ID: {userid}</div>
-      <div>Gender: {gender}</div>
-      <div>Phone Number: {phone}</div>
-      <div>Date of Birth: {dob && dob.slice(0, 10)}</div>
-      <div>Aadhar No: {aadhaar}</div>
+    <div className="ticket">
+      <h2>HAPPY JOURNEY</h2>
+      <div className="ticket-details">
+        <p><strong>From:</strong> {bookingDetails.from}</p>
+        <p><strong>To:</strong> {bookingDetails.to}</p>
+        <p><strong>Time:</strong> {bookingDetails.time}</p>
+        <p><strong>Date:</strong> {new Date(bookingDetails.date).toLocaleDateString()}</p>
+        <p><strong>Amount:</strong> ₹{bookingDetails.amount}</p>
+        <p><strong>Mode:</strong> {bookingDetails.mode}</p>
+        <p><strong>{bookingDetails.mode} Name:</strong> {bookingDetails.name}</p>
+        <p><strong>{bookingDetails.mode} No:</strong> {bookingDetails.no}</p>
+        <p><strong>Class:</strong> {bookingDetails.Class}</p>
+        <p><strong>Passenger Name:</strong> {bookingDetails.passengerName}</p>
+        <p><strong>Phone No:</strong> {bookingDetails.phoneNo}</p>
+        <p><strong>Date of Birth:</strong> {bookingDetails.dob}</p>
+        <p><strong>Aadhaar No:</strong> {bookingDetails.aadhaar}</p>
+        <p><strong>Age:</strong> {bookingDetails.age}</p>
+        <p><strong>Gender:</strong> {bookingDetails.gender}</p>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default PassengerDetails
+export default Ticket;
