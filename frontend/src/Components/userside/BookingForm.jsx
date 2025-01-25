@@ -105,7 +105,7 @@ const BookingForm = () => {
               <td><label htmlFor="age">Age:</label></td>
               <td><input type="number" name="age" value={formData.age} onChange={handleChange} required id="age" /></td>
               <td><label htmlFor="gender">Gender:</label></td>
-              <td><select name="gender" value={formData.gender} onChange={handleChange} required><option value="">Select</option><option value="Male">Male</option><option value="Female">Female</option><option value="Other">Other</option></select></td>
+              <td><select name="gender" value={formData.gender} onChange={handleChange} className=".selectTag" required><option value="">Select</option><option value="Male">Male</option><option value="Female">Female</option><option value="Other">Other</option></select></td>
             </tr>
           </tbody>
         </table>

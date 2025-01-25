@@ -82,6 +82,20 @@ booking.get("/", async (req, res) => {
   }
 });
 
+booking.get("/search/:phoneNo", async (req, res) => {
+  const { phoneNo } = req.params;
+  try {
+    const bookings = await Booking.find({ phoneNo });
+    if (bookings.length > 0) {
+      res.json(bookings);
+    } else {
+      res.status(404).json({ error: "No bookings found for this phone number" });
+    }
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch bookings", details: err });
+  }
+});
+
 booking.get("/:id", async (req, res) => {
   const { id } = req.params;
   

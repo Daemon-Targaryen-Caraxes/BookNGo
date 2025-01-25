@@ -140,7 +140,7 @@ form {
 }
 
 form input,
-form select {
+form select ,.selectTag {
   margin: 10px;
   padding: 10px;
   width: 250px;
@@ -431,7 +431,7 @@ table tr td input{
 
 .ticket {
   color: white;
-  padding: 5PX 20px;
+  padding: 5px 30px;
   border-radius: 10px;
   max-width: 400px;
   margin:30px auto 0 auto;

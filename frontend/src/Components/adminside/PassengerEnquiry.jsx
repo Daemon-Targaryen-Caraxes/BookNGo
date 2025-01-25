@@ -1,32 +1,63 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const PassengerEnquiry = () => {
   const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
+  const [bookings, setBookings] = useState(null); 
   const navigate = useNavigate();
 
-  console.log(phone.length);
-  const handleSearch = () => {
-    console.log("hi");
+  const handleSearch = async () => {
     if (phone.length === 10) {
-      navigate(`/${phone}`);
+      try {
+        const response = await fetch(`http://localhost:3000/booking/search/${phone}`);
+        if (!response.ok) {
+          throw new Error("No bookings found for this phone number");
+        }
+        const data = await response.json();
+        setBookings(data);
+        setError(""); 
+      } catch (err) {
+        setBookings(null); 
+        setError(err.message);
+      }
     } else {
       setError("Invalid Number");
+      setBookings(null);
     }
-  }
+  };
 
   return (
-    <div className='text-center m-auto my-24 w-96 p-5'>
-      <h1 className='text-3xl text-white'>Passenger Enquiry</h1>
-      <div className='text-red-500'>{error}</div>
+    <div className="container">
+      <h2>Passenger Enquiry</h2>
+      <div>{error && <p className="error-message">{error}</p>}</div>
       <div>
-        <label htmlFor="phone-number" className='mr-1 text-lg float-left block'>Phone No.</label>
-        <input type="number" name="phone-number" id="phone-number" style={{ width: "80%", padding: "5px", margin: "0", }} onChange={(event) => setPhone(event.target.value)} required />
+        <input  type="number" name="phone-number" onChange={(event) => setPhone(event.target.value)}  className="input-phone"  required />
       </div>
-      <button onClick={handleSearch}>Search</button>
+      <button onClick={handleSearch} className="button-search">Search</button>
+      {bookings && bookings.length > 0 && (
+        <div className="booking-details">
+          {bookings.map((booking) => (
+            <div key={booking._id} className="booking-detail-item">
+              <p><strong>From:</strong> {booking.from}</p>
+              <p><strong>To:</strong> {booking.to}</p>
+              <p><strong>Time:</strong> {booking.time}</p>
+              <p><strong>Date:</strong> {new Date(booking.date).toLocaleDateString()}</p>
+              <p><strong>Amount:</strong> {booking.amount}</p>
+              <p><strong>Mode:</strong> {booking.mode}</p>
+              <p><strong>Class:</strong> {booking.Class}</p>
+              <p><strong>Passenger Name:</strong> {booking.passengerName}</p>
+              <p><strong>Phone No:</strong> {booking.phoneNo}</p>
+              <p><strong>Date of Birth:</strong> {new Date(booking.dob).toLocaleDateString()}</p>
+              <p><strong>Aadhaar:</strong> {booking.aadhaar}</p>
+              <p><strong>Age:</strong> {booking.age}</p>
+              <p><strong>Gender:</strong> {booking.gender}</p>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default PassengerEnquiry
+export default PassengerEnquiry;
