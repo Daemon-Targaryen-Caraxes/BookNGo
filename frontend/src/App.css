@@ -428,37 +428,35 @@ table tr td input{
 .form-section {
   margin-bottom: 20px;
 }
+
 .ticket {
-  background-color: #f9f9f9;
-  width: 80%;
-  margin: 20px auto;
-  padding: 20px;
+  color: white;
+  padding: 5PX 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  font-family: 'Arial', sans-serif;
+  max-width: 400px;
+  margin:30px auto 0 auto;
+  background-color: white;
+  text-align: left;
 }
 
 .ticket h2 {
   text-align: center;
-  color: #333;
-  font-size: 2rem;
-  margin-bottom: 20px;
-}
-
-.ticket-details {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  font-size: 1.8rem;
+  color:black;
 }
 
 .ticket-details p {
+  margin: 8px 0;
   font-size: 1.1rem;
-  line-height: 1.6;
-  margin-bottom: 10px;
+  color: black;
 }
 
-.ticket-details p strong {
-  font-weight: bold;
+.ticket-details strong {
+  color: #f89c08;
 }
 
+.button-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}

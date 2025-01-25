@@ -1,13 +1,47 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
-
+import { useLocation,useNavigate } from "react-router-dom";
 const Ticket = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { bookingDetails } = location.state || {};
+
+  const handleDownload = () => {
+    const ticketContent = `
+      HAPPY JOURNEY
+      ---------------------
+      From: ${bookingDetails.from}
+      To: ${bookingDetails.to}
+      Time: ${bookingDetails.time}
+      Date: ${new Date(bookingDetails.date).toLocaleDateString()}
+      Amount: ₹${bookingDetails.amount}
+      Mode: ${bookingDetails.mode}
+      ${bookingDetails.mode} Name: ${bookingDetails.name}
+      ${bookingDetails.mode} No: ${bookingDetails.no}
+      Class: ${bookingDetails.Class}
+      Passenger Name: ${bookingDetails.passengerName}
+      Phone No: ${bookingDetails.phoneNo}
+      Date of Birth: ${bookingDetails.dob}
+      Aadhaar No: ${bookingDetails.aadhaar}
+      Age: ${bookingDetails.age}
+      Gender: ${bookingDetails.gender}
+    `;
+
+    const element = document.createElement("a");
+    const file = new Blob([ticketContent], { type: "text/plain" });
+    element.href = URL.createObjectURL(file);
+    element.download = "ticket.txt";
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  };
+
+  if (!bookingDetails) {
+    return <h2>No booking details available.</h2>;
+  }
 
   return (
     <div className="ticket">
-      <h2>HAPPY JOURNEY</h2>
+      <h2>YOUR TICKET</h2>
       <div className="ticket-details">
         <p><strong>From:</strong> {bookingDetails.from}</p>
         <p><strong>To:</strong> {bookingDetails.to}</p>
@@ -24,6 +58,14 @@ const Ticket = () => {
         <p><strong>Aadhaar No:</strong> {bookingDetails.aadhaar}</p>
         <p><strong>Age:</strong> {bookingDetails.age}</p>
         <p><strong>Gender:</strong> {bookingDetails.gender}</p>
+      </div>
+      <div className="button-container">
+        <button className="button" onClick={handleDownload}>
+          Download
+        </button>
+        <button className="button" onClick={() => navigate('/TravelSearchForm')}>
+          Back
+        </button>
       </div>
     </div>
   );
