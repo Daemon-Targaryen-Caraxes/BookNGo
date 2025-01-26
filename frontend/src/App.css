@@ -239,8 +239,6 @@ input[type="text"]:focus, input[type="password"]:focus {
   background: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 15px;
-  display: flex;
-  flex-direction: column;
 }
 
 .train-header {
