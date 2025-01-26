@@ -460,3 +460,15 @@ table tr td input{
   display: flex;
   justify-content: space-between;
 }
+.booking-tickets{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+.booking-detail-item{
+  background-color: white;
+  margin: 20px;
+  padding: 20px;
+  border-radius: 10px;
+}

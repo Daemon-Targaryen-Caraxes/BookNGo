@@ -1,38 +1,42 @@
 import React from "react";
-import { useLocation,useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { jsPDF } from 'jspdf';
+
 const Ticket = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { bookingDetails } = location.state || {};
 
   const handleDownload = () => {
-    const ticketContent = `
-      HAPPY JOURNEY
-      ---------------------
-      From: ${bookingDetails.from}
-      To: ${bookingDetails.to}
-      Time: ${bookingDetails.time}
-      Date: ${new Date(bookingDetails.date).toLocaleDateString()}
-      Amount: ₹${bookingDetails.amount}
-      Mode: ${bookingDetails.mode}
-      ${bookingDetails.mode} Name: ${bookingDetails.name}
-      ${bookingDetails.mode} No: ${bookingDetails.no}
-      Class: ${bookingDetails.Class}
-      Passenger Name: ${bookingDetails.passengerName}
-      Phone No: ${bookingDetails.phoneNo}
-      Date of Birth: ${bookingDetails.dob}
-      Aadhaar No: ${bookingDetails.aadhaar}
-      Age: ${bookingDetails.age}
-      Gender: ${bookingDetails.gender}
-    `;
-
-    const element = document.createElement("a");
-    const file = new Blob([ticketContent], { type: "text/plain" });
-    element.href = URL.createObjectURL(file);
-    element.download = "ticket.txt";
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
+    if (!bookingDetails) return;
+    const doc = new jsPDF();
+    doc.setFontSize(22);
+    doc.setFont( "bold");
+    doc.text("Your Ticket", 105, 20, "center");
+    doc.setLineWidth(0.3);
+    doc.line(10, 25, 200, 25);
+    doc.setFontSize(12);
+    doc.setFont( "normal");
+    doc.text(`From: ${bookingDetails.from}`, 10, 40);
+    doc.text(`To: ${bookingDetails.to}`, 10, 50);
+    doc.text(`Time: ${bookingDetails.time}`, 10, 60);
+    doc.text(`Date: ${new Date(bookingDetails.date).toLocaleDateString()}`, 10, 70);
+    doc.text(`Amount: ${bookingDetails.amount}`, 10, 80);
+    doc.text(`Mode: ${bookingDetails.mode}`, 10, 90);
+    doc.text(`${bookingDetails.mode} Name: ${bookingDetails.name}`, 10, 100);
+    doc.text(`${bookingDetails.mode} No: ${bookingDetails.no}`, 10, 110);
+    doc.text(`Class: ${bookingDetails.Class}`, 10, 120);
+    doc.text(`Passenger Name: ${bookingDetails.passengerName}`, 10, 130);
+    doc.text(`Phone No: ${bookingDetails.phoneNo}`, 10, 140);
+    doc.text(`Date of Birth: ${bookingDetails.dob}`, 10, 150);
+    doc.text(`Aadhaar No: ${bookingDetails.aadhaar}`, 10, 160);
+    doc.text(`Age: ${bookingDetails.age}`, 10, 170);
+    doc.text(`Gender: ${bookingDetails.gender}`, 10, 180);
+    doc.text(`Gender: ${bookingDetails.bookingDateTime}`, 10, 190);
+    doc.setFontSize(10);
+    doc.setFont( "italic");
+    doc.text("Thank you for choosing our service.",100,205, "center");
+    doc.save('ticket.pdf');
   };
 
   if (!bookingDetails) {
@@ -58,6 +62,7 @@ const Ticket = () => {
         <p><strong>Aadhaar No:</strong> {bookingDetails.aadhaar}</p>
         <p><strong>Age:</strong> {bookingDetails.age}</p>
         <p><strong>Gender:</strong> {bookingDetails.gender}</p>
+        <p><strong>Booked Date :</strong> {new Date(bookingDetails.bookingDateTime).toLocaleDateString()}</p>
       </div>
       <div className="button-container">
         <button className="button" onClick={handleDownload}>
