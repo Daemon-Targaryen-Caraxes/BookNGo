@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const BookingForm = () => {
@@ -22,7 +22,45 @@ const BookingForm = () => {
     age: "",
     gender: "",
     bookingDateTime: "",
+    seatId: "",
   });
+
+  useEffect(() => {
+    generateSeatNo();
+  }, [train, seatType]);
+
+  const generateSeatNo = () => {
+    let seatId = '';
+    switch (train.mode) {
+      case 'bus':
+        const busRows = 20; 
+        const busSeatsPerRow = [2, 2]; 
+        const busRow = Math.floor(Math.random() * busRows) + 1;
+        const busSeat = busSeatsPerRow[Math.floor(Math.random() * busSeatsPerRow.length)];
+        seatId = `Row ${busRow} - Seat ${busSeat}`;
+        break;
+
+      case 'flight':
+        const flightRows = 30;
+        const flightSeatsPerRow = [2, 3]; 
+        const flightRow = Math.floor(Math.random() * flightRows) + 1;
+        const flightSeat = flightSeatsPerRow[Math.floor(Math.random() * flightSeatsPerRow.length)];
+        seatId = `Row ${flightRow} - Seat ${flightSeat}`;
+        break;
+
+      case 'train':
+        const trainRows = 15; 
+        const trainSeatsPerRow = [2, 3];
+        const trainRow = Math.floor(Math.random() * trainRows) + 1;
+        const trainSeat = trainSeatsPerRow[Math.floor(Math.random() * trainSeatsPerRow.length)];
+        seatId = `Row ${trainRow} - Seat ${trainSeat}`;
+        break;
+
+      default:
+        seatId = 'Please select a mode';
+    }
+    setFormData((prevData) => ({ ...prevData, seatId }));
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -37,7 +75,6 @@ const BookingForm = () => {
     e.preventDefault();
     const currentDateTime = new Date().toISOString();
     const updatedFormData = { ...formData, bookingDateTime: currentDateTime };
-
     try {
       console.log("Submitting data:", updatedFormData);
       const response = await fetch("http://localhost:3000/booking/add", {

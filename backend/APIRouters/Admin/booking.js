@@ -21,6 +21,7 @@ const bookingSchema = new mongoose.Schema(
     age: { type: Number, required: true },
     gender: { type: String, required: true, enum: ["Male", "Female", "Other"] },
     bookingDateTime: { type: Date, required: true },
+    seatId: { type: String, required: true }
   },
   { timestamps: true } 
 );
@@ -45,6 +46,7 @@ booking.post("/add", async (req, res) => {
     age,
     gender,
     bookingDateTime,
+    seatId
   } = req.body;
 
   console.log("Received booking data:", req.body); // Log the incoming data
@@ -66,7 +68,8 @@ booking.post("/add", async (req, res) => {
       aadhaar,
       age,
       gender,
-      bookingDateTime: bookingDateTime || new Date(), // Use the passed booking date or current date
+      bookingDateTime: bookingDateTime || new Date(),
+      seatId
     });
 
     const savedBooking = await newBooking.save();

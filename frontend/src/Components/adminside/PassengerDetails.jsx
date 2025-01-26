@@ -26,16 +26,17 @@ const Ticket = () => {
     doc.text(`${bookingDetails.mode} Name: ${bookingDetails.name}`, 10, 100);
     doc.text(`${bookingDetails.mode} No: ${bookingDetails.no}`, 10, 110);
     doc.text(`Class: ${bookingDetails.Class}`, 10, 120);
-    doc.text(`Passenger Name: ${bookingDetails.passengerName}`, 10, 130);
-    doc.text(`Phone No: ${bookingDetails.phoneNo}`, 10, 140);
-    doc.text(`Date of Birth: ${bookingDetails.dob}`, 10, 150);
-    doc.text(`Aadhaar No: ${bookingDetails.aadhaar}`, 10, 160);
-    doc.text(`Age: ${bookingDetails.age}`, 10, 170);
-    doc.text(`Gender: ${bookingDetails.gender}`, 10, 180);
-    doc.text(`Gender: ${bookingDetails.bookingDateTime}`, 10, 190);
+    doc.text(`Seat: ${bookingDetails.seatId}`, 10, 130);
+    doc.text(`Passenger Name: ${bookingDetails.passengerName}`, 10, 140);
+    doc.text(`Phone No: ${bookingDetails.phoneNo}`, 10, 150);
+    doc.text(`Date of Birth: ${bookingDetails.dob}`, 10, 160);
+    doc.text(`Aadhaar No: ${bookingDetails.aadhaar}`, 10, 170);
+    doc.text(`Age: ${bookingDetails.age}`, 10, 180);
+    doc.text(`Gender: ${bookingDetails.gender}`, 10, 190);
+    doc.text(`Booked Date: ${new Date(bookingDetails.bookingDateTime).toLocaleDateString()}`, 10, 200);
     doc.setFontSize(10);
     doc.setFont( "italic");
-    doc.text("Thank you for choosing our service.",100,205, "center");
+    doc.text("Thank you for choosing our service.",100,215, "center");
     doc.save('ticket.pdf');
   };
 
@@ -56,6 +57,7 @@ const Ticket = () => {
         <p><strong>{bookingDetails.mode} Name:</strong> {bookingDetails.name}</p>
         <p><strong>{bookingDetails.mode} No:</strong> {bookingDetails.no}</p>
         <p><strong>Class:</strong> {bookingDetails.Class}</p>
+        <p><strong>Seat:</strong> {bookingDetails.seatId}</p>
         <p><strong>Passenger Name:</strong> {bookingDetails.passengerName}</p>
         <p><strong>Phone No:</strong> {bookingDetails.phoneNo}</p>
         <p><strong>Date of Birth:</strong> {bookingDetails.dob}</p>

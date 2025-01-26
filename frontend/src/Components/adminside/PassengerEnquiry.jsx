@@ -40,14 +40,16 @@ const PassengerEnquiry = () => {
       <div className='allTickets'>
         {bookings && bookings.length > 0 && (
           <div className="booking-tickets">
-            {bookings.map((booking) => (
+            {bookings.map((booking,index) => (
               <div key={booking._id} className="booking-detail-item">
+                 <h2>Ticket {index+1}</h2>
                 <p><strong>From:</strong> {booking.from}</p>
                 <p><strong>To:</strong> {booking.to}</p>
                 <p><strong>Time:</strong> {booking.time}</p>
                 <p><strong>Date:</strong> {new Date(booking.date).toLocaleDateString()}</p>
                 <p><strong>Amount:</strong> {booking.amount}</p>
                 <p><strong>Mode:</strong> {booking.mode}</p>
+                <p><strong>Seat:</strong> {booking.seatId}</p>
                 <p><strong>Class:</strong> {booking.Class}</p>
                 <p><strong>Passenger Name:</strong> {booking.passengerName}</p>
                 <p><strong>Phone No:</strong> {booking.phoneNo}</p>

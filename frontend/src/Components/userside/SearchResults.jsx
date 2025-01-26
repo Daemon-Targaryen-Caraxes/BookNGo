@@ -10,18 +10,22 @@ const TrainCard = ({ train, onBook }) => {
     <div className="train-card">
       <div className="train-header">
         <h3 className="train-name">{train.number} {train.name}</h3>
-        <p className="train-type">{train.mode}</p>
+        {/* <p className="train-type">{train.mode}</p> */}
+         <span>
+          <p className="time">{train.time}</p>
+          </span> 
       </div>
 
       <div className="train-timing">
         <div className="departure">
-          <p className="time">{train.time}</p>
           <p className="station">{train.from}</p>
-          <p className="date">{new Date(train.date).toLocaleDateString()}</p>
         </div>
+        <>------------------------------------------------------------------------------------------------------</>
         <div className="duration">
-          <p>{train.totalSeats} Total Seats</p>
+          <p className="date">{new Date(train.date).toLocaleDateString()}</p>
+          {/* <p>{train.totalSeats} Total Seats</p> */}
         </div>
+        <>------------------------------------------------------------------------------------------------------</>
         <div className="arrival">
           <p className="station">{train.to}</p>
         </div>
