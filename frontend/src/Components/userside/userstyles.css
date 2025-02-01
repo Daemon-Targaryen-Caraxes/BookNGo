@@ -1,0 +1,68 @@
+
+.homepage{
+  display: flex;
+}
+.mainheader{
+  display: flex;
+  position:fixed;
+  top: 0%;
+  width: 100%;
+  justify-content: space-between;
+   height: 80px;
+   align-items: center;
+  background-color: black;
+  color: white;
+  padding: 0 50px;
+  border-bottom: 2px solid white;
+  z-index: 20;
+}
+.overallcontainer{
+   display: flex;
+   flex-direction: column;
+}
+/* .overallcontainer div div{
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+} */
+.userlinks {
+  display: flex;
+  position: fixed;
+  left: 0;
+  top: 11%;
+  flex-direction: column;
+  gap: 30px;
+  color: white;
+  padding: 50px 0 166px;
+  background-color: black;
+  width: 270px;
+  align-items: center;
+  border-right: 2px solid white;
+}
+.userlinks a{
+  color: white;
+  text-decoration: none;
+  font-size: 25px;
+}
+.home{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: white;
+   color: black;
+   height: vh;
+   width: 100%;
+}
+.home h1{
+  font-size: 50px;
+}
+
+.options{
+  display: flex;
+  gap: 40px;
+  margin: 70px;
+}
+.options button{
+  height: auto;
+  width: 200px;
+}

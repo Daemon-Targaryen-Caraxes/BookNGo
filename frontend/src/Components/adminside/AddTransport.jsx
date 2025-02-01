@@ -23,15 +23,21 @@ const AddTransport = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const requestData = {
+      ...formData,
+      from: formData.from.toLowerCase(),
+      to: formData.to.toLowerCase(),
+    };
     try {
       const response = await fetch('http://localhost:3000/transport/add-transport', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(requestData),
       });
       const result = await response.json();
       if (response.ok) {

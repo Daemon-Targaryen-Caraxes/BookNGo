@@ -22,13 +22,18 @@ const TravelSearchForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    const requestData = {
+      ...formData,
+      from: formData.from.toLowerCase(),
+      to: formData.to.toLowerCase(),
+    };
     try {
       const response = await fetch("http://localhost:3000/transport/get-transport", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(requestData),
       });
       const result = await response.json();
       if (response.ok) {
