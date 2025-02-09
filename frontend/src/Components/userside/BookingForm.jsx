@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 const BookingForm = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const user = localStorage.getItem("userId");
   const { train, seatType } = location.state || {};
   const [formData, setFormData] = useState({
     from: train?.from || "",
@@ -23,6 +24,7 @@ const BookingForm = () => {
     gender: "",
     bookingDateTime: "",
     seatId: "",
+    userId:user
   });
 
   useEffect(() => {

@@ -1,7 +1,16 @@
-import React from "react";
-import { Outlet, Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Outlet, Link, useNavigate } from "react-router-dom";
 
 const Layout = () => {
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("userId");
+    localStorage.removeItem("userToken");
+    navigate("/");
+  };
+
   return (
     <div className="layout">
       <header className="header">
@@ -17,13 +26,24 @@ const Layout = () => {
             <li><Link to="/TravelSearchForm" state={{ selectedOption: "flight" }}>BOOK FLIGHT</Link></li>
             <li><Link to="/TravelSearchForm">BOOKED HISTORY</Link></li>
             <li><Link to="/changepassword">CHANGE PASSWORD</Link></li>
-            <li><Link to="/TravelSearchForm">LOGOUT</Link></li>
+            <li onClick={() => setShowLogoutModal(true)}><a href="#">LOGOUT</a></li>
           </ul>
         </nav>
       </aside>
       <main className="content">
         <Outlet />
       </main>
+      {showLogoutModal && (
+        <div className="popup" onClick={() => setShowLogoutModal(false)}>
+          <div className="popup-con">
+            <h2>Are you sure you want to logout?</h2>
+            <div className="yesnobuttton">
+              <button onClick={() => setShowLogoutModal(false)}>Cancel</button>
+              <button onClick={handleLogout}>Logout</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

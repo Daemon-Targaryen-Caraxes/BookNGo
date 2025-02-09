@@ -67,4 +67,52 @@ userRouter.get('/:userNumber', async (req, res) => {
   }
 })
 
+userRouter.get('/details/:userid', async (req, res) => {
+  const { userid } = req.params;
+
+  try {
+    const user = await User.findOne({ userid });
+
+    if (!user) {
+      return res.status(400).json({ error: 'User not found' });
+    }
+
+    const { password, ...userData } = user.toObject();
+
+    res.json(userData);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Error fetching user details' });
+  }
+});
+
+userRouter.put('/change-password/:userid', async (req, res) => {
+  const { userid } = req.params;
+  const { currentPassword, newPassword } = req.body;
+
+  try {
+    const user = await User.findOne({ userid });
+
+    if (!user) {
+      return res.status(400).json({ error: 'User not found' });
+    }
+
+    const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
+
+    if (!isPasswordValid) {
+      return res.status(400).json({ error: 'Current password is incorrect' });
+    }
+
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+
+    user.password = hashedNewPassword;
+    await user.save();
+
+    res.json({ message: 'Password updated successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Error changing password' });
+  }
+});
+
 export default userRouter;

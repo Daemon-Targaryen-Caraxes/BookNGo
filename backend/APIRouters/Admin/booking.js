@@ -5,6 +5,7 @@ const booking = express.Router();
 
 const bookingSchema = new mongoose.Schema(
   {
+    userId: { type: String, required: true },
     from: { type: String, required: true },
     to: { type: String, required: true },
     time: { type: String, required: true },
@@ -30,6 +31,7 @@ const Booking = mongoose.model("Booking", bookingSchema);
 
 booking.post("/add", async (req, res) => {
   const {
+    userId,
     from,
     to,
     time,
@@ -53,6 +55,7 @@ booking.post("/add", async (req, res) => {
 
   try {
     const newBooking = new Booking({
+      userId,
       from,
       to,
       time,

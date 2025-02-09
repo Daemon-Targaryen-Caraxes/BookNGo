@@ -4,12 +4,20 @@ html {
   width: 100%;
   height: 100%;
   font-family: Arial, sans-serif;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("./assets/Abc.webp");
-  background-size: cover;
+  
   user-select: none;
 }
 h1, h2 {
   margin: 20px 0;
+}
+.home1{
+  top: 0;
+  left:0 ;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("./assets/Abc.webp");
+  background-size: cover;
 }
 
 button {
@@ -199,6 +207,7 @@ input[type="text"]:focus, input[type="password"]:focus {
   position: fixed;
   top: 10%; 
   left: 0;
+  width: 20%;
   padding-top: 20px;
 }
 
@@ -222,12 +231,12 @@ input[type="text"]:focus, input[type="password"]:focus {
 }
 
 .content {
-  margin-left: 250px;
-  margin-top: 60px;
-  padding: 20px;
-  flex-grow: 1;
+  top: 10%;
+  left: 20%;
+  position: fixed;
+  height: 100%;
+  width: 100%;
 }
-/* Confirmation Page Styles */
 .confirmation-page {
   background-color: #f9f9f9;
   padding: 30px;

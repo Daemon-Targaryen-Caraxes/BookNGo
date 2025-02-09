@@ -13,7 +13,7 @@ const Home = () => {
     setShowPopup(false);
   };
   return (
-    <>
+    <div className="home1">
       <Header />
       <div className="container-button">
         <button onClick={handleUserClick}>Are you User?</button>
@@ -30,7 +30,7 @@ const Home = () => {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 };
 
