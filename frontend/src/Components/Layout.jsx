@@ -24,7 +24,7 @@ const Layout = () => {
             <li><Link to="/TravelSearchForm" state={{ selectedOption: "bus" }}>BOOK BUS</Link></li>
             <li><Link to="/TravelSearchForm" state={{ selectedOption: "train" }}>BOOK TRAIN</Link></li>
             <li><Link to="/TravelSearchForm" state={{ selectedOption: "flight" }}>BOOK FLIGHT</Link></li>
-            <li><Link to="/TravelSearchForm">BOOKED HISTORY</Link></li>
+            <li><Link to="/bookedhistory">BOOKED HISTORY</Link></li>
             <li><Link to="/changepassword">CHANGE PASSWORD</Link></li>
             <li onClick={() => setShowLogoutModal(true)}><a href="#">LOGOUT</a></li>
           </ul>

@@ -14,6 +14,7 @@ import SelectOptionPage from './components/userside/Selectoption';
 import Profile from './components/userside/Userprofile';
 import ChangePassword from './components/userside/Changepassword';
 import ConfirmationPage from './components/userside/ConfirmationPage';
+import BookedHistory from './components/userside/bookedHistory';
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
           <Route path="/searchResults" element={<SearchResults />} />
           <Route path="/booking" element={<BookingForm />} />
           <Route path="/enquiry" element={<Enquiry />} />
+          <Route path="/bookedhistory" element={<BookedHistory/>} />
           <Route path='/confirmation' element={<ConfirmationPage/>}/>
           <Route path='/selecttraveloption' element={<SelectOptionPage/>}/>
         </Route>
