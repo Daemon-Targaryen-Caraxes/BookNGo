@@ -147,7 +147,7 @@ const BookingForm = () => {
               <td><input type="number" name="age" value={formData.age} onChange={handleChange} required id="age" /></td>
               <td><label htmlFor="gender">Gender:</label></td>
               <td>
-                <select name="gender" value={formData.gender} onChange={handleChange} className=".selectTag" required>
+                <select name="gender" value={formData.gender} onChange={handleChange} required>
                   <option value="">Select</option>
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>

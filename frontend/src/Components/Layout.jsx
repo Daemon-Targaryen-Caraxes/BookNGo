@@ -11,12 +11,12 @@ const Layout = () => {
         <nav>
           <ul>
             <li><Link to="/selecttraveloption">HOME</Link></li>
-            <li><Link to="/TravelSearchForm">PROFILE</Link></li>
+            <li><Link to="/userprofile">PROFILE</Link></li>
             <li><Link to="/TravelSearchForm" state={{ selectedOption: "bus" }}>BOOK BUS</Link></li>
             <li><Link to="/TravelSearchForm" state={{ selectedOption: "train" }}>BOOK TRAIN</Link></li>
             <li><Link to="/TravelSearchForm" state={{ selectedOption: "flight" }}>BOOK FLIGHT</Link></li>
             <li><Link to="/TravelSearchForm">BOOKED HISTORY</Link></li>
-            <li><Link to="/TravelSearchForm">CHANGE PASSWORD</Link></li>
+            <li><Link to="/changepassword">CHANGE PASSWORD</Link></li>
             <li><Link to="/TravelSearchForm">LOGOUT</Link></li>
           </ul>
         </nav>

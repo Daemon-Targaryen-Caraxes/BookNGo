@@ -11,6 +11,9 @@ import Enquiry from './components/adminside/Enquiry';
 import AddTransport from './components/adminside/AddTransport';
 import Layout from './components/Layout';
 import SelectOptionPage from './components/userside/Selectoption';
+import Profile from './components/userside/Userprofile';
+import ChangePassword from './components/userside/Changepassword';
+import ConfirmationPage from './components/userside/ConfirmationPage';
 
 const App = () => {
   return (
@@ -22,10 +25,13 @@ const App = () => {
         <Route path="/AdminLogin" element={<AdminLogin />} />
         <Route path="/AddTransport" element={<AddTransport />} />
         <Route path="/" element={<Layout />}>
+        <Route path="/changepassword" element={<ChangePassword/>}/>
+          <Route path="/userprofile" element={<Profile/>}/>
           <Route path="/TravelSearchForm" element={<TravelSearchForm />} />
           <Route path="/searchResults" element={<SearchResults />} />
           <Route path="/booking" element={<BookingForm />} />
           <Route path="/enquiry" element={<Enquiry />} />
+          <Route path='/confirmation' element={<ConfirmationPage/>}/>
           <Route path='/selecttraveloption' element={<SelectOptionPage/>}/>
         </Route>
       </Routes>

@@ -227,3 +227,65 @@ input[type="text"]:focus, input[type="password"]:focus {
   padding: 20px;
   flex-grow: 1;
 }
+/* Confirmation Page Styles */
+.confirmation-page {
+  background-color: #f9f9f9;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 50px auto;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+}
+
+.confirmation-title {
+  font-size: 2rem;
+  color: #0056b3;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.section-title {
+  color: #0056b3;
+  font-size: 1.2rem;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.train-details, .passenger-details, .seat-details, .booking-date-time {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.train-details p, .passenger-details p, .seat-details p, .booking-date-time p {
+  font-size: 16px;
+  margin: 8px 0;
+}
+
+.train-details strong, .passenger-details strong, .seat-details strong, .booking-date-time strong {
+  color: #0056b3;
+}
+
+.download-button-container {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.download-btn {
+  background-color: #28a745;
+  color: white;
+  padding: 12px 25px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.download-btn:hover {
+  background-color: #218838;
+}

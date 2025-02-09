@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../Header"
+import Header from "../Header";
+
 const Login = () => {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!userId || !password) {
@@ -24,6 +26,7 @@ const Login = () => {
       const result = await response.json();
       if (response.ok) {
         alert("Login successful!");
+        localStorage.setItem("userId", userId);
         navigate("/selecttraveloption"); 
       } else {
         setError(result.error);
