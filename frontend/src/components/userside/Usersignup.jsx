@@ -53,7 +53,7 @@ const SignUp = () => {
       const result = await response.json();
       if (response.ok) {
         alert("Sign-Up Successful!");
-        navigate("/TravelSearchForm");
+        navigate("/selecttraveloption");
       } else {
         setError(result.error);
       }

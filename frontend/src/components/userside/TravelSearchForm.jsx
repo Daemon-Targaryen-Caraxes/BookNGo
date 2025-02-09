@@ -1,15 +1,18 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Header from "../Header";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+
 const TravelSearchForm = () => {
   const [formData, setFormData] = useState({
     from: "",
     to: "",
     date: "",
-    mode: "bus",
   });
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  
+  // Fetch the selected mode from the passed state
+  const selectedMode = location.state?.selectedOption || "bus"; // default to "bus" if no mode is provided
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -26,6 +29,7 @@ const TravelSearchForm = () => {
       ...formData,
       from: formData.from.toLowerCase(),
       to: formData.to.toLowerCase(),
+      mode: selectedMode, // include the mode here
     };
     try {
       const response = await fetch("http://localhost:3000/transport/get-transport", {
@@ -49,9 +53,10 @@ const TravelSearchForm = () => {
   };
 
   return (
-    <><h1 className="header">Travel Search Application</h1>
+    <>
+      <h1 >{selectedMode} Search</h1>
       <form className="popup-content" onSubmit={handleSubmit}>
-        <h3> <br/></h3>
+        <h3> <br /></h3>
         <table>
           <tbody>
             <tr className="form-group">
@@ -65,16 +70,6 @@ const TravelSearchForm = () => {
             <tr className="form-group">
               <td><label htmlFor="date">Date:</label></td>
               <td><input type="date" id="date" name="date" value={formData.date} onChange={handleInputChange} required /></td>
-            </tr>
-            <tr className="form-group">
-              <td><label htmlFor="mode">Mode:</label></td>
-              <td>
-                <select id="mode" name="mode" value={formData.mode} onChange={handleInputChange} required>
-                  <option value="bus">Bus</option>
-                  <option value="train">Train</option>
-                  <option value="flight">Flight</option>
-                </select>
-              </td>
             </tr>
           </tbody>
         </table>

@@ -17,12 +17,11 @@ app.use(cors({
 mongoose.connect('mongodb://127.0.0.1:27017/BookNGo', { family: 4 })
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.error('MongoDB Connection Error:', err));
-
+  
 app.use('/admin', adminRouter);
 app.use('/user', userRouter);
 app.use('/transport', transportRouter);
 app.use('/booking', booking);
-
 app.get('/', (req, res) => {
   res.send('Welcome to the API!');
 });

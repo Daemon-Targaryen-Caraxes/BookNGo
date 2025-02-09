@@ -6,7 +6,6 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!userId || !password) {
@@ -25,7 +24,7 @@ const Login = () => {
       const result = await response.json();
       if (response.ok) {
         alert("Login successful!");
-        navigate("/TravelSearchForm");
+        navigate("/selecttraveloption"); 
       } else {
         setError(result.error);
       }
