@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet, Link } from "react-router-dom";
 
-const Layout = () => {
+const AdminLayout = () => {
   return (
     <div className="layout">
       <header className="header">
@@ -11,14 +11,16 @@ const Layout = () => {
         <nav>
           <ul>
             <li><Link to="/selecttraveloption">HOME</Link></li>
-            <li><Link to="/userprofile">PROFILE</Link></li>
+            <li><Link to="/adminprofile">PROFILE</Link></li>
             <li><Link to="/TravelSearchForm" state={{ selectedOption: "bus" }}>BOOK BUS</Link></li>
             <li><Link to="/TravelSearchForm" state={{ selectedOption: "train" }}>BOOK TRAIN</Link></li>
             <li><Link to="/TravelSearchForm" state={{ selectedOption: "flight" }}>BOOK FLIGHT</Link></li>
-            <li><Link to="/TravelSearchForm">Add bus</Link></li>
-            <li><Link to="/changepassword">Add train</Link></li>
-            <li><Link to="/TravelSearchForm">Add flight</Link></li>
-            <li><Link to="/changepassword">passenger enquiry</Link></li>
+            <li><Link to="/TravelSearchForm">ADD TRAIN</Link></li>
+            <li><Link to="/changepassword">ADD BUS</Link></li>
+            <li><Link to="/TravelSearchForm">ADD FLIGHT</Link></li>
+            <li><Link to="/changepassword">PASSENGER ENQUIRY</Link></li>
+            <li><Link to="/editprofile">EDIT PROFILE</Link></li>
+            <li><Link to="/changeadminprofile">CHANGE PROFILE</Link></li>
             <li><Link to="/TravelSearchForm">LOGOUT</Link></li>
           </ul>
         </nav>
@@ -30,4 +32,4 @@ const Layout = () => {
   );
 };
 
-export default Layout;
+export default AdminLayout;

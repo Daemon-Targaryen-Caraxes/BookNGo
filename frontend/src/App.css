@@ -334,3 +334,20 @@ th {
 p {
   text-align: center;
 }
+
+.useradminlogin{
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("./assets/loginpage.webp");
+  background-size: cover;
+}
+.useradminlogin div{
+  background-color: white;
+  color: black;
+  border-radius: 10px;
+  margin-top: 200px;
+  max-width: 300px;
+}

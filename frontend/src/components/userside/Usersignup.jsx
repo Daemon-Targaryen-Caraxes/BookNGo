@@ -126,13 +126,13 @@ const SignUp = () => {
         <form onSubmit={handleSubmit}>
           <input type="text" name="username" value={formData.username} onChange={handleChange} placeholder="Username" required />
           <input type="text" name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone Number" required />
-          <button type="button" onClick={handleSendOtp} disabled={otpSent}>Send OTP</button>
+          {/* <button type="button" onClick={handleSendOtp} disabled={otpSent}>Send OTP</button>
           {otpSent && !otpVerified && (
             <>
               <input type="text" value={otp} onChange={(e) => setOtp(e.target.value)} placeholder="Enter OTP" required />
               <button type="button" onClick={handleVerifyOtp}>Verify OTP</button>
             </>
-          )}
+          )} */}
           <select name="gender" value={formData.gender} onChange={handleChange} required>
             <option value="">Select Gender</option>
             <option value="Male">Male</option>
