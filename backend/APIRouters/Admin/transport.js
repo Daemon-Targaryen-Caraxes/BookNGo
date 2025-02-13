@@ -9,7 +9,6 @@ const transportSchema = new mongoose.Schema({
   to: { type: String, required: true },
   number: { type: String, required: true },
   name: { type: String, required: true },
-  totalSeats: { type: Number, required: true },
   acSeats: { type: Number, required: true },
   normalSeats: { type: Number, required: true },
   acSeatAmount: { type: Number, required: true },

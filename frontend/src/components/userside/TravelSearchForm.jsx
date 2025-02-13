@@ -10,9 +10,7 @@ const TravelSearchForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  
-  // Fetch the selected mode from the passed state
-  const selectedMode = location.state?.selectedOption || "bus"; // default to "bus" if no mode is provided
+  const selectedMode = location.state?.selectedOption || "bus"; 
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -29,7 +27,7 @@ const TravelSearchForm = () => {
       ...formData,
       from: formData.from.toLowerCase(),
       to: formData.to.toLowerCase(),
-      mode: selectedMode, // include the mode here
+      mode: selectedMode, 
     };
     try {
       const response = await fetch("http://localhost:3000/transport/get-transport", {

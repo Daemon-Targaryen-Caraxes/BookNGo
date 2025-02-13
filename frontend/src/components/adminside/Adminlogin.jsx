@@ -26,7 +26,7 @@ function AdminLogin() {
 
       if (response.ok) {
         console.log("Login successful:", data);
-        navigate("/admin/profile");
+        navigate("/adminselecttraveloption");
       } else {
         setError(data.error || "An error occurred during login.");
       }

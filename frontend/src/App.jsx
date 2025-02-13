@@ -19,6 +19,7 @@ import AdminLayout from './components/adminside/AdminLayout';
 import ChangeadminPassword from './components/adminside/changeadminpassword';
 import AdminProfile from './components/adminside/adminprofile';
 import EditAdmin from './components/adminside/editprofile';
+import AddAdmin from './components/adminside/Addadmin';
 
 const App = () => {
   return (
@@ -28,18 +29,20 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/AdminLogin" element={<AdminLogin />} />
-        <Route path="/AddTransport" element={<AddTransport />} />
         <Route path="/" element={<AdminLayout/>}>
           <Route path="/changeadminpassword" element={<ChangeadminPassword/>} />
+          <Route path="/AddTransport" element={<AddTransport />} />
           <Route path="/adminprofile" element={<AdminProfile/>} />
-          <Route path="/editprofile" element={<EditAdmin/>} />
-          <Route path="/TravelSearchForm" element={<TravelSearchForm />} />
+          <Route path="/editadminprofile" element={<EditAdmin/>} />
+          <Route path="/adminTravelSearchForm" element={<TravelSearchForm />} />
           <Route path="/searchResults" element={<SearchResults />} />
           <Route path="/booking" element={<BookingForm />} />
           <Route path="/enquiry" element={<Enquiry />} />
           <Route path="/bookedhistory" element={<BookedHistory />} />
           <Route path='/confirmation' element={<ConfirmationPage />} />
-          <Route path='/selecttraveloption' element={<SelectOptionPage />} />
+          <Route path='/adminselecttraveloption' element={<SelectOptionPage />} />
+          <Route path='/addadmin' element={<AddAdmin/>} />
+
         </Route>
         <Route path="/" element={<Layout />}>
           <Route path="/changepassword" element={<ChangePassword />} />

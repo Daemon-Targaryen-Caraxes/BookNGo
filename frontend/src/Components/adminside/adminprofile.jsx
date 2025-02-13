@@ -8,7 +8,6 @@ const AdminProfile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Get admin ID from local storage or from session
     const adminId = localStorage.getItem("adminId");
     if (!adminId) {
       setError("No admin found");
@@ -16,7 +15,6 @@ const AdminProfile = () => {
       return;
     }
 
-    // Fetch the admin profile from the backend
     fetch(`http://localhost:3000/admin/${adminId}/profile`)
       .then((response) => response.json())
       .then((data) => {

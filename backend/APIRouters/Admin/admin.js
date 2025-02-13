@@ -15,25 +15,6 @@ const AdminSchema = new mongoose.Schema({
 
 const Admin = mongoose.model('Admin', AdminSchema);
 
-const initializeAdmins = async () => {
-  const adminsCount = await Admin.countDocuments();
-  if (adminsCount === 0) {
-    const defaultAdmins = [
-      { adminName: "hemeswar", password: "hemeswar123", phone: "1234567890", email: "hemeswar@example.com", gender: "Male", aadharNo: "111122223333", adminId: "admin1" },
-      { adminName: "Venkat14424", password: "Sai@venkat14424", phone: "0987654321", email: "venkat@example.com", gender: "Male", aadharNo: "444455556666", adminId: "admin2" },
-    ];
-
-    for (let admin of defaultAdmins) {
-      const hashedPassword = await bcrypt.hash(admin.password, 10);
-      admin.password = hashedPassword;
-    }
-
-    await Admin.insertMany(defaultAdmins);
-  }
-};
-
-initializeAdmins();
-
 adminRouter.get('/', async (req, res) => {
   try {
     const admins = await Admin.find();
@@ -45,7 +26,32 @@ adminRouter.get('/', async (req, res) => {
 });
 
 adminRouter.post('/login', async (req, res) => {
+  const adminsCount = await Admin.countDocuments();
+  if (adminsCount === 0) {
+    const defaultAdmins = [
+      { adminName: "hemeswar", password: "hemeswar123", phone: "1234567890", email: "hemeswar@example.com", gender: "Male", aadharNo: "111122223333", adminId: "admin1" },
+      { adminName: "Venkat14424", password: "Sai@venkat14424", phone: "0987654321", email: "venkat@example.com", gender: "Male", aadharNo: "444455556666", adminId: "admin2" },
+    ];
+  
+    for (let admin of defaultAdmins) {
+      const hashedPassword = await bcrypt.hash(admin.password, 10);
+      admin.password = hashedPassword;
+    }
+
+    try {
+      await Admin.insertMany(defaultAdmins);
+    } catch (err) {
+      console.error('Error inserting default admins:', err);
+      return res.status(500).json({ error: 'Failed to insert default admins' });
+    }
+  }
+
   const { adminName, password } = req.body;
+  
+  if (!adminName || !password) {
+    return res.status(400).json({ error: 'adminName and password are required' });
+  }
+
   try {
     const admin = await Admin.findOne({ adminName });
     if (!admin) {
@@ -76,7 +82,7 @@ adminRouter.put('/:adminId/profile', async (req, res) => {
     );
 
     if (!updatedAdmin) {
-      return res.status(404).json({ error: 'Admin not found' });
+      return res.status(404).json({ error: `Admin with ID ${adminId} not found` });
     }
 
     res.json(updatedAdmin);
@@ -100,7 +106,7 @@ adminRouter.put('/:adminId/change-password', async (req, res) => {
     );
 
     if (!updatedAdmin) {
-      return res.status(404).json({ error: 'Admin not found' });
+      return res.status(404).json({ error: `Admin with ID ${adminId} not found` });
     }
 
     res.json({ message: 'Password updated successfully' });
@@ -110,5 +116,38 @@ adminRouter.put('/:adminId/change-password', async (req, res) => {
   }
 });
 
-export default adminRouter;
+adminRouter.post('/add', async (req, res) => {
+  const { adminName, phone, email, gender, aadharNo, adminId, password } = req.body;
 
+  if (!adminName || !phone || !email || !gender || !aadharNo || !adminId || !password) {
+    return res.status(400).json({ error: 'All fields are required' });
+  }
+
+  try {
+    const existingAdmin = await Admin.findOne({ adminId });
+    if (existingAdmin) {
+      return res.status(400).json({ error: 'Admin ID already exists' });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newAdmin = new Admin({
+      adminName,
+      phone,
+      email,
+      gender,
+      aadharNo,
+      adminId,
+      password: hashedPassword
+    });
+
+    await newAdmin.save();
+
+    res.status(201).json({ message: 'New admin created successfully', adminId: newAdmin.adminId });
+  } catch (err) {
+    console.error('Error adding new admin:', err);
+    res.status(500).json({ error: 'Failed to create new admin' });
+  }
+});
+
+export default adminRouter;

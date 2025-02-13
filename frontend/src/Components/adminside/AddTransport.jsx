@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useLocation } from 'react-router-dom';
 
 const AddTransport = () => {
   const [formData, setFormData] = useState({
@@ -19,6 +19,8 @@ const AddTransport = () => {
 
   const [showPopup, setShowPopup] = useState(false); 
   const navigate = useNavigate(); 
+  const location = useLocation();
+  const selectedMode = location.state?.selectedOption || "bus"; 
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -30,6 +32,7 @@ const AddTransport = () => {
       ...formData,
       from: formData.from.toLowerCase(),
       to: formData.to.toLowerCase(),
+      mode: selectedMode, 
     };
     try {
       const response = await fetch('http://localhost:3000/transport/add-transport', {
@@ -59,7 +62,7 @@ const AddTransport = () => {
   return (
     <>
       <div className="admin-container">
-        <h1>Add Train, Bus, and Flight</h1>
+        <h1>{selectedMode} add</h1>
         <form className="popup-content" onSubmit={handleSubmit}>
           <table>
             <tr className="form-group">
@@ -74,7 +77,7 @@ const AddTransport = () => {
               <td><label>Name:</label></td>
               <td><input type="text" name="name" value={formData.name} onChange={handleChange} /></td>
             </tr>
-            <tr className="form-group">
+            {/* <tr className="form-group">
               <td><label>Mode:</label></td>
               <td>
                 <select name="mode" value={formData.mode} onChange={handleChange} required>
@@ -85,8 +88,8 @@ const AddTransport = () => {
               </td>
               <td><label>Total Seats:</label></td>
               <td><input type="text" name="totalSeats" value={formData.totalSeats} onChange={handleChange} /></td>
-            </tr>
-            <tr className="form-group">
+            </tr> */}
+            <tr className="form-group"> 
               <td><label>AC Seats:</label></td>
               <td><input type="text" name="acSeats" value={formData.acSeats} onChange={handleChange} /></td>
               <td><label>AC Seat Amount:</label></td>

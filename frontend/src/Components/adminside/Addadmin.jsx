@@ -1,97 +1,110 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+const AddAdmin = () => {
+  const navigate=useNavigate();
+  const [formData, setFormData] = useState({
+    adminName: '',
+    phone: '',
+    email: '',
+    gender: '',
+    aadharNo: '',
+    adminId: '',
+    password: ''
+  });
 
-function AddAdmin() {
-  const navigate = useNavigate();
+  const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
 
-  const [adminName, setAdminName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [gender, setGender] = useState("");
-  const [aadharNo, setAadharNo] = useState("");
-  const [adminId, setAdminId] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (password !== confirmPassword) {
-      setError("Passwords do not match.");
-      return;
-    }
-
-    const newAdmin = {
-      adminName,
-      phone,
-      email,
-      gender,
-      aadharNo,
-      adminId,
-      password,
-    };
-
     try {
-      const response = await fetch("http://localhost:3000/admin", {
-        method: "POST",
+      const response = await fetch('http://localhost:3000/admin/add', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(newAdmin),
+        body: JSON.stringify(formData),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        setSuccess("Admin added successfully!");
-        setError(""); // Reset error
-        navigate("/admin/profile"); // Redirect to admin profile or any other page
+        setSuccessMessage(data.message);
+        setFormData({
+          adminName: '',
+          phone: '',
+          email: '',
+          gender: '',
+          aadharNo: '',
+          adminId: '',
+          password: ''
+        });
       } else {
-        setError(data.error || "Failed to add admin.");
+        setError(data.error || 'Failed to add new admin');
+        setSuccessMessage(null);
       }
     } catch (err) {
-      console.error("Error adding admin:", err);
-      setError("Server error, please try again later.");
+      setError('Failed to add new admin');
+      setSuccessMessage(null);
     }
   };
 
   return (
-    <div className="add-admin-container">
+    <div>
       <h2>Add New Admin</h2>
       <form onSubmit={handleSubmit}>
-        <div className="input-field">
+        <div>
+          <label htmlFor="adminName">Admin Name:</label>
           <input
             type="text"
-            placeholder="Admin Name"
-            value={adminName}
-            onChange={(e) => setAdminName(e.target.value)}
+            id="adminName"
+            name="adminName"
+            value={formData.adminName}
+            onChange={handleChange}
             required
           />
         </div>
-        <div className="input-field">
+        
+        <div>
+          <label htmlFor="phone">Phone:</label>
           <input
             type="text"
-            placeholder="Phone"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            id="phone"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
             required
           />
         </div>
-        <div className="input-field">
+
+        <div>
+          <label htmlFor="email">Email:</label>
           <input
             type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            id="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
             required
           />
         </div>
-        <div className="input-field">
+
+        <div>
+          <label htmlFor="gender">Gender:</label>
           <select
-            value={gender}
-            onChange={(e) => setGender(e.target.value)}
+            id="gender"
+            name="gender"
+            value={formData.gender}
+            onChange={handleChange}
             required
           >
             <option value="">Select Gender</option>
@@ -100,48 +113,52 @@ function AddAdmin() {
             <option value="Other">Other</option>
           </select>
         </div>
-        <div className="input-field">
+
+        <div>
+          <label htmlFor="aadharNo">Aadhar No:</label>
           <input
             type="text"
-            placeholder="Aadhar No"
-            value={aadharNo}
-            onChange={(e) => setAadharNo(e.target.value)}
+            id="aadharNo"
+            name="aadharNo"
+            value={formData.aadharNo}
+            onChange={handleChange}
             required
           />
         </div>
-        <div className="input-field">
+
+        <div>
+          <label htmlFor="adminId">Admin ID:</label>
           <input
             type="text"
-            placeholder="Admin ID"
-            value={adminId}
-            onChange={(e) => setAdminId(e.target.value)}
+            id="adminId"
+            name="adminId"
+            value={formData.adminId}
+            onChange={handleChange}
             required
           />
         </div>
-        <div className="input-field">
+
+        <div>
+          <label htmlFor="password">Password:</label>
           <input
             type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            id="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
             required
           />
         </div>
-        <div className="input-field">
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
+
+        <div>
+          <button type="submit" onClick={()=>Navigate('/selecttraveloption')}>Add Admin</button>
         </div>
-        {error && <p className="error">{error}</p>}
-        {success && <p className="success">{success}</p>}
-        <button type="submit">Add Admin</button>
       </form>
+
+      {error && <div style={{ color: 'red' }}>{error}</div>}
+      {successMessage && <div style={{ color: 'green' }}>{successMessage}</div>}
     </div>
   );
-}
+};
 
 export default AddAdmin;
