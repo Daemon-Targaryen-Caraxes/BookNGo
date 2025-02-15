@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate,useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const AddTransport = () => {
   const [formData, setFormData] = useState({
@@ -8,31 +8,35 @@ const AddTransport = () => {
     number: '',
     name: '',
     totalSeats: '',
-    acSeats: '',
-    normalSeats: '',
-    acSeatAmount: '',
-    normalSeatAmount: '',
+    normalSeats: '', // normal seats for all modes
+    sleeperSeats: '', // for bus mode
+    acSeats: '',      // for train and flight mode
+    businessSeats: '', // for flight mode
+    normalSeatAmount: '', // normal seat amount for all modes
+    sleeperSeatAmount: '', // for bus mode
+    acSeatAmount: '',     // for train and bus mode
+    businessSeatAmount: '', // for flight mode
     date: '',
     time: '',
     mode: 'bus',
   });
 
-  const [showPopup, setShowPopup] = useState(false); 
-  const navigate = useNavigate(); 
+  const [showPopup, setShowPopup] = useState(false);
+  const navigate = useNavigate();
   const location = useLocation();
-  const selectedMode = location.state?.selectedOption || "bus"; 
+  const selectedMode = location.state?.selectedOption || 'bus';
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const requestData = {
       ...formData,
       from: formData.from.toLowerCase(),
       to: formData.to.toLowerCase(),
-      mode: selectedMode, 
+      mode: selectedMode,
     };
     try {
       const response = await fetch('http://localhost:3000/transport/add-transport', {
@@ -44,7 +48,7 @@ const AddTransport = () => {
       });
       const result = await response.json();
       if (response.ok) {
-        setShowPopup(true); 
+        setShowPopup(true);
       } else {
         alert(result.message || 'Error adding transport');
       }
@@ -55,8 +59,45 @@ const AddTransport = () => {
   };
 
   const handlePopupClose = () => {
-    setShowPopup(false); 
-    navigate('/enquiry'); 
+    setShowPopup(false);
+    navigate('/enquiry');
+  };
+
+  const renderModeSpecificFields = () => {
+    if (selectedMode === 'bus') {
+      return (
+        <>
+          <tr className="form-group">
+            <td><label>Sleeper Seats:</label></td>
+            <td><input type="text" name="sleeperSeats" value={formData.sleeperSeats} onChange={handleChange} /></td>
+            <td><label>Sleeper Seat Amount:</label></td>
+            <td><input type="text" name="sleeperSeatAmount" value={formData.sleeperSeatAmount} onChange={handleChange} /></td>
+          </tr>
+        </>
+      );
+    } else if (selectedMode === 'train') {
+      return (
+        <>
+          <tr className="form-group">
+            <td><label>AC Seats:</label></td>
+            <td><input type="text" name="acSeats" value={formData.acSeats} onChange={handleChange} /></td>
+            <td><label>AC Seat Amount:</label></td>
+            <td><input type="text" name="acSeatAmount" value={formData.acSeatAmount} onChange={handleChange} /></td>
+          </tr>
+        </>
+      );
+    } else if (selectedMode === 'flight') {
+      return (
+        <>
+          <tr className="form-group">
+            <td><label>Business Class Seats:</label></td>
+            <td><input type="text" name="businessSeats" value={formData.businessSeats} onChange={handleChange} /></td>
+            <td><label>Business Class Seat Amount:</label></td>
+            <td><input type="text" name="businessSeatAmount" value={formData.businessSeatAmount} onChange={handleChange} /></td>
+          </tr>
+        </>
+      );
+    }
   };
 
   return (
@@ -77,30 +118,13 @@ const AddTransport = () => {
               <td><label>Name:</label></td>
               <td><input type="text" name="name" value={formData.name} onChange={handleChange} /></td>
             </tr>
-            {/* <tr className="form-group">
-              <td><label>Mode:</label></td>
-              <td>
-                <select name="mode" value={formData.mode} onChange={handleChange} required>
-                  <option value="bus">Bus</option>
-                  <option value="train">Train</option>
-                  <option value="flight">Flight</option>
-                </select>
-              </td>
-              <td><label>Total Seats:</label></td>
-              <td><input type="text" name="totalSeats" value={formData.totalSeats} onChange={handleChange} /></td>
-            </tr> */}
-            <tr className="form-group"> 
-              <td><label>AC Seats:</label></td>
-              <td><input type="text" name="acSeats" value={formData.acSeats} onChange={handleChange} /></td>
-              <td><label>AC Seat Amount:</label></td>
-              <td><input type="text" name="acSeatAmount" value={formData.acSeatAmount} onChange={handleChange} /></td>
-            </tr>
             <tr className="form-group">
               <td><label>Normal Seats:</label></td>
               <td><input type="text" name="normalSeats" value={formData.normalSeats} onChange={handleChange} /></td>
               <td><label>Normal Seat Amount:</label></td>
               <td><input type="text" name="normalSeatAmount" value={formData.normalSeatAmount} onChange={handleChange} /></td>
             </tr>
+            {renderModeSpecificFields()}
             <tr className="form-group">
               <td><label>Date:</label></td>
               <td><input type="date" name="date" value={formData.date} onChange={handleChange} /></td>

@@ -20,6 +20,7 @@ import ChangeadminPassword from './components/adminside/changeadminpassword';
 import AdminProfile from './components/adminside/adminprofile';
 import EditAdmin from './components/adminside/editprofile';
 import AddAdmin from './components/adminside/Addadmin';
+import Updateuserprofile from './components/userside/updateuserprofile';
 
 const App = () => {
   return (
@@ -38,13 +39,13 @@ const App = () => {
           <Route path="/searchResults" element={<SearchResults />} />
           <Route path="/booking" element={<BookingForm />} />
           <Route path="/enquiry" element={<Enquiry />} />
-          <Route path="/bookedhistory" element={<BookedHistory />} />
           <Route path='/confirmation' element={<ConfirmationPage />} />
           <Route path='/adminselecttraveloption' element={<SelectOptionPage />} />
           <Route path='/addadmin' element={<AddAdmin/>} />
 
         </Route>
         <Route path="/" element={<Layout />}>
+          <Route path='/Updateuserprofile' element={<Updateuserprofile/>}/>
           <Route path="/changepassword" element={<ChangePassword />} />
           <Route path="/userprofile" element={<Profile />} />
           <Route path="/TravelSearchForm" element={<TravelSearchForm />} />

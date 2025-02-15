@@ -1,74 +1,86 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const TrainCard = ({ train, onBook }) => {
+const TransportCard = ({ transport, onBook }) => {
   const handleBook = (seatType) => {
-    onBook(train, seatType);
+    onBook(transport, seatType);
   };
 
   return (
-    <div className="train-card">
-      <div className="train-header">
-        <h3 className="train-name">{train.number} {train.name}</h3>
-        {/* <p className="train-type">{train.mode}</p> */}
-         <span>
-          <p className="time">{train.time}</p>
-          </span> 
+    <div className="transport-card">
+      <div className="transport-header">
+        <h3 className="transport-name">{transport.number} {transport.name}</h3>
+        <span>
+          <p className="time">{transport.time}</p>
+        </span>
       </div>
-
-      <div className="train-timing">
+      <div className="transport-timing">
         <div className="departure">
-          <p className="station">{train.from}</p>
+          <p className="station">{transport.from}</p>
         </div>
-        <>------------------------------------------------------------------------------------------------------</>
+        <hr />
         <div className="duration">
-          <p className="date">{new Date(train.date).toLocaleDateString()}</p>
-          {/* <p>{train.totalSeats} Total Seats</p> */}
+          <p className="date">{new Date(transport.date).toLocaleDateString()}</p>
         </div>
-        <>------------------------------------------------------------------------------------------------------</>
+        <hr />
         <div className="arrival">
-          <p className="station">{train.to}</p>
+          <p className="station">{transport.to}</p>
         </div>
       </div>
-      <div className="train-class">
-        <div className="class-card">
-          <p className="class-name">AC Seats</p>
-          <p className="status">{train.acSeats} Available</p>
-          <p className="price">₹{train.acSeatAmount}</p>
-          <button onClick={() => handleBook("AC")}>Book AC</button>
-        </div>
+      <div className="transport-class">
         <div className="class-card">
           <p className="class-name">Normal Seats</p>
-          <p className="status">{train.normalSeats} Available</p>
-          <p className="price">₹{train.normalSeatAmount}</p>
-          <button onClick={() => handleBook("Normal")}>Book Normal</button>
+          <p className="status">{transport.normalSeats > 0 ? `${transport.normalSeats} Available` : "Not Available"}</p>
+          <p className="price">₹{transport.normalSeatAmount || "-"}</p>
+          {transport.normalSeats > 0 && <button onClick={() => handleBook("Normal")}>Book Normal</button>}
         </div>
+        {transport.mode === "bus" && transport.sleeperSeats > 0 && (
+          <div className="class-card">
+            <p className="class-name">Sleeper Seats</p>
+            <p className="status">{transport.sleeperSeats} Available</p>
+            <p className="price">₹{transport.sleeperSeatAmount || "-"}</p>
+            <button onClick={() => handleBook("Sleeper")}>Book Sleeper</button>
+          </div>
+        )}
+        {transport.mode === "train" && transport.acSeats > 0 && (
+          <div className="class-card">
+            <p className="class-name">AC Seats</p>
+            <p className="status">{transport.acSeats} Available</p>
+            <p className="price">₹{transport.acSeatAmount || "-"}</p>
+            <button onClick={() => handleBook("AC")}>Book AC</button>
+          </div>
+        )}
+        {transport.mode === "flight" && transport.businessSeats > 0 && (
+          <div className="class-card">
+            <p className="class-name">Business Class</p>
+            <p className="status">{transport.businessSeats} Available</p>
+            <p className="price">₹{transport.businessSeatAmount || "-"}</p>
+            <button onClick={() => handleBook("Business")}>Book Business</button>
+          </div>
+        )}
       </div>
     </div>
   );
 };
-
 const SearchResults = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const results = location.state?.results || [];
-
-  const handleBook = (train, seatType) => {
+  const handleBook = (transport, seatType) => {
     navigate("/booking", {
       state: {
-        train,
+        transport,
         seatType,
       },
     });
   };
-
   return (
     <div className="search-results">
       <h2 style={{ color: "white", fontSize: "40px" }}>Search Results</h2>
       <div className="results-container">
         {results.length > 0 ? (
-          results.map((train) => (
-            <TrainCard key={train._id} train={train} onBook={handleBook} />
+          results.map((transport) => (
+            <TransportCard key={transport._id} transport={transport} onBook={handleBook} />
           ))
         ) : (
           <p>No results found</p>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Header from "../Header";
 
 function AdminLogin() {
   const navigate = useNavigate();
@@ -37,32 +38,17 @@ function AdminLogin() {
   };
 
   return (
-    <div className="login-container">
-      <h2>Admin Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="input-field">
-          <input
-            type="text"
-            id="adminName"
-            value={adminName}
-            onChange={(e) => setAdminName(e.target.value)}
-            placeholder="Admin Name"
-            required
-          />
-        </div>
-        <div className="input-field">
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            required
-          />
-        </div>
+    <div className="useradminlogin">
+      <Header />
+      <div className="container">
+        <h2>admin login</h2>
         {error && <p className="error">{error}</p>}
-        <button type="submit">Login</button>
-      </form>
+        <form onSubmit={handleSubmit}>
+          <input type="text" id="adminName" value={adminName}  onChange={(e) => setAdminName(e.target.value)}  placeholder="Admin Name"    required />
+          <input type="password" id="password" value={password}  onChange={(e) => setPassword(e.target.value)}  placeholder="Password"  required />
+          <button type="submit">Login</button>
+        </form>
+      </div>
     </div>
   );
 }

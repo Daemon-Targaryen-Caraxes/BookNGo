@@ -8,7 +8,7 @@ userRouter.use(express.json());
 
 const UserSchema = new mongoose.Schema({
   username: { type: String, required: true },
-  phone: { type: String, required: true },
+  gmail: { type: String, required: true },
   gender: { type: String, required: true },
   dob: { type: Date, required: true },
   aadhaar: { type: String, required: true },
@@ -19,7 +19,7 @@ const UserSchema = new mongoose.Schema({
 const User = mongoose.model('User', UserSchema);
 
 userRouter.post('/signup', async (req, res) => {
-  const { username, phone, gender, dob, aadhaar, userid, password, confirmPassword } = req.body;
+  const { username,gmail, gender, dob, aadhaar, userid, password, confirmPassword } = req.body;
   if (password !== confirmPassword) {
     return res.status(400).json({ error: 'Passwords do not match' });
   }
@@ -29,7 +29,7 @@ userRouter.post('/signup', async (req, res) => {
     return res.status(400).json({ error: 'User ID already exists' });
   }
   const hashedPassword = await bcrypt.hash(password, 10);
-  const newUser = new User({ username, phone, gender, dob, aadhaar, userid, password: hashedPassword });
+  const newUser = new User({ username, gmail, gender, dob, aadhaar, userid, password: hashedPassword });
   try {
     await newUser.save();
     res.status(201).json({ message: 'User registered successfully' });
@@ -114,5 +114,42 @@ userRouter.put('/change-password/:userid', async (req, res) => {
     res.status(500).json({ error: 'Error changing password' });
   }
 });
+userRouter.get('/details/:userid', async (req, res) => {
+  const { userid } = req.params;
+  try {
+    const user = await User.findOne({ userid });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: 'Error fetching user details' });
+  }
+});
 
+userRouter.put("/update/:userid", async (req, res) => {
+  const { userid } = req.params;
+  const { newUserid, ...updatedData } = req.body;
+
+  try {
+    const user = await User.findOne({ userid });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    if (newUserid && newUserid !== userid) {
+      const existingUser = await User.findOne({ userid: newUserid });
+      if (existingUser) {
+        return res.status(400).json({ error: "New User ID already exists" });
+      }
+      updatedData.userid = newUserid;
+    }
+
+    const updatedUser = await User.findOneAndUpdate({ userid }, updatedData, { new: true });
+
+    res.json({ message: "User updated successfully", updatedUser });
+  } catch (err) {
+    res.status(500).json({ error: "Error updating user details" });
+  }
+});
 export default userRouter;

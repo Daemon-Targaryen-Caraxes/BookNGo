@@ -6,12 +6,20 @@ const BookingForm = () => {
   const navigate = useNavigate();
   const user = localStorage.getItem("userId");
   const { train, seatType } = location.state || {};
+
   const [formData, setFormData] = useState({
     from: train?.from || "",
     to: train?.to || "",
     time: train?.time || "",
     date: train?.date || "",
-    amount: seatType === "AC" ? train?.acSeatAmount : train?.normalSeatAmount || "",
+    amount:
+      seatType === "AC"
+        ? train?.acSeatAmount
+        : seatType === "Sleeper"
+        ? train?.sleeperSeatAmount
+        : seatType === "Business"
+        ? train?.businessSeatAmount
+        : train?.normalSeatAmount || "",
     mode: train?.mode || "",
     name: train?.name || "",
     no: train?.number || "",
@@ -24,49 +32,47 @@ const BookingForm = () => {
     gender: "",
     bookingDateTime: "",
     seatId: "",
-    userId:user
+    userId: user,
   });
 
   useEffect(() => {
-    generateSeatNo();
+    if (train && seatType) {
+      generateSeatNo();
+    }
   }, [train, seatType]);
 
   const generateSeatNo = () => {
-    let seatId = '';
+    let seatId = "";
+    if (!train) return;
+
     switch (train.mode) {
-      case 'bus':
-        const busRows = 20; 
-        const busSeatsPerRow = [2, 2]; 
-        const busRow = Math.floor(Math.random() * busRows) + 1;
-        const busSeat = busSeatsPerRow[Math.floor(Math.random() * busSeatsPerRow.length)];
-        seatId = `Row ${busRow} - Seat ${busSeat}`;
+      case "bus":
+        const busRow = Math.floor(Math.random() * 20) + 1;
+        const busSeat = Math.floor(Math.random() * 2) + 1;
+        seatId = `Bus - Row ${busRow}, Seat ${busSeat}`;
         break;
 
-      case 'flight':
-        const flightRows = 30;
-        const flightSeatsPerRow = [2, 3]; 
-        const flightRow = Math.floor(Math.random() * flightRows) + 1;
-        const flightSeat = flightSeatsPerRow[Math.floor(Math.random() * flightSeatsPerRow.length)];
-        seatId = `Row ${flightRow} - Seat ${flightSeat}`;
+      case "train":
+        const trainRow = Math.floor(Math.random() * 15) + 1;
+        const trainSeat = Math.floor(Math.random() * 3) + 1;
+        seatId = `Train - Row ${trainRow}, Seat ${trainSeat}`;
         break;
 
-      case 'train':
-        const trainRows = 15; 
-        const trainSeatsPerRow = [2, 3];
-        const trainRow = Math.floor(Math.random() * trainRows) + 1;
-        const trainSeat = trainSeatsPerRow[Math.floor(Math.random() * trainSeatsPerRow.length)];
-        seatId = `Row ${trainRow} - Seat ${trainSeat}`;
+      case "flight":
+        const flightRow = Math.floor(Math.random() * 30) + 1;
+        const flightSeat = Math.floor(Math.random() * 3) + 1;
+        seatId = `Flight - Row ${flightRow}, Seat ${flightSeat}`;
         break;
 
       default:
-        seatId = 'Please select a mode';
+        seatId = "Seat not assigned";
     }
+
     setFormData((prevData) => ({ ...prevData, seatId }));
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   if (!train || !seatType) {
@@ -77,19 +83,20 @@ const BookingForm = () => {
     e.preventDefault();
     const currentDateTime = new Date().toISOString();
     const updatedFormData = { ...formData, bookingDateTime: currentDateTime };
+
     try {
       console.log("Submitting data:", updatedFormData);
       const response = await fetch("http://localhost:3000/booking/add", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedFormData),
       });
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || "Failed to submit the booking");
       }
+
       const data = await response.json();
       console.log("Booking response:", data);
       navigate("/confirmation", { state: { bookingDetails: updatedFormData } });
@@ -105,49 +112,51 @@ const BookingForm = () => {
         <table>
           <tbody>
             <tr>
-              <td><label htmlFor="from">From:</label></td>
-              <td><input type="text" defaultValue={train.from} readOnly /></td>
-              <td><label htmlFor="to">To:</label></td>
-              <td><input type="text" defaultValue={train.to} readOnly /></td>
+              <td><label>From:</label></td>
+              <td><input type="text" value={train.from} readOnly /></td>
+              <td><label>To:</label></td>
+              <td><input type="text" value={train.to} readOnly /></td>
             </tr>
             <tr>
-              <td><label htmlFor="time">Time:</label></td>
-              <td><input type="text" defaultValue={train.time} readOnly /></td>
-              <td><label htmlFor="date">Date:</label></td>
-              <td><input type="text" defaultValue={new Date(train.date).toLocaleDateString()} readOnly /></td>
+              <td><label>Time:</label></td>
+              <td><input type="text" value={train.time} readOnly /></td>
+              <td><label>Date:</label></td>
+              <td><input type="text" value={new Date(train.date).toLocaleDateString()} readOnly /></td>
             </tr>
             <tr>
-              <td><label htmlFor="amount">Amount:</label></td>
-              <td><input type="text" defaultValue={formData.amount} readOnly /></td>
-              <td><label htmlFor="mode">Mode:</label></td>
-              <td><input type="text" defaultValue={train.mode} readOnly /></td>
+              <td><label>Amount:</label></td>
+              <td><input type="text" value={formData.amount} readOnly /></td>
+              <td><label>Mode:</label></td>
+              <td><input type="text" value={train.mode} readOnly /></td>
             </tr>
             <tr>
-              <td><label htmlFor="name">{train.mode} Name:</label></td>
-              <td><input type="text" defaultValue={train.name} readOnly /></td>
-              <td><label htmlFor="no">{train.mode} No:</label></td>
-              <td><input type="text" defaultValue={train.number} readOnly /></td>
+              <td><label>{train.mode} Name:</label></td>
+              <td><input type="text" value={train.name} readOnly /></td>
+              <td><label>{train.mode} No:</label></td>
+              <td><input type="text" value={train.number} readOnly /></td>
             </tr>
             <tr>
-              <td><label htmlFor="class">Class:</label></td>
-              <td><input type="text" defaultValue={seatType} readOnly /></td>
+              <td><label>Class:</label></td>
+              <td><input type="text" value={seatType} readOnly /></td>
+              <td><label>Seat No:</label></td>
+              <td><input type="text" value={formData.seatId} readOnly /></td>
             </tr>
             <tr>
-              <td><label htmlFor="passengerName">Passenger Name:</label></td>
-              <td><input type="text" name="passengerName" value={formData.passengerName} onChange={handleChange} required id="passengerName" /></td>
-              <td><label htmlFor="phoneNo">Phone No:</label></td>
-              <td><input type="text" name="phoneNo" value={formData.phoneNo} onChange={handleChange} required id="phoneNo" /></td>
+              <td><label>Passenger Name:</label></td>
+              <td><input type="text" name="passengerName" value={formData.passengerName} onChange={handleChange} required /></td>
+              <td><label>Phone No:</label></td>
+              <td><input type="text" name="phoneNo" value={formData.phoneNo} onChange={handleChange} required /></td>
             </tr>
             <tr>
-              <td><label htmlFor="dob">DOB:</label></td>
-              <td><input type="date" name="dob" value={formData.dob} onChange={handleChange} required id="dob" /></td>
-              <td><label htmlFor="aadhaar">Aadhaar No:</label></td>
-              <td><input type="text" name="aadhaar" value={formData.aadhaar} onChange={handleChange} required id="aadhaar" /></td>
+              <td><label>DOB:</label></td>
+              <td><input type="date" name="dob" value={formData.dob} onChange={handleChange} required /></td>
+              <td><label>Aadhaar No:</label></td>
+              <td><input type="text" name="aadhaar" value={formData.aadhaar} onChange={handleChange} required /></td>
             </tr>
             <tr>
-              <td><label htmlFor="age">Age:</label></td>
-              <td><input type="number" name="age" value={formData.age} onChange={handleChange} required id="age" /></td>
-              <td><label htmlFor="gender">Gender:</label></td>
+              <td><label>Age:</label></td>
+              <td><input type="number" name="age" value={formData.age} onChange={handleChange} required /></td>
+              <td><label>Gender:</label></td>
               <td>
                 <select name="gender" value={formData.gender} onChange={handleChange} required>
                   <option value="">Select</option>

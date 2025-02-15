@@ -38,12 +38,11 @@ const Profile = () => {
       {userDetails ? (
         <div>
           <p><strong>Username:</strong> {userDetails.username}</p>
-          <p><strong>Phone:</strong> {userDetails.phone}</p>
+          <p><strong>Gmail:</strong> {userDetails.gmail}</p>
           <p><strong>Gender:</strong> {userDetails.gender}</p>
           <p><strong>Date of Birth:</strong> {new Date(userDetails.dob).toLocaleDateString()}</p>
           <p><strong>Aadhaar:</strong> {userDetails.aadhaar}</p>
           <p><strong>User ID:</strong> {userDetails.userid}</p>
-          <button onClick={() => navigate("/changepassword")}>Change Password</button>
         </div>
       ) : (
         <p>Loading...</p>

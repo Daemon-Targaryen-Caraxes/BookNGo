@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
 const BookedHistory = () => {
   const [bookings, setBookings] = useState([]);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     const fetchBookings = async () => {
       const userId = localStorage.getItem("userId");
@@ -35,36 +34,31 @@ const BookedHistory = () => {
     <div className="booked-history">
       <h2>Booking History</h2>
       {error && <p className="error">{error}</p>}
-      {bookings.length > 0 ? (
-        <table>
-          <thead>
-            <tr>
-              <th>From</th>
-              <th>To</th>
-              <th>Train Name</th>
-              <th>Date</th>
-              <th>Class</th>
-              <th>Seat</th>
-              <th>Amount</th>
-            </tr>
-          </thead>
-          <tbody>
-            {bookings.map((booking, index) => (
-              <tr key={index}>
-                <td>{booking.from}</td>
-                <td>{booking.to}</td>
-                <td>{booking.name}</td>
-                <td>{new Date(booking.date).toLocaleDateString()}</td>
-                <td>{booking.Class}</td>
-                <td>{booking.seatId}</td>
-                <td>{booking.amount}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <p>No bookings found.</p>
-      )}
+      <div className="bookings-container">
+        {bookings.length > 0 ? (
+          bookings.map((booking, index) => (
+            <div className="booking-card" key={index}>
+              <h3>{booking.name} ({booking.no})</h3>
+              <p><strong>Passenger:</strong> {booking.passengerName}</p>
+              <p><strong>Age:</strong> {booking.age}</p>
+              <p><strong>Gender:</strong> {booking.gender}</p>
+              <p><strong>Phone No:</strong> {booking.phoneNo}</p>
+              <p><strong>From:</strong> {booking.from}</p>
+              <p><strong>To:</strong> {booking.to}</p>
+              <p><strong>Date:</strong> {new Date(booking.date).toLocaleDateString()}</p>
+              <p><strong>Time:</strong> {booking.time}</p>
+              <p><strong>Class:</strong> {booking.Class}</p>
+              <p><strong>Seat:</strong> {booking.seatId}</p>
+              <p><strong>Amount:</strong> ₹{booking.amount}</p>
+              <p><strong>Mode:</strong> {booking.mode}</p>
+              <p><strong>Aadhaar:</strong> {booking.aadhaar}</p>
+              <p><strong>Booking Date:</strong> {new Date(booking.bookingDateTime).toLocaleString()}</p>
+            </div>
+          ))
+        ) : (
+          <p>No bookings found.</p>
+        )}
+      </div>
     </div>
   );
 };
