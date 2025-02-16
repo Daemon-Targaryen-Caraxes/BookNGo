@@ -19,9 +19,13 @@ const EditAdmin = () => {
       return;
     }
 
-    // Fetch admin data
     fetch(`http://localhost:3000/admin/${adminId}/profile`)
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status} ${response.statusText}`);
+        }
+        return response.json();
+      })
       .then((data) => {
         setAdminData(data);
         setLoading(false);
@@ -53,11 +57,11 @@ const EditAdmin = () => {
         body: JSON.stringify(adminData),
       });
 
-      if (response.ok) {
-        alert("Profile updated successfully");
-      } else {
-        alert("Error updating profile");
+      if (!response.ok) {
+        throw new Error("Failed to update profile");
       }
+
+      alert("Profile updated successfully");
     } catch (err) {
       console.error("Error updating profile:", err);
       alert("Failed to update profile");
@@ -83,15 +87,7 @@ const EditAdmin = () => {
             name="adminName"
             value={adminData.adminName}
             onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label>Phone:</label>
-          <input
-            type="text"
-            name="phone"
-            value={adminData.phone}
-            onChange={handleChange}
+            required
           />
         </div>
         <div>
@@ -101,15 +97,13 @@ const EditAdmin = () => {
             name="email"
             value={adminData.email}
             onChange={handleChange}
+            required
           />
         </div>
         <div>
           <label>Gender:</label>
-          <select
-            name="gender"
-            value={adminData.gender}
-            onChange={handleChange}
-          >
+          <select name="gender" value={adminData.gender} onChange={handleChange} required>
+            <option value="">Select Gender</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
             <option value="Other">Other</option>
@@ -122,6 +116,7 @@ const EditAdmin = () => {
             name="aadharNo"
             value={adminData.aadharNo}
             onChange={handleChange}
+            required
           />
         </div>
         <button type="submit">Save Changes</button>

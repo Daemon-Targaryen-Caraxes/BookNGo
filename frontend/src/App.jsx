@@ -7,7 +7,6 @@ import AdminLogin from './components/adminside/Adminlogin';
 import TravelSearchForm from "./components/userside/TravelSearchForm";
 import SearchResults from './components/userside/SearchResults';
 import BookingForm from './components/userside/BookingForm';
-import Enquiry from './components/adminside/Enquiry';
 import AddTransport from './components/adminside/AddTransport';
 import Layout from './components/Layout';
 import SelectOptionPage from './components/userside/Selectoption';
@@ -21,6 +20,7 @@ import AdminProfile from './components/adminside/adminprofile';
 import EditAdmin from './components/adminside/editprofile';
 import AddAdmin from './components/adminside/Addadmin';
 import Updateuserprofile from './components/userside/updateuserprofile';
+import PassengerEnquiry from './components/adminside/PassengerEnquiry';
 
 const App = () => {
   return (
@@ -38,7 +38,7 @@ const App = () => {
           <Route path="/adminTravelSearchForm" element={<TravelSearchForm />} />
           <Route path="/searchResults" element={<SearchResults />} />
           <Route path="/booking" element={<BookingForm />} />
-          <Route path="/enquiry" element={<Enquiry />} />
+          <Route path="/enquiry" element={<PassengerEnquiry/>}/>
           <Route path='/confirmation' element={<ConfirmationPage />} />
           <Route path='/adminselecttraveloption' element={<SelectOptionPage />} />
           <Route path='/addadmin' element={<AddAdmin/>} />
@@ -51,7 +51,6 @@ const App = () => {
           <Route path="/TravelSearchForm" element={<TravelSearchForm />} />
           <Route path="/searchResults" element={<SearchResults />} />
           <Route path="/booking" element={<BookingForm />} />
-          <Route path="/enquiry" element={<Enquiry />} />
           <Route path="/bookedhistory" element={<BookedHistory />} />
           <Route path='/confirmation' element={<ConfirmationPage />} />
           <Route path='/selecttraveloption' element={<SelectOptionPage />} />

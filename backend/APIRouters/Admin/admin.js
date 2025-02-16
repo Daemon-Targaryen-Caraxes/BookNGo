@@ -5,7 +5,6 @@ const adminRouter = express.Router();
 
 const AdminSchema = new mongoose.Schema({
   adminName: { type: String, required: true },
-  phone: { type: String, required: true },
   email: { type: String, required: true },
   gender: { type: String, required: true },
   aadharNo: { type: String, required: true },
@@ -25,12 +24,29 @@ adminRouter.get('/', async (req, res) => {
   }
 });
 
+adminRouter.get('/:adminId/profile', async (req, res) => {
+  const { adminId } = req.params;
+
+  try {
+    const admin = await Admin.findOne({ adminId: adminId });
+
+    if (!admin) {
+      return res.status(404).json({ error: `Admin with ID ${adminId} not found` });
+    }
+
+    res.json(admin);
+  } catch (err) {
+    console.error('Error fetching admin profile:', err);
+    res.status(500).json({ error: 'Failed to fetch admin profile' });
+  }
+});
+
 adminRouter.post('/login', async (req, res) => {
   const adminsCount = await Admin.countDocuments();
   if (adminsCount === 0) {
     const defaultAdmins = [
-      { adminName: "hemeswar", password: "hemeswar123", phone: "1234567890", email: "hemeswar@example.com", gender: "Male", aadharNo: "111122223333", adminId: "admin1" },
-      { adminName: "Venkat14424", password: "Sai@venkat14424", phone: "0987654321", email: "venkat@example.com", gender: "Male", aadharNo: "444455556666", adminId: "admin2" },
+      { adminName: "hemeswar", password: "hemeswar123", email: "hemeswar@example.com", gender: "Male", aadharNo: "111122223333", adminId: "admin1" },
+      { adminName: "Venkat14424", password: "Sai@venkat14424", email: "venkat@example.com", gender: "Male", aadharNo: "444455556666", adminId: "admin2" },
     ];
   
     for (let admin of defaultAdmins) {
@@ -46,14 +62,14 @@ adminRouter.post('/login', async (req, res) => {
     }
   }
 
-  const { adminName, password } = req.body;
+  const { adminId, password } = req.body;
   
-  if (!adminName || !password) {
+  if (!adminId || !password) {
     return res.status(400).json({ error: 'adminName and password are required' });
   }
 
   try {
-    const admin = await Admin.findOne({ adminName });
+    const admin = await Admin.findOne({ adminId });
     if (!admin) {
       return res.status(404).json({ error: 'Admin not found' });
     }
@@ -72,25 +88,31 @@ adminRouter.post('/login', async (req, res) => {
 
 adminRouter.put('/:adminId/profile', async (req, res) => {
   const { adminId } = req.params;
-  const { adminName, phone, email, gender, aadharNo } = req.body;
+  const { adminName, email, gender, aadharNo } = req.body;
 
+  if (!mongoose.Types.ObjectId.isValid(adminId)) {
+    return res.status(400).json({ error: "Invalid admin ID format" });
+  }
+
+  if (!adminName || !phone || !email || !gender || !aadharNo) {
+    return res.status(400).json({ error: "All fields are required" });
+  }
   try {
-    const updatedAdmin = await Admin.findOneAndUpdate(
-      { adminId },
-      { adminName, phone, email, gender, aadharNo },
-      { new: true }
+    const updatedAdmin = await Admin.findByIdAndUpdate(
+      adminId, 
+      { $set: { adminName, email, gender, aadharNo } },
+      { new: true, runValidators: true }
     );
-
     if (!updatedAdmin) {
       return res.status(404).json({ error: `Admin with ID ${adminId} not found` });
     }
-
     res.json(updatedAdmin);
   } catch (err) {
-    console.error('Error updating admin profile:', err);
-    res.status(500).json({ error: 'Failed to update admin profile' });
+    console.error("Error updating admin profile:", err);
+    res.status(500).json({ error: "Failed to update admin profile" });
   }
 });
+
 
 adminRouter.put('/:adminId/change-password', async (req, res) => {
   const { adminId } = req.params;
@@ -117,9 +139,9 @@ adminRouter.put('/:adminId/change-password', async (req, res) => {
 });
 
 adminRouter.post('/add', async (req, res) => {
-  const { adminName, phone, email, gender, aadharNo, adminId, password } = req.body;
+  const { adminName, email, gender, aadharNo, adminId, password } = req.body;
 
-  if (!adminName || !phone || !email || !gender || !aadharNo || !adminId || !password) {
+  if (!adminName  || !email || !gender || !aadharNo || !adminId || !password) {
     return res.status(400).json({ error: 'All fields are required' });
   }
 
@@ -133,7 +155,6 @@ adminRouter.post('/add', async (req, res) => {
 
     const newAdmin = new Admin({
       adminName,
-      phone,
       email,
       gender,
       aadharNo,

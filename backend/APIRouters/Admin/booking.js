@@ -9,79 +9,41 @@ const bookingSchema = new mongoose.Schema(
     from: { type: String, required: true },
     to: { type: String, required: true },
     time: { type: String, required: true },
-    date: { type: Date, required: true },
+    date: { type: Date, required: true, get: (v) => v.toISOString().split("T")[0] },
     amount: { type: Number, required: true },
-    mode: { type: String, required: true },
+    mode: { type: String, required: true, enum: ["bus", "train", "flight"] },
     name: { type: String, required: true },
     no: { type: String, required: true },
     Class: { type: String, required: true },
     passengerName: { type: String, required: true },
-    phoneNo: { type: String, required: true },
+    phoneNo: { type: String, required: true, match: [/^\d{10}$/, "Invalid phone number"] },
     dob: { type: Date, required: true },
-    aadhaar: { type: String, required: true },
-    age: { type: Number, required: true },
+    aadhaar: { type: String, required: true, match: [/^\d{12}$/, "Invalid Aadhaar number"] },
+    age: { type: Number, required: true, min: 1, max: 120 },
     gender: { type: String, required: true, enum: ["Male", "Female", "Other"] },
-    bookingDateTime: { type: Date, required: true },
-    seatId: { type: String, required: true }
+    bookingDateTime: { type: Date, default: Date.now },
+    seatId: { type: String, required: true },
   },
-  { timestamps: true } 
+  { timestamps: true }
 );
 
 const Booking = mongoose.model("Booking", bookingSchema);
-
 booking.post("/add", async (req, res) => {
-  const {
-    userId,
-    from,
-    to,
-    time,
-    date,
-    amount,
-    mode,
-    name,
-    no,
-    Class,
-    passengerName,
-    phoneNo,
-    dob,
-    aadhaar,
-    age,
-    gender,
-    bookingDateTime,
-    seatId
-  } = req.body;
-
-  console.log("Received booking data:", req.body); // Log the incoming data
-
+  console.log("Received Data:", req.body);
   try {
-    const newBooking = new Booking({
-      userId,
-      from,
-      to,
-      time,
-      date,
-      amount,
-      mode,
-      name,
-      no,
-      Class,
-      passengerName,
-      phoneNo,
-      dob,
-      aadhaar,
-      age,
-      gender,
-      bookingDateTime: bookingDateTime || new Date(),
-      seatId
-    });
-
+    if (!req.body.date) {
+      return res.status(400).json({ error: "Date is required" });
+    }
+    req.body.date = new Date(req.body.date);
+    const newBooking = new Booking(req.body);
     const savedBooking = await newBooking.save();
     res.status(201).json({ message: "Booking created successfully", booking: savedBooking });
   } catch (err) {
-    console.error("Error during booking creation:", err);
+    console.error("Error Saving Booking:", err.message);
     res.status(500).json({ error: "Failed to create booking", details: err.message });
   }
 });
+
 
 booking.get("/", async (req, res) => {
   try {

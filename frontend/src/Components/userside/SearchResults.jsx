@@ -62,10 +62,12 @@ const TransportCard = ({ transport, onBook }) => {
     </div>
   );
 };
+
 const SearchResults = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const results = location.state?.results || [];
+
   const handleBook = (transport, seatType) => {
     navigate("/booking", {
       state: {
@@ -74,6 +76,7 @@ const SearchResults = () => {
       },
     });
   };
+
   return (
     <div className="search-results">
       <h2 style={{ color: "white", fontSize: "40px" }}>Search Results</h2>

@@ -16,8 +16,10 @@ const AdminProfile = () => {
     }
 
     fetch(`http://localhost:3000/admin/${adminId}/profile`)
-      .then((response) => response.json())
+      .then((response) => 
+        response.json())
       .then((data) => {
+        console.log(data);
         setAdminProfile(data);
         setLoading(false);
       })
@@ -27,13 +29,13 @@ const AdminProfile = () => {
       });
   }, []);
 
-  const handleEdit = () => {
-    navigate("/editadmin");
-  };
+  // const handleEdit = () => {
+  //   navigate("/editadmin");
+  // };
 
-  const handleChangePassword = () => {
-    navigate("/changepassword");
-  };
+  // const handleChangePassword = () => {
+  //   navigate("/changepassword");
+  // };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -49,15 +51,14 @@ const AdminProfile = () => {
       <div>
         <p><strong>Name:</strong> {adminProfile.adminName}</p>
         <p><strong>Email:</strong> {adminProfile.email}</p>
-        <p><strong>Phone:</strong> {adminProfile.phone}</p>
         <p><strong>Gender:</strong> {adminProfile.gender}</p>
         <p><strong>Aadhar No:</strong> {adminProfile.aadharNo}</p>
         <p><strong>Admin ID:</strong> {adminProfile.adminId}</p>
       </div>
-      <div>
+      {/* <div>
         <button onClick={handleEdit}>Edit Profile</button>
         <button onClick={handleChangePassword}>Change Password</button>
-      </div>
+      </div> */}
     </div>
   );
 };

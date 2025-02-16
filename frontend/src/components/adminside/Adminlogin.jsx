@@ -5,10 +5,11 @@ import Header from "../Header";
 function AdminLogin() {
   const navigate = useNavigate();
 
-  const [adminName, setAdminName] = useState("");
+  const [adminId, setAdminId] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  localStorage.setItem("adminId", adminId);
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -18,7 +19,7 @@ function AdminLogin() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          adminName: adminName,
+          adminId: adminId,
           password: password,
         }),
       });
@@ -44,7 +45,7 @@ function AdminLogin() {
         <h2>admin login</h2>
         {error && <p className="error">{error}</p>}
         <form onSubmit={handleSubmit}>
-          <input type="text" id="adminName" value={adminName}  onChange={(e) => setAdminName(e.target.value)}  placeholder="Admin Name"    required />
+          <input type="text" id="adminId" value={adminId}  onChange={(e) => setAdminId(e.target.value)}  placeholder="AdminId"    required />
           <input type="password" id="password" value={password}  onChange={(e) => setPassword(e.target.value)}  placeholder="Password"  required />
           <button type="submit">Login</button>
         </form>

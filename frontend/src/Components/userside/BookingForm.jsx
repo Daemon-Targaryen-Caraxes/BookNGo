@@ -4,25 +4,25 @@ import { useLocation, useNavigate } from "react-router-dom";
 const BookingForm = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const user = localStorage.getItem("userId");
-  const { train, seatType } = location.state || {};
+  const user = localStorage.getItem("userId")||localStorage.getItem("adminId");
+  const { transport, seatType } = location.state || {};
 
   const [formData, setFormData] = useState({
-    from: train?.from || "",
-    to: train?.to || "",
-    time: train?.time || "",
-    date: train?.date || "",
+    from: transport?.from || "",
+    to: transport?.to || "",
+    time: transport?.time || "",
+    date: transport?.date ? new Date(transport.date).toISOString().split("T")[0] : "",
     amount:
       seatType === "AC"
-        ? train?.acSeatAmount
+        ? transport?.acSeatAmount
         : seatType === "Sleeper"
-        ? train?.sleeperSeatAmount
+        ? transport?.sleeperSeatAmount
         : seatType === "Business"
-        ? train?.businessSeatAmount
-        : train?.normalSeatAmount || "",
-    mode: train?.mode || "",
-    name: train?.name || "",
-    no: train?.number || "",
+        ? transport?.businessSeatAmount
+        : transport?.normalSeatAmount || "",
+    mode: transport?.mode || "",
+    name: transport?.name || "",
+    no: transport?.number || "",
     Class: seatType || "",
     passengerName: "",
     phoneNo: "",
@@ -36,75 +36,72 @@ const BookingForm = () => {
   });
 
   useEffect(() => {
-    if (train && seatType) {
-      generateSeatNo();
+    if (transport && seatType) {
+      setFormData((prev) => ({ ...prev, seatId: generateSeatNo() }));
     }
-  }, [train, seatType]);
+  }, [transport, seatType]);
 
   const generateSeatNo = () => {
     let seatId = "";
-    if (!train) return;
+    if (!transport) return "";
 
-    switch (train.mode) {
+    switch (transport.mode) {
       case "bus":
-        const busRow = Math.floor(Math.random() * 20) + 1;
-        const busSeat = Math.floor(Math.random() * 2) + 1;
-        seatId = `Bus - Row ${busRow}, Seat ${busSeat}`;
+        seatId = `Bus - Row ${Math.floor(Math.random() * 20) + 1}, Seat ${Math.floor(Math.random() * 2) + 1}`;
         break;
-
       case "train":
-        const trainRow = Math.floor(Math.random() * 15) + 1;
-        const trainSeat = Math.floor(Math.random() * 3) + 1;
-        seatId = `Train - Row ${trainRow}, Seat ${trainSeat}`;
+        seatId = `Train - Row ${Math.floor(Math.random() * 15) + 1}, Seat ${Math.floor(Math.random() * 3) + 1}`;
         break;
-
       case "flight":
-        const flightRow = Math.floor(Math.random() * 30) + 1;
-        const flightSeat = Math.floor(Math.random() * 3) + 1;
-        seatId = `Flight - Row ${flightRow}, Seat ${flightSeat}`;
+        seatId = `Flight - Row ${Math.floor(Math.random() * 30) + 1}, Seat ${Math.floor(Math.random() * 3) + 1}`;
         break;
-
       default:
         seatId = "Seat not assigned";
     }
-
-    setFormData((prevData) => ({ ...prevData, seatId }));
+    return seatId;
   };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  if (!train || !seatType) {
+  if (!transport || !seatType) {
     return <p>Invalid booking details</p>;
   }
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const currentDateTime = new Date().toISOString();
-    const updatedFormData = { ...formData, bookingDateTime: currentDateTime };
-
+    
+    const formattedDate = formData.date ? new Date(formData.date).toISOString().split("T")[0] : "";
+  
+    const updatedFormData = { 
+      ...formData, 
+      date: formattedDate, 
+      bookingDateTime: currentDateTime, 
+      seatId: generateSeatNo() 
+    };
+  
+    console.log("Submitting data:", updatedFormData);
+  
     try {
-      console.log("Submitting data:", updatedFormData);
       const response = await fetch("http://localhost:3000/booking/add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedFormData),
       });
-
+  
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || "Failed to submit the booking");
       }
-
-      const data = await response.json();
-      console.log("Booking response:", data);
+  
       navigate("/confirmation", { state: { bookingDetails: updatedFormData } });
     } catch (error) {
       console.error("Error:", error.message);
+      alert("Booking failed! Please try again.");
     }
   };
-
+    
   return (
     <div className="booking-form">
       <h2>Enter Passenger Details</h2>
@@ -113,33 +110,21 @@ const BookingForm = () => {
           <tbody>
             <tr>
               <td><label>From:</label></td>
-              <td><input type="text" value={train.from} readOnly /></td>
+              <td><input type="text" value={formData.from} readOnly /></td>
               <td><label>To:</label></td>
-              <td><input type="text" value={train.to} readOnly /></td>
+              <td><input type="text" value={formData.to} readOnly /></td>
             </tr>
             <tr>
               <td><label>Time:</label></td>
-              <td><input type="text" value={train.time} readOnly /></td>
+              <td><input type="text" value={formData.time} readOnly /></td>
               <td><label>Date:</label></td>
-              <td><input type="text" value={new Date(train.date).toLocaleDateString()} readOnly /></td>
+              <td><input type="text" value={formData.date} readOnly /></td>
             </tr>
             <tr>
-              <td><label>Amount:</label></td>
-              <td><input type="text" value={formData.amount} readOnly /></td>
-              <td><label>Mode:</label></td>
-              <td><input type="text" value={train.mode} readOnly /></td>
-            </tr>
-            <tr>
-              <td><label>{train.mode} Name:</label></td>
-              <td><input type="text" value={train.name} readOnly /></td>
-              <td><label>{train.mode} No:</label></td>
-              <td><input type="text" value={train.number} readOnly /></td>
-            </tr>
-            <tr>
-              <td><label>Class:</label></td>
-              <td><input type="text" value={seatType} readOnly /></td>
               <td><label>Seat No:</label></td>
               <td><input type="text" value={formData.seatId} readOnly /></td>
+              <td><label>Amount:</label></td>
+              <td><input type="text" value={`₹${formData.amount}`} readOnly /></td>
             </tr>
             <tr>
               <td><label>Passenger Name:</label></td>
@@ -150,12 +135,12 @@ const BookingForm = () => {
             <tr>
               <td><label>DOB:</label></td>
               <td><input type="date" name="dob" value={formData.dob} onChange={handleChange} required /></td>
-              <td><label>Aadhaar No:</label></td>
-              <td><input type="text" name="aadhaar" value={formData.aadhaar} onChange={handleChange} required /></td>
-            </tr>
-            <tr>
               <td><label>Age:</label></td>
               <td><input type="number" name="age" value={formData.age} onChange={handleChange} required /></td>
+            </tr>
+            <tr>
+              <td><label>Aadhaar:</label></td>
+              <td><input type="text" name="aadhaar" value={formData.aadhaar} onChange={handleChange} required /></td>
               <td><label>Gender:</label></td>
               <td>
                 <select name="gender" value={formData.gender} onChange={handleChange} required>
