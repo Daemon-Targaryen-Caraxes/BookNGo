@@ -5,9 +5,9 @@ const Profile = () => {
   const [userDetails, setUserDetails] = useState(null);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-
+  const userId = localStorage.getItem("userId");
+  console.log(userId);
   useEffect(() => {
-    const userId = localStorage.getItem("userId");
     if (!userId) {
       navigate("/login");
       return;

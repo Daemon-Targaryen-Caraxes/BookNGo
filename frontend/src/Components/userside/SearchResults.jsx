@@ -5,7 +5,7 @@ const TransportCard = ({ transport, onBook }) => {
   const handleBook = (seatType) => {
     onBook(transport, seatType);
   };
-
+  
   return (
     <div className="transport-card">
       <div className="transport-header">
@@ -67,14 +67,24 @@ const SearchResults = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const results = location.state?.results || [];
-
+  
+  const userId=localStorage.getItem("userId");
   const handleBook = (transport, seatType) => {
-    navigate("/booking", {
-      state: {
-        transport,
-        seatType,
-      },
-    });
+    if (userId) {
+      navigate("/booking", {
+        state: {
+          transport,
+          seatType,
+        },
+      });
+    } else {
+      navigate("/adminbooking", {
+        state: {
+          transport,
+          seatType,
+        },
+      });
+    }
   };
 
   return (

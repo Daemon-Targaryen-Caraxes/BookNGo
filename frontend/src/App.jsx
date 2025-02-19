@@ -36,10 +36,10 @@ const App = () => {
           <Route path="/adminprofile" element={<AdminProfile/>} />
           <Route path="/editadminprofile" element={<EditAdmin/>} />
           <Route path="/adminTravelSearchForm" element={<TravelSearchForm />} />
-          <Route path="/searchResults" element={<SearchResults />} />
-          <Route path="/booking" element={<BookingForm />} />
+          <Route path="/adminsearchResults" element={<SearchResults />} />
+          <Route path="/adminbooking" element={<BookingForm />} />
           <Route path="/enquiry" element={<PassengerEnquiry/>}/>
-          <Route path='/confirmation' element={<ConfirmationPage />} />
+          <Route path='/adminconfirmation' element={<ConfirmationPage />} />
           <Route path='/adminselecttraveloption' element={<SelectOptionPage />} />
           <Route path='/addadmin' element={<AddAdmin/>} />
 

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 
 const EditAdmin = () => {
   const [adminData, setAdminData] = useState({
+    adminId: "",
     adminName: "",
-    phone: "",
     email: "",
     gender: "",
     aadharNo: "",
@@ -13,8 +13,9 @@ const EditAdmin = () => {
 
   useEffect(() => {
     const adminId = localStorage.getItem("adminId");
+
     if (!adminId) {
-      setError("No admin found");
+      setError("No admin ID found. Please log in again.");
       setLoading(false);
       return;
     }
@@ -31,7 +32,8 @@ const EditAdmin = () => {
         setLoading(false);
       })
       .catch((err) => {
-        setError("Failed to fetch admin data");
+        console.error("Error fetching admin data:", err);
+        setError(err.message || "Failed to fetch admin data");
         setLoading(false);
       });
   }, []);
@@ -46,19 +48,35 @@ const EditAdmin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const adminId = localStorage.getItem("adminId");
+    const storedAdminId = localStorage.getItem("adminId");
+
+    if (!storedAdminId) {
+      alert("Admin ID missing. Please log in again.");
+      return;
+    }
 
     try {
-      const response = await fetch(`http://localhost:3000/admin/${adminId}/profile`, {
+      const response = await fetch(`http://localhost:3000/admin/${storedAdminId}/editprofile`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(adminData),
+        body: JSON.stringify({ 
+          newAdminId: adminData.adminId, // FIX: Backend expects newAdminId
+          adminName: adminData.adminName,
+          email: adminData.email,
+          gender: adminData.gender,
+          aadharNo: adminData.aadharNo 
+        }),
       });
 
       if (!response.ok) {
         throw new Error("Failed to update profile");
+      }
+
+      // Update localStorage if adminId has changed
+      if (storedAdminId !== adminData.adminId) {
+        localStorage.setItem("adminId", adminData.adminId);
       }
 
       alert("Profile updated successfully");
@@ -73,7 +91,7 @@ const EditAdmin = () => {
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return <div style={{ color: "red" }}>{error}</div>;
   }
 
   return (
@@ -81,24 +99,16 @@ const EditAdmin = () => {
       <h2>Edit Admin Profile</h2>
       <form onSubmit={handleSubmit}>
         <div>
+          <label>Admin ID:</label>
+          <input type="text" name="adminId" value={adminData.adminId} onChange={handleChange} required />
+        </div>
+        <div>
           <label>Name:</label>
-          <input
-            type="text"
-            name="adminName"
-            value={adminData.adminName}
-            onChange={handleChange}
-            required
-          />
+          <input type="text" name="adminName" value={adminData.adminName} onChange={handleChange} required />
         </div>
         <div>
           <label>Email:</label>
-          <input
-            type="email"
-            name="email"
-            value={adminData.email}
-            onChange={handleChange}
-            required
-          />
+          <input type="email" name="email" value={adminData.email} onChange={handleChange} required />
         </div>
         <div>
           <label>Gender:</label>
@@ -111,13 +121,7 @@ const EditAdmin = () => {
         </div>
         <div>
           <label>Aadhar No:</label>
-          <input
-            type="text"
-            name="aadharNo"
-            value={adminData.aadharNo}
-            onChange={handleChange}
-            required
-          />
+          <input type="text" name="aadharNo" value={adminData.aadharNo} onChange={handleChange} required />
         </div>
         <button type="submit">Save Changes</button>
       </form>

@@ -13,9 +13,11 @@ const SignUp = () => {
     userid: "",
     password: "",
     confirmPassword: "",
+    // otp: "",
   });
 
   const [error, setError] = useState("");
+  // const [isOtpSent, setIsOtpSent] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,17 +29,44 @@ const SignUp = () => {
     return gmailRegex.test(gmail);
   };
 
+  // const handleSendOtp = async () => {
+  //   setError("");
+
+  //   if (!validateGmail(formData.gmail)) {
+  //     setError("Enter a valid Gmail address (example@gmail.com).");
+  //     return;
+  //   }
+
+  //   try {
+  //     const response = await fetch("http://localhost:3000/otp/generate", {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({ email: formData.gmail }),
+  //     });
+
+  //     const result = await response.json();
+  //     if (response.ok) {
+  //       setIsOtpSent(true);
+  //       alert("OTP sent successfully to your Gmail!");
+  //     } else {
+  //       setError(result.error || "Failed to send OTP.");
+  //     }
+  //   } catch (err) {
+  //     setError("Error sending OTP.");
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
-    if (!formData.username || !formData.gmail || !formData.gender || !formData.dob || !formData.aadhaar || !formData.userid || !formData.password || !formData.confirmPassword) {
+    if (!formData.username || !formData.gmail || !formData.gender || !formData.dob || !formData.aadhaar || !formData.userid || !formData.password || !formData.confirmPassword ) {
       setError("All fields are required.");
       return;
     }
-    
+
     if (!validateGmail(formData.gmail)) {
-      setError("Enter a valid Gmail address (example@gmail.com).");
+      setError("Enter a valid Gmail address.");
       return;
     }
 
@@ -51,7 +80,21 @@ const SignUp = () => {
       return;
     }
 
-    try {
+    // // Verify OTP before proceeding
+    // const otpResponse = await fetch("http://localhost:3000/otp/verify", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({ email: formData.gmail, otp: formData.otp }),
+      // });
+      
+      // const otpResult = await otpResponse.json();
+      // if (!otpResponse.ok) {
+        //   setError(otpResult.error || "Invalid OTP.");
+        //   return;
+        // }
+        
+        // Proceed with sign-up after OTP verification
+        try {
       const response = await fetch("http://localhost:3000/user/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -90,6 +133,8 @@ const SignUp = () => {
           <input type="text" name="userid" value={formData.userid} onChange={handleChange} placeholder="User ID" required />
           <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password" required />
           <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} placeholder="Confirm Password" required />
+          {/* {isOtpSent && <input type="text" name="otp" value={formData.otp} onChange={handleChange} placeholder="Enter OTP" required />} */}
+          {/* <button type="button" onClick={handleSendOtp}>Send OTP</button> */}
           <button type="submit">Sign Up</button>
         </form>
       </div>

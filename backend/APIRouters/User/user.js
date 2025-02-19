@@ -2,6 +2,7 @@ import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
+
 const userRouter = express.Router();
 
 userRouter.use(express.json());
@@ -19,7 +20,7 @@ const UserSchema = new mongoose.Schema({
 const User = mongoose.model('User', UserSchema);
 
 userRouter.post('/signup', async (req, res) => {
-  const { username,gmail, gender, dob, aadhaar, userid, password, confirmPassword } = req.body;
+  const { username, gmail, gender, dob, aadhaar, userid, password, confirmPassword } = req.body;
   if (password !== confirmPassword) {
     return res.status(400).json({ error: 'Passwords do not match' });
   }
@@ -40,8 +41,10 @@ userRouter.post('/signup', async (req, res) => {
 
 userRouter.post('/login', async (req, res) => {
   const { userid, password } = req.body;
-  console.log(userid, password)
-  const user = await User.findOne({ username: userid });
+  console.log(userid, password);
+  
+  const user = await User.findOne({ userid }); // Fixed incorrect query
+
   if (!user) {
     return res.status(400).json({ error: 'User not found' });
   }
@@ -55,17 +58,17 @@ userRouter.post('/login', async (req, res) => {
 
 userRouter.get('/:userNumber', async (req, res) => {
   const givenNumber = req.params.userNumber;
-  try{
-    const userExist = await User.findOne({ phone: givenNumber });
-    if(!userExist){
-      return res.status(400).json({ error: "user not found with this number"});
+  try {
+    const userExist = await User.findOne({ aadhaar: givenNumber }); // Fixed incorrect field
+    if (!userExist) {
+      return res.status(400).json({ error: "User not found with this Aadhaar number" });
     }
     return res.json(userExist);
-  } catch(error) {
+  } catch (error) {
     console.log(error);
-    return res.status(500).json({error: "Internal Server Error"});
+    return res.status(500).json({ error: "Internal Server Error" });
   }
-})
+});
 
 userRouter.get('/details/:userid', async (req, res) => {
   const { userid } = req.params;
@@ -78,7 +81,6 @@ userRouter.get('/details/:userid', async (req, res) => {
     }
 
     const { password, ...userData } = user.toObject();
-
     res.json(userData);
   } catch (err) {
     console.error(err);
@@ -112,18 +114,6 @@ userRouter.put('/change-password/:userid', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Error changing password' });
-  }
-});
-userRouter.get('/details/:userid', async (req, res) => {
-  const { userid } = req.params;
-  try {
-    const user = await User.findOne({ userid });
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
-    }
-    res.json(user);
-  } catch (err) {
-    res.status(500).json({ error: 'Error fetching user details' });
   }
 });
 

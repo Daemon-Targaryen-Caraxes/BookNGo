@@ -4,8 +4,9 @@ import cors from "cors";
 import userRouter from "./APIRouters/User/user.js";
 import adminRouter from "./APIRouters/Admin/admin.js";
 import transportRouter from "./APIRouters/Admin/transport.js";
-import booking from "./APIRouters/Admin/booking.js";
+import bookingRouter from "./APIRouters/Admin/booking.js";
 import otpRouter from "./APIRouters/User/otp.js";
+
 const app = express();
 const PORT = 3000;
 
@@ -22,7 +23,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/BookNGo', { family: 4 })
 app.use('/admin', adminRouter);
 app.use('/user', userRouter);
 app.use('/transport', transportRouter);
-app.use('/booking', booking);
+app.use('/booking', bookingRouter);
 app.use('/otp', otpRouter);
 
 app.get('/', (req, res) => {

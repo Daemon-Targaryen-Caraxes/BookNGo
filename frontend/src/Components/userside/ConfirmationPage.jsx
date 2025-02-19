@@ -1,11 +1,11 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { jsPDF } from "jspdf";
 
 const ConfirmationPage = () => {
   const { state } = useLocation();
   const { bookingDetails } = state || {};
-
+  const navigate = useNavigate();
   const generatePDF = () => {
     if (!bookingDetails) return;
 
@@ -29,6 +29,15 @@ const ConfirmationPage = () => {
     doc.save("ticket.pdf");
   };
 
+  const backbutton=()=>{
+    const userId=localStorage.getItem("userId");
+    if(userId){
+   navigate('/selecttraveloption');
+    }
+    else{
+      navigate('/adminselecttraveloption');
+    }
+  }
   return (
     <div>
       <h2>Booking Confirmation</h2>
@@ -48,7 +57,7 @@ const ConfirmationPage = () => {
           <button onClick={generatePDF}>Download Ticket as PDF</button>
         </>
       )}
-      <Link to='/selecttraveloption'><button>Okay</button></Link>
+      <button onClick={()=>backbutton()}>Okay</button>
     </div>
   );
 };

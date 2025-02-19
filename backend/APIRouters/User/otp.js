@@ -1,42 +1,58 @@
 import express from "express";
-import twilio from "twilio";
+import nodemailer from "nodemailer";
+import crypto from "crypto";
 import dotenv from "dotenv";
 
-dotenv.config();
+dotenv.config(); // Load environment variables
 
 const router = express.Router();
-const twilioClient = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
-let otpStorage = {};
+let otpStore = {};
 
-router.post("/send-otp", async (req, res) => {
-  const { phone } = req.body;
-  if (!phone || phone.length !== 10 || isNaN(phone)) {
-    return res.status(400).json({ error: "Invalid phone number" });
-  }
+// Nodemailer Transporter
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: 'bookngowebsite@gmail.com', 
+    pass:'bookngo123', 
+  },
+});
 
-  const otp = Math.floor(100000 + Math.random() * 900000).toString();
-  otpStorage[phone] = otp;
+// Generate OTP and send to email
+router.post("/generate", async (req, res) => {
+  const { email } = req.body;
+  if (!email) return res.status(400).json({ error: "Email is required" });
+
+  const otp = crypto.randomInt(100000, 999999).toString();
+  otpStore[email] = otp; // Store OTP temporarily
+
+  setTimeout(() => delete otpStore[email], 5 * 60 * 1000); // Expire OTP in 5 minutes
+
+  const mailOptions = {
+    from: 'bookngowebsite@gmail.com',
+    to: email,
+    subject: "Your OTP for Sign Up",
+    text: `Your OTP for verification is: ${otp}. It will expire in 5 minutes.`,
+  };
 
   try {
-    await twilioClient.messages.create({
-      body: `Your OTP is: ${otp}`,
-      from: process.env.TWILIO_PHONE_NUMBER,
-      to: `+91${phone}`,
-    });
-
-    res.json({ message: "OTP sent successfully" });
+    await transporter.sendMail(mailOptions);
+    res.status(200).json({ message: "OTP sent successfully" });
   } catch (error) {
-    res.status(500).json({ error: "Failed to send OTP" });
+    console.error("Mail Error:", error);
+    res.status(500).json({ error: "Failed to send OTP", details: error.message });
   }
 });
 
-router.post("/verify-otp", (req, res) => {
-  const { phone, otp } = req.body;
-  if (otpStorage[phone] && otpStorage[phone] === otp) {
-    delete otpStorage[phone];
-    res.json({ message: "OTP verified successfully" });
+// Verify OTP
+router.post("/verify", (req, res) => {
+  const { email, otp } = req.body;
+  if (!email || !otp) return res.status(400).json({ error: "Email and OTP are required" });
+
+  if (otpStore[email] === otp) {
+    delete otpStore[email];
+    res.status(200).json({ message: "OTP verified successfully" });
   } else {
-    res.status(400).json({ error: "Invalid OTP" });
+    res.status(400).json({ error: "Invalid OTP or OTP expired" });
   }
 });
 

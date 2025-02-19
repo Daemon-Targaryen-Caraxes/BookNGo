@@ -7,6 +7,7 @@ const TravelSearchForm = () => {
     to: "",
     date: "",
   });
+  const userId=localStorage.getItem("userId");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -39,9 +40,12 @@ const TravelSearchForm = () => {
       });
       const result = await response.json();
       if (response.ok) {
-        navigate("/searchResults", { state: { results: result } });
-      } else {
-        alert(result.message || "Error fetching transports");
+        if (userId) {
+          navigate("/searchResults", { state: { results: result } });
+        } else {
+          navigate("/adminsearchResults", { state: { results: result } });
+        }
+        // alert(result.message || "Error fetching transports");
       }
     } catch (error) {
       alert("Error connecting to the server");

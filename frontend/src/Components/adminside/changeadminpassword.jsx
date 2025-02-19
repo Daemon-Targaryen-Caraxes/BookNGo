@@ -1,19 +1,30 @@
 import React, { useState } from "react";
 
 const ChangeadminPassword = () => {
+  const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setMessage("");
+
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      setMessage("All fields are required.");
+      return;
+    }
 
     if (newPassword !== confirmPassword) {
-      setError("Passwords do not match");
+      setMessage("New passwords do not match.");
       return;
     }
 
     const adminId = localStorage.getItem("adminId");
+    if (!adminId) {
+      setMessage("Admin ID is missing. Please log in again.");
+      return;
+    }
 
     try {
       const response = await fetch(`http://localhost:3000/admin/${adminId}/change-password`, {
@@ -21,42 +32,52 @@ const ChangeadminPassword = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ password: newPassword }),
+        body: JSON.stringify({ newPassword }),
       });
 
-      if (response.ok) {
-        alert("Password changed successfully");
-      } else {
-        alert("Error changing password");
+      if (!response.ok) {
+        throw new Error("Failed to update password.");
       }
+
+      setMessage("Password updated successfully!");
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
     } catch (err) {
-      console.error("Error changing password:", err);
-      alert("Failed to change password");
+      setMessage(err.message || "Error updating password.");
     }
   };
 
   return (
     <div>
       <h2>Change Password</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>New Password:</label>
-          <input
-            type="password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Confirm Password:</label>
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-        </div>
-        {error && <p>{error}</p>}
-        <button type="submit">Change Password</button>
+      {message && <p style={{ color: "red" }}>{message}</p>}
+      <form onSubmit={handleSubmit} style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+        <label>Current Password:</label>
+        <input
+          type="password"
+          value={currentPassword}
+          onChange={(e) => setCurrentPassword(e.target.value)}
+          required
+        />
+
+        <label>New Password:</label>
+        <input
+          type="password"
+          value={newPassword}
+          onChange={(e) => setNewPassword(e.target.value)}
+          required
+        />
+
+        <label>Confirm New Password:</label>
+        <input
+          type="password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          required
+        />
+
+        <button type="submit">Update Password</button>
       </form>
     </div>
   );

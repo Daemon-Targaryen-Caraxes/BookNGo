@@ -35,8 +35,8 @@ const Layout = () => {
         <Outlet />
       </main>
       {showLogoutModal && (
-        <div className="popup" onClick={() => setShowLogoutModal(false)}>
-          <div className="popup-con">
+        <div className="popup1" onClick={() => setShowLogoutModal(false)}>
+          <div className="popup-con1">
             <h2>Are you sure you want to logout?</h2>
             <div className="yesnobuttton">
               <button onClick={() => setShowLogoutModal(false)}>Cancel</button>

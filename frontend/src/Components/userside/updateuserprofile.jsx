@@ -11,7 +11,6 @@ const UpdateUserProfile = () => {
     gender: "",
     dob: "",
     aadhaar: "",
-    phoneNo: "",
     password: "",
   });
   const [newUserid, setNewUserid] = useState("");
