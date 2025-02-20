@@ -4,7 +4,6 @@ const transportRouter = express.Router();
 
 transportRouter.use(express.json());
 
-// Define schema
 const transportSchema = new mongoose.Schema({
   from: { type: String, required: true },
   to: { type: String, required: true },
@@ -13,7 +12,7 @@ const transportSchema = new mongoose.Schema({
   normalSeats: { type: Number, default: 0 },
   normalSeatAmount: { type: Number, required: true },
   acSeats: { type: Number, default: 0 },
-  acSeatAmount: { type: Number, required: function() { return this.mode === 'train' || this.mode === 'flight'; } },
+  acSeatAmount: { type: Number, required: function() { return this.mode === 'train' } },
   sleeperSeats: { type: Number, default: 0 },
   sleeperSeatAmount: { type: Number, required: true },
   businessSeats: { type: Number, default: 0 },
@@ -23,31 +22,20 @@ const transportSchema = new mongoose.Schema({
   mode: { type: String, required: true, enum: ['bus', 'train', 'flight'] },
 });
 
-// Create model
 const Transport = mongoose.model('Transport', transportSchema);
-
-// Add transport route
 transportRouter.post('/add-transport', async (req, res) => {
   try {
     const newTransportData = req.body;
-
-    // Validate for bus mode
     if (newTransportData.mode === 'bus') {
       if (!newTransportData.sleeperSeats || !newTransportData.sleeperSeatAmount) {
         return res.status(400).json({ message: 'Sleeper seat data is required for bus mode.' });
       }
     } 
-    // Validate for train/flight mode
-    else if (newTransportData.mode === 'train' || newTransportData.mode === 'flight') {
+    else if (newTransportData.mode === 'train') {
       if (!newTransportData.acSeats || !newTransportData.acSeatAmount) {
         return res.status(400).json({ message: 'AC seat data is required for train/flight mode.' });
       }
-      if (newTransportData.mode === 'flight' && !newTransportData.businessSeats && !newTransportData.businessSeatAmount) {
-        return res.status(400).json({ message: 'Business class seat data is required for flight mode.' });
-      }
     }
-
-    // Create and save transport data
     const newTransport = new Transport(newTransportData);
     console.log('Transport data to be saved:', newTransport);
     await newTransport.save();

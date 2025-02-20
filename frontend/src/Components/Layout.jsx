@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Outlet, Link, useNavigate } from "react-router-dom";
-
+import './userside/userstyles.css'
 const Layout = () => {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const navigate = useNavigate();

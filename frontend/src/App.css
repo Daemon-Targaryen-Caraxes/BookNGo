@@ -177,7 +177,7 @@ label {
   color: #555;
 }
 
-input[type="text"], input[type="number"], input[type="date"], input[type="password"] {
+input[type="text"], input[type="number"], input[type="date"], input[type="password"],input[type="email"] {
   width: 100%;
   padding: 10px;
   font-size: 14px;
@@ -190,7 +190,9 @@ input[type="text"]:focus, input[type="password"]:focus {
   border-color: #007bff;
   outline: none;
 }
-
+select{
+  width: 200px;
+}
 .container-button {
   display: flex;
   margin-top: 350px;
@@ -230,6 +232,7 @@ input[type="text"]:focus, input[type="password"]:focus {
   top: 10%; 
   left: 0;
   width: 15%;
+  z-index: 3000000;
   padding-top: 20px;
 }
 
@@ -253,12 +256,11 @@ input[type="text"]:focus, input[type="password"]:focus {
 }
 
 .content {
-  top: 10%;
+  top: 12%;
   left: 15%;
-  margin-top: 150px;
-  position: relative;
-  height: 100%;
-  width: 100%;
+  position: absolute;
+  height: 90%;
+  width: 80%;
 }
 .yesnobuttton{
   display: flex;
@@ -280,4 +282,111 @@ input[type="text"]:focus, input[type="password"]:focus {
   border-radius: 10px;
   margin-top: 200px;
   max-width: 300px;
+}
+
+.container {
+  width: 85%;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.error-message {
+  color: red;
+  font-weight: bold;
+}
+
+.input-phone {
+  width: 60%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.button-search {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s ease-in-out;
+}
+
+.button-search:hover {
+  background-color: #0056b3;
+}
+
+.allTickets {
+  width: 85%;
+  max-width: 1200px;
+  margin: 20px auto;
+}
+
+.booking-tickets {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  width: 100%;
+}
+
+.booking-detail-item {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  width: calc(25% - 15px);
+  min-width: 250px;
+  text-align: left;
+}
+
+.booking-detail-item h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #007bff;
+}
+
+.booking-detail-item p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .booking-detail-item {
+    width: calc(33.33% - 15px); /* 3 tickets per row */
+  }
+}
+
+@media (max-width: 768px) {
+  .booking-detail-item {
+    width: calc(50% - 15px); /* 2 tickets per row */
+  }
+}
+
+@media (max-width: 480px) {
+  .booking-detail-item {
+    width: 100%; /* 1 ticket per row */
+  }
+}
+label{
+  font-size: 20px;
+  color: black;
+}
+h2{
+  color: black;
 }

@@ -6,7 +6,7 @@ const Profile = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const userId = localStorage.getItem("userId");
-  console.log(userId);
+  
   useEffect(() => {
     if (!userId) {
       navigate("/login");
@@ -29,23 +29,43 @@ const Profile = () => {
     };
 
     fetchUserDetails();
-  }, [navigate]);
+  }, [navigate, userId]);
 
   return (
-    <div className="container">
-      <h2>User Profile</h2>
-      {error && <p className="error">{error}</p>}
+    <div className="profile-container">
+      <h2 className="profile-title">User Profile</h2>
+      {error && <p className="error-message">{error}</p>}
       {userDetails ? (
-        <div>
-          <p><strong>Username:</strong> {userDetails.username}</p>
-          <p><strong>Gmail:</strong> {userDetails.gmail}</p>
-          <p><strong>Gender:</strong> {userDetails.gender}</p>
-          <p><strong>Date of Birth:</strong> {new Date(userDetails.dob).toLocaleDateString()}</p>
-          <p><strong>Aadhaar:</strong> {userDetails.aadhaar}</p>
-          <p><strong>User ID:</strong> {userDetails.userid}</p>
-        </div>
+        <table className="profile-table">
+          <tbody>
+            <tr>
+              <td><strong>Username:</strong></td>
+              <td>{userDetails.username}</td>
+            </tr>
+            <tr>
+              <td><strong>Email:</strong></td>
+              <td>{userDetails.gmail}</td>
+            </tr>
+            <tr>
+              <td><strong>Gender:</strong></td>
+              <td>{userDetails.gender}</td>
+            </tr>
+            <tr>
+              <td><strong>Date of Birth:</strong></td>
+              <td>{new Date(userDetails.dob).toLocaleDateString()}</td>
+            </tr>
+            <tr>
+              <td><strong>Aadhaar:</strong></td>
+              <td>{userDetails.aadhaar}</td>
+            </tr>
+            <tr>
+              <td><strong>User ID:</strong></td>
+              <td>{userDetails.userid}</td>
+            </tr>
+          </tbody>
+        </table>
       ) : (
-        <p>Loading...</p>
+        <p className="loading-text">Loading...</p>
       )}
     </div>
   );

@@ -8,14 +8,14 @@ const AddTransport = () => {
     number: '',
     name: '',
     totalSeats: '',
-    normalSeats: '', // normal seats for all modes
-    sleeperSeats: '', // for bus mode
-    acSeats: '',      // for train and flight mode
-    businessSeats: '', // for flight mode
-    normalSeatAmount: '', // normal seat amount for all modes
-    sleeperSeatAmount: '', // for bus mode
-    acSeatAmount: '',     // for train and bus mode
-    businessSeatAmount: '', // for flight mode
+    normalSeats: '',
+    sleeperSeats: '',
+    acSeats: '',
+    businessSeats: '',
+    normalSeatAmount: '',
+    sleeperSeatAmount: '',
+    acSeatAmount: '',
+    businessSeatAmount: '',
     date: '',
     time: '',
     mode: 'bus',
@@ -38,14 +38,14 @@ const AddTransport = () => {
       to: formData.to.toLowerCase(),
       mode: selectedMode,
     };
+
     try {
       const response = await fetch('http://localhost:3000/transport/add-transport', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(requestData),
       });
+
       const result = await response.json();
       if (response.ok) {
         setShowPopup(true);
@@ -60,77 +60,81 @@ const AddTransport = () => {
 
   const handlePopupClose = () => {
     setShowPopup(false);
-    navigate('/enquiry');
+    navigate('/adminselecttraveloption');
   };
 
   const renderModeSpecificFields = () => {
-    if (selectedMode === 'bus') {
-      return (
-        <>
-          <tr className="form-group">
+    switch (selectedMode) {
+      case 'bus':
+        return (
+          <tr>
             <td><label>Sleeper Seats:</label></td>
             <td><input type="text" name="sleeperSeats" value={formData.sleeperSeats} onChange={handleChange} /></td>
             <td><label>Sleeper Seat Amount:</label></td>
             <td><input type="text" name="sleeperSeatAmount" value={formData.sleeperSeatAmount} onChange={handleChange} /></td>
           </tr>
-        </>
-      );
-    } else if (selectedMode === 'train') {
-      return (
-        <>
-          <tr className="form-group">
+        );
+      case 'train':
+        return (
+          <tr>
             <td><label>AC Seats:</label></td>
             <td><input type="text" name="acSeats" value={formData.acSeats} onChange={handleChange} /></td>
             <td><label>AC Seat Amount:</label></td>
             <td><input type="text" name="acSeatAmount" value={formData.acSeatAmount} onChange={handleChange} /></td>
           </tr>
-        </>
-      );
-    } else if (selectedMode === 'flight') {
-      return (
-        <>
-          <tr className="form-group">
+        );
+      case 'flight':
+        return (
+          <tr>
             <td><label>Business Class Seats:</label></td>
             <td><input type="text" name="businessSeats" value={formData.businessSeats} onChange={handleChange} /></td>
             <td><label>Business Class Seat Amount:</label></td>
             <td><input type="text" name="businessSeatAmount" value={formData.businessSeatAmount} onChange={handleChange} /></td>
           </tr>
-        </>
-      );
+        );
+      default:
+        return null;
     }
   };
 
   return (
     <>
-      <div className="admin-container">
-        <h1>{selectedMode} add</h1>
+      <div className="container">
+          <h2>{selectedMode.charAt(0).toUpperCase() + selectedMode.slice(1)} Add</h2>
         <form className="popup-content" onSubmit={handleSubmit}>
-          <table>
-            <tr className="form-group">
-              <td><label>From:</label></td>
-              <td><input type="text" name="from" value={formData.from} onChange={handleChange} /></td>
-              <td><label>No:</label></td>
-              <td><input type="text" name="number" value={formData.number} onChange={handleChange} /></td>
-            </tr>
-            <tr className="form-group">
-              <td><label>To:</label></td>
-              <td><input type="text" name="to" value={formData.to} onChange={handleChange} /></td>
-              <td><label>Name:</label></td>
-              <td><input type="text" name="name" value={formData.name} onChange={handleChange} /></td>
-            </tr>
-            <tr className="form-group">
-              <td><label>Normal Seats:</label></td>
-              <td><input type="text" name="normalSeats" value={formData.normalSeats} onChange={handleChange} /></td>
-              <td><label>Normal Seat Amount:</label></td>
-              <td><input type="text" name="normalSeatAmount" value={formData.normalSeatAmount} onChange={handleChange} /></td>
-            </tr>
-            {renderModeSpecificFields()}
-            <tr className="form-group">
-              <td><label>Date:</label></td>
-              <td><input type="date" name="date" value={formData.date} onChange={handleChange} /></td>
-              <td><label>Time:</label></td>
-              <td><input type="time" name="time" value={formData.time} onChange={handleChange} /></td>
-            </tr>
+          <table className="transport-table">
+            <thead>
+              <tr>
+                <th colSpan="4">Transport Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><label>From:</label></td>
+                <td><input type="text" name="from" value={formData.from} onChange={handleChange} /></td>
+                <td><label>No:</label></td>
+                <td><input type="text" name="number" value={formData.number} onChange={handleChange} /></td>
+              </tr>
+              <tr>
+                <td><label>To:</label></td>
+                <td><input type="text" name="to" value={formData.to} onChange={handleChange} /></td>
+                <td><label>Name:</label></td>
+                <td><input type="text" name="name" value={formData.name} onChange={handleChange} /></td>
+              </tr>
+              <tr>
+                <td><label>Normal Seats:</label></td>
+                <td><input type="text" name="normalSeats" value={formData.normalSeats} onChange={handleChange} /></td>
+                <td><label>Normal Seat Amount:</label></td>
+                <td><input type="text" name="normalSeatAmount" value={formData.normalSeatAmount} onChange={handleChange} /></td>
+              </tr>
+              {renderModeSpecificFields()}
+              <tr>
+                <td><label>Date:</label></td>
+                <td><input type="date" name="date" value={formData.date} onChange={handleChange} /></td>
+                <td><label>Time:</label></td>
+                <td><input type="time" name="time" value={formData.time} onChange={handleChange} /></td>
+              </tr>
+            </tbody>
           </table>
           <button type="submit" className="submit-button">Add</button>
         </form>

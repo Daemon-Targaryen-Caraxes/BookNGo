@@ -67,25 +67,59 @@ const AddAdmin = () => {
   };
 
   return (
-    <div>
-      <h2>Add New Admin</h2>
-      <form onSubmit={handleSubmit} >
-        <input type="text" name="adminName" placeholder="Admin Name" value={formData.adminName} onChange={handleChange} required />
-        <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
-        <select name="gender" value={formData.gender} onChange={handleChange} required>
-          <option value="">Select Gender</option>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-          <option value="Other">Other</option>
-        </select>
-        <input type="text" name="aadharNo" placeholder="Aadhar No" value={formData.aadharNo} onChange={handleChange} required />
-        <input type="text" name="adminId" placeholder="Admin ID" value={formData.adminId} onChange={handleChange} required />
-        <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />
-        <input type="password" name="confirmPassword" placeholder="Confirm Password" value={formData.confirmPassword} onChange={handleChange} required />
-        <button type="submit">Add Admin</button>
-      </form>
-      {error && <div style={{ color: 'red' }}>{error}</div>}
-      {successMessage && <div style={{ color: 'green' }}>{successMessage}</div>}
+    <div className="add-admin-container">
+      <div className="form-card">
+        <h2 className="form-title">Add New Admin</h2>
+        {error && <div className="error-message">{error}</div>}
+        {successMessage && <div className="success-message">{successMessage}</div>}
+
+        <form onSubmit={handleSubmit} className="admin-form">
+          <table className="admin-table">
+            <tbody>
+              <tr>
+                <td><label>Admin Name</label></td>
+                <td><input type="text" name="adminName" value={formData.adminName} onChange={handleChange} required /></td>
+              </tr>
+              <tr>
+                <td><label>Email</label></td>
+                <td><input type="email" name="email" value={formData.email} onChange={handleChange} required /></td>
+              </tr>
+              <tr>
+                <td><label>Gender</label></td>
+                <td>
+                  <select name="gender" value={formData.gender} onChange={handleChange} required>
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td><label>Aadhaar No</label></td>
+                <td><input type="text" name="aadharNo" value={formData.aadharNo} onChange={handleChange} required /></td>
+              </tr>
+              <tr>
+                <td><label>Admin ID</label></td>
+                <td><input type="text" name="adminId" value={formData.adminId} onChange={handleChange} required /></td>
+              </tr>
+              <tr>
+                <td><label>Password</label></td>
+                <td><input type="password" name="password" value={formData.password} onChange={handleChange} required /></td>
+              </tr>
+              <tr>
+                <td><label>Confirm Password</label></td>
+                <td><input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} required /></td>
+              </tr>
+              <tr>
+                <td colSpan="2" className="button-row">
+                  <button type="submit" className="submit-button">Add Admin</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </form>
+      </div>
     </div>
   );
 };

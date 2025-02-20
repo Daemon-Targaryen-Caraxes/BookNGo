@@ -49,34 +49,13 @@ const ChangeadminPassword = () => {
   };
 
   return (
-    <div>
+    <div className="container">
       <h2>Change Password</h2>
       {message && <p style={{ color: "red" }}>{message}</p>}
       <form onSubmit={handleSubmit} style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-        <label>Current Password:</label>
-        <input
-          type="password"
-          value={currentPassword}
-          onChange={(e) => setCurrentPassword(e.target.value)}
-          required
-        />
-
-        <label>New Password:</label>
-        <input
-          type="password"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-          required
-        />
-
-        <label>Confirm New Password:</label>
-        <input
-          type="password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          required
-        />
-
+        <input  type="password" placeholder="Current Password" value={currentPassword}  onChange={(e) => setCurrentPassword(e.target.value)}  required />
+        <input  type="password" placeholder="New Password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)}required/>
+        <input type="password"  value={confirmPassword} placeholder="Confirm New Password"  onChange={(e) => setConfirmPassword(e.target.value)}  required />
         <button type="submit">Update Password</button>
       </form>
     </div>

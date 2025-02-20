@@ -9,7 +9,6 @@ const Login = () => {
   const navigate = useNavigate();
   
   const handleLogin = async (e) => {
-    localStorage.setItem("userId", userId);
     e.preventDefault();
     if (!userId || !password) {
       setError("Please enter both User ID and Password.");
@@ -26,7 +25,8 @@ const Login = () => {
       });
       const result = await response.json();
       if (response.ok) {
-        alert("Login successful!");
+        localStorage.setItem("userId", userId);
+        // alert("Login successful!");
         navigate("/selecttraveloption"); 
       } else {
         setError(result.error);

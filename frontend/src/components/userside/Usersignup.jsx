@@ -13,7 +13,6 @@ const SignUp = () => {
     userid: "",
     password: "",
     confirmPassword: "",
-    // otp: "",
   });
 
   const [error, setError] = useState("");
@@ -103,7 +102,7 @@ const SignUp = () => {
 
       const result = await response.json();
       if (response.ok) {
-        alert("Sign-Up Successful!");
+        // alert("Sign-Up Successful!");
         navigate("/selecttraveloption");
       } else {
         setError(result.error);

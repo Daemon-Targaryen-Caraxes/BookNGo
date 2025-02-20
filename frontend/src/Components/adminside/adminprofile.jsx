@@ -29,13 +29,6 @@ const AdminProfile = () => {
       });
   }, []);
 
-  // const handleEdit = () => {
-  //   navigate("/editadmin");
-  // };
-
-  // const handleChangePassword = () => {
-  //   navigate("/changepassword");
-  // };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -46,20 +39,39 @@ const AdminProfile = () => {
   }
 
   return (
-    <div>
-      <h2>Admin Profile</h2>
-      <div>
-        <p><strong>Name:</strong> {adminProfile.adminName}</p>
-        <p><strong>Email:</strong> {adminProfile.email}</p>
-        <p><strong>Gender:</strong> {adminProfile.gender}</p>
-        <p><strong>Aadhar No:</strong> {adminProfile.aadharNo}</p>
-        <p><strong>Admin ID:</strong> {adminProfile.adminId}</p>
-      </div>
-      {/* <div>
-        <button onClick={handleEdit}>Edit Profile</button>
-        <button onClick={handleChangePassword}>Change Password</button>
-      </div> */}
-    </div>
+    <div className="profile-container">
+  <h2 className="profile-title">Admin Profile</h2>
+  {error && <p className="error-message">{error}</p>}
+  {adminProfile ? (
+    <table className="profile-table">
+      <tbody>
+        <tr>
+          <td><strong>Name:</strong></td>
+          <td>{adminProfile.adminName}</td>
+        </tr>
+        <tr>
+          <td><strong>Email:</strong></td>
+          <td>{adminProfile.email}</td>
+        </tr>
+        <tr>
+          <td><strong>Gender:</strong></td>
+          <td>{adminProfile.gender}</td>
+        </tr>
+        <tr>
+          <td><strong>Aadhaar:</strong></td>
+          <td>{adminProfile.aadharNo}</td>
+        </tr>
+        <tr>
+          <td><strong>Admin ID:</strong></td>
+          <td>{adminProfile.adminId}</td>
+        </tr>
+      </tbody>
+    </table>
+  ) : (
+    <p className="loading-text">Loading...</p>
+  )}
+</div>
+
   );
 };
 

@@ -61,12 +61,12 @@ const EditAdmin = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           newAdminId: adminData.adminId, // FIX: Backend expects newAdminId
           adminName: adminData.adminName,
           email: adminData.email,
           gender: adminData.gender,
-          aadharNo: adminData.aadharNo 
+          aadharNo: adminData.aadharNo
         }),
       });
 
@@ -87,44 +87,57 @@ const EditAdmin = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="loading-text">Loading...</div>;
   }
 
   if (error) {
-    return <div style={{ color: "red" }}>{error}</div>;
+    return <div className="error-message">{error}</div>;
   }
 
   return (
-    <div>
-      <h2>Edit Admin Profile</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Admin ID:</label>
-          <input type="text" name="adminId" value={adminData.adminId} onChange={handleChange} required />
-        </div>
-        <div>
-          <label>Name:</label>
-          <input type="text" name="adminName" value={adminData.adminName} onChange={handleChange} required />
-        </div>
-        <div>
-          <label>Email:</label>
-          <input type="email" name="email" value={adminData.email} onChange={handleChange} required />
-        </div>
-        <div>
-          <label>Gender:</label>
-          <select name="gender" value={adminData.gender} onChange={handleChange} required>
-            <option value="">Select Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-        <div>
-          <label>Aadhar No:</label>
-          <input type="text" name="aadharNo" value={adminData.aadharNo} onChange={handleChange} required />
-        </div>
-        <button type="submit">Save Changes</button>
-      </form>
+    <div className="edit-admin-container">
+      <div className="form-card">
+        <h2 className="form-title">Edit Admin Profile</h2>
+
+        <form onSubmit={handleSubmit} className="admin-form">
+          <table className="admin-table">
+            <tbody>
+              <tr>
+                <td><label>Admin ID:</label></td>
+                <td><input type="text" name="adminId" value={adminData.adminId} onChange={handleChange} required /></td>
+              </tr>
+              <tr>
+                <td><label>Name:</label></td>
+                <td><input type="text" name="adminName" value={adminData.adminName} onChange={handleChange} required /></td>
+              </tr>
+              <tr>
+                <td><label>Email:</label></td>
+                <td><input type="email" name="email" value={adminData.email} onChange={handleChange} required /></td>
+              </tr>
+              <tr>
+                <td><label>Gender:</label></td>
+                <td>
+                  <select name="gender" value={adminData.gender} onChange={handleChange} required>
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td><label>Aadhar No:</label></td>
+                <td><input type="text" name="aadharNo" value={adminData.aadharNo} onChange={handleChange} required /></td>
+              </tr>
+              <tr>
+                <td colSpan="2" className="button-row">
+                  <button type="submit" className="submit-button">Save Changes</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </form>
+      </div>
     </div>
   );
 };
