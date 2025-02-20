@@ -6,11 +6,16 @@ const ConfirmationPage = () => {
   const { state } = useLocation();
   const { bookingDetails } = state || {};
   const navigate = useNavigate();
+
   const generatePDF = () => {
     if (!bookingDetails) return;
 
     const doc = new jsPDF();
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(18);
     doc.text("Booking Confirmation", 20, 20);
+    doc.setFontSize(12);
+    
     doc.text(`Train Name: ${bookingDetails.name}`, 20, 30);
     doc.text(`Train No: ${bookingDetails.no}`, 20, 40);
     doc.text(`From: ${bookingDetails.from}`, 20, 50);
@@ -26,38 +31,43 @@ const ConfirmationPage = () => {
     doc.text(`Gender: ${bookingDetails.gender}`, 20, 150);
     doc.text(`Seat No: ${bookingDetails.seatId}`, 20, 160);
     doc.text(`Amount: ₹${bookingDetails.amount}`, 20, 170);
+    
     doc.save("ticket.pdf");
   };
 
-  const backbutton=()=>{
-    const userId=localStorage.getItem("userId");
-    if(userId){
-   navigate('/selecttraveloption');
+  const backbutton = () => {
+    const userId = localStorage.getItem("userId");
+    if (userId) {
+      navigate("/selecttraveloption");
+    } else {
+      navigate("/adminselecttraveloption");
     }
-    else{
-      navigate('/adminselecttraveloption');
-    }
-  }
+  };
+
   return (
-    <div>
-      <h2>Booking Confirmation</h2>
-      {bookingDetails && (
-        <>
-          <p>Train Name: {bookingDetails.name}</p>
-          <p>Train No: {bookingDetails.no}</p>
-          <p>From: {bookingDetails.from}</p>
-          <p>To: {bookingDetails.to}</p>
-          <p>Date: {new Date(bookingDetails.date).toLocaleDateString()}</p>
-          <p>Time: {bookingDetails.time}</p>
-          <p>Class: {bookingDetails.Class}</p>
-          <p>Passenger Name: {bookingDetails.passengerName}</p>
-          <p>Phone No: {bookingDetails.phoneNo}</p>
-          <p>Seat No: {bookingDetails.seatId}</p>
-          <p>Amount: ₹{bookingDetails.amount}</p>
-          <button onClick={generatePDF}>Download Ticket as PDF</button>
-        </>
-      )}
-      <button onClick={()=>backbutton()}>Okay</button>
+    <div className="confirmation-container">
+      <div className="confirmation-box">
+        <h2>Booking Confirmation</h2>
+        {bookingDetails && (
+          <>
+            <div className="details">
+              <p><strong>Train Name:</strong> {bookingDetails.name}</p>
+              <p><strong>Train No:</strong> {bookingDetails.no}</p>
+              <p><strong>From:</strong> {bookingDetails.from}</p>
+              <p><strong>To:</strong> {bookingDetails.to}</p>
+              <p><strong>Date:</strong> {new Date(bookingDetails.date).toLocaleDateString()}</p>
+              <p><strong>Time:</strong> {bookingDetails.time}</p>
+              <p><strong>Class:</strong> {bookingDetails.Class}</p>
+              <p><strong>Passenger Name:</strong> {bookingDetails.passengerName}</p>
+              <p><strong>Phone No:</strong> {bookingDetails.phoneNo}</p>
+              <p><strong>Seat No:</strong> {bookingDetails.seatId}</p>
+              <p><strong>Amount:</strong> ₹{bookingDetails.amount}</p>
+            </div>
+            <button className="download-btn" onClick={generatePDF}>Download Ticket as PDF</button>
+          </>
+        )}
+        <button className="okay-btn" onClick={backbutton}>Okay</button>
+      </div>
     </div>
   );
 };

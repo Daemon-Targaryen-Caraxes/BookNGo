@@ -32,10 +32,9 @@ const TravelSearchForm = () => {
       });
       const result = await response.json();
       if (response.ok) {
-        userId ? navigate("/searchResults", { state: { results: result } }) : navigate("/adminsearchResults", { state: { results: result } });
+       navigate( userId?"/searchResults":"/adminsearchResults", { state: { results: result } }) 
       }
     } catch (error) {
-      alert("Error connecting to the server");
       console.error(error);
     }
     setIsLoading(false);
@@ -43,8 +42,8 @@ const TravelSearchForm = () => {
 
   return (
     <div className="form-container">
-      <h1 className="form-title">{selectedMode} Search</h1>
-      <form className="search-form" onSubmit={handleSubmit}>
+     <h2>{selectedMode.charAt(0).toUpperCase() + selectedMode.slice(1)} search</h2>
+     <form className="search-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="from">From:</label>
           <input type="text" id="from" name="from" value={formData.from} onChange={handleInputChange} required />

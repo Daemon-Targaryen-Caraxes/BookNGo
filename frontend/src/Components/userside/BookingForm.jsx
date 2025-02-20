@@ -133,7 +133,6 @@ const BookingForm = () => {
     <div className="booking-form">
       <h2>Enter Passenger Details</h2>
 
-      {/* Display error message if any */}
       {errorMessage && <div className="error-message">{errorMessage}</div>}
 
       <form onSubmit={handleSubmit}>

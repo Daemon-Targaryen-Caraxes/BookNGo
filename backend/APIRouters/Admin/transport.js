@@ -1,9 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
 const transportRouter = express.Router();
-
-transportRouter.use(express.json());
-
 const transportSchema = new mongoose.Schema({
   from: { type: String, required: true },
   to: { type: String, required: true },
@@ -11,34 +8,35 @@ const transportSchema = new mongoose.Schema({
   name: { type: String, required: true },
   normalSeats: { type: Number, default: 0 },
   normalSeatAmount: { type: Number, required: true },
-  acSeats: { type: Number, default: 0 },
-  acSeatAmount: { type: Number, required: function() { return this.mode === 'train' } },
   sleeperSeats: { type: Number, default: 0 },
-  sleeperSeatAmount: { type: Number, required: true },
+  sleeperSeatAmount: { type: Number },
+  acSeats: { type: Number, default: 0 },
+  acSeatAmount: { type: Number },
   businessSeats: { type: Number, default: 0 },
-  businessSeatAmount: { type: Number, required: function() { return this.mode === 'flight'; } },
+  businessSeatAmount: { type: Number },
   date: { type: Date, required: true },
   time: { type: String, required: true },
   mode: { type: String, required: true, enum: ['bus', 'train', 'flight'] },
 });
 
 const Transport = mongoose.model('Transport', transportSchema);
+
 transportRouter.post('/add-transport', async (req, res) => {
   try {
-    const newTransportData = req.body;
-    if (newTransportData.mode === 'bus') {
-      if (!newTransportData.sleeperSeats || !newTransportData.sleeperSeatAmount) {
-        return res.status(400).json({ message: 'Sleeper seat data is required for bus mode.' });
-      }
-    } 
-    else if (newTransportData.mode === 'train') {
-      if (!newTransportData.acSeats || !newTransportData.acSeatAmount) {
-        return res.status(400).json({ message: 'AC seat data is required for train/flight mode.' });
-      }
+    const { mode, sleeperSeats, sleeperSeatAmount, acSeats, acSeatAmount, businessSeats, businessSeatAmount } = req.body;
+    if (mode === 'bus' && (!sleeperSeats || !sleeperSeatAmount)) {
+      return res.status(400).json({ message: 'Sleeper seat details are required for buses.' });
     }
-    const newTransport = new Transport(newTransportData);
-    console.log('Transport data to be saved:', newTransport);
+    if (mode === 'train' && (!acSeats || !acSeatAmount)) {
+      return res.status(400).json({ message: 'AC seat details are required for trains.' });
+    }
+    if (mode === 'flight' && (!businessSeats || !businessSeatAmount)) {
+      return res.status(400).json({ message: 'Business seat details are required for flights.' });
+    }
+
+    const newTransport = new Transport(req.body);
     await newTransport.save();
+    
     res.status(201).json({ message: 'Transport added successfully!' });
   } catch (err) {
     console.error('Error adding transport:', err);
@@ -46,7 +44,6 @@ transportRouter.post('/add-transport', async (req, res) => {
   }
 });
 
-// Decrease seat route
 transportRouter.put('/decreaseseat', async (req, res) => {
   try {
     const { from, to, date, number, seatType } = req.body;
@@ -62,7 +59,6 @@ transportRouter.put('/decreaseseat', async (req, res) => {
 
     const normalizedSeatType = seatType.toLowerCase();
 
-    // Decrease seat count based on type
     if (normalizedSeatType === 'normal' && transport.normalSeats > 0) {
       transport.normalSeats -= 1;
     } else if (normalizedSeatType === 'ac' && transport.acSeats > 0) {
@@ -83,7 +79,6 @@ transportRouter.put('/decreaseseat', async (req, res) => {
   }
 });
 
-// Get transport route
 transportRouter.post('/get-transport', async (req, res) => {
   try {
     const { from, to, date, mode } = req.body;
