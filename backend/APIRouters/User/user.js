@@ -43,7 +43,7 @@ userRouter.post('/login', async (req, res) => {
   const { userid, password } = req.body;
   console.log(userid, password);
   
-  const user = await User.findOne({ userid }); // Fixed incorrect query
+  const user = await User.findOne({ userid });
 
   if (!user) {
     return res.status(400).json({ error: 'User not found' });
@@ -59,7 +59,7 @@ userRouter.post('/login', async (req, res) => {
 userRouter.get('/:userNumber', async (req, res) => {
   const givenNumber = req.params.userNumber;
   try {
-    const userExist = await User.findOne({ aadhaar: givenNumber }); // Fixed incorrect field
+    const userExist = await User.findOne({ aadhaar: givenNumber }); 
     if (!userExist) {
       return res.status(400).json({ error: "User not found with this Aadhaar number" });
     }
@@ -72,14 +72,11 @@ userRouter.get('/:userNumber', async (req, res) => {
 
 userRouter.get('/details/:userid', async (req, res) => {
   const { userid } = req.params;
-
   try {
     const user = await User.findOne({ userid });
-
     if (!user) {
       return res.status(400).json({ error: 'User not found' });
     }
-
     const { password, ...userData } = user.toObject();
     res.json(userData);
   } catch (err) {
@@ -88,32 +85,29 @@ userRouter.get('/details/:userid', async (req, res) => {
   }
 });
 
-userRouter.put('/change-password/:userid', async (req, res) => {
+userRouter.put("/change-password/:userid", async (req, res) => {
   const { userid } = req.params;
   const { currentPassword, newPassword } = req.body;
 
   try {
-    const user = await User.findOne({ userid });
+    const user = await User.findOne({ userid }); 
 
     if (!user) {
-      return res.status(400).json({ error: 'User not found' });
+      return res.status(404).json({ error: "User not found" });
     }
 
     const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
-
     if (!isPasswordValid) {
-      return res.status(400).json({ error: 'Current password is incorrect' });
+      return res.status(400).json({ error: "Current password is incorrect" });
     }
-
     const hashedNewPassword = await bcrypt.hash(newPassword, 10);
-
     user.password = hashedNewPassword;
-    await user.save();
 
-    res.json({ message: 'Password updated successfully' });
+    await user.save();
+    res.json({ message: "Password updated successfully" });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Error changing password' });
+    res.status(500).json({ error: "Error changing password" });
   }
 });
 
@@ -123,20 +117,21 @@ userRouter.put("/update/:userid", async (req, res) => {
 
   try {
     const user = await User.findOne({ userid });
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
+    if (!user) return res.status(404).json({ error: "User not found" });
+    if (!updatedData.username || !updatedData.gmail || !updatedData.gender || !updatedData.dob) {
+      return res.status(400).json({ error: "All fields are required" });
     }
-
     if (newUserid && newUserid !== userid) {
       const existingUser = await User.findOne({ userid: newUserid });
-      if (existingUser) {
-        return res.status(400).json({ error: "New User ID already exists" });
-      }
+      if (existingUser) return res.status(400).json({ error: "New User ID already exists" });
       updatedData.userid = newUserid;
     }
-
-    const updatedUser = await User.findOneAndUpdate({ userid }, updatedData, { new: true });
-
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: user._id },
+      updatedData,
+      { new: true }
+    );
+    if (!updatedUser) return res.status(500).json({ error: "Failed to update user" });
     res.json({ message: "User updated successfully", updatedUser });
   } catch (err) {
     res.status(500).json({ error: "Error updating user details" });

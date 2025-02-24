@@ -8,8 +8,10 @@ const EditAdmin = () => {
     gender: "",
     aadharNo: "",
   });
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
 
   useEffect(() => {
     const adminId = localStorage.getItem("adminId");
@@ -32,7 +34,6 @@ const EditAdmin = () => {
         setLoading(false);
       })
       .catch((err) => {
-        console.error("Error fetching admin data:", err);
         setError(err.message || "Failed to fetch admin data");
         setLoading(false);
       });
@@ -46,12 +47,31 @@ const EditAdmin = () => {
     }));
   };
 
+  const validateForm = () => {
+    const { adminName, email, gender, aadharNo } = adminData;
+    
+    if (!adminName.trim()) return "Admin Name is required.";
+    if (!email.trim() || !/^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/.test(email))
+      return "Enter a valid email address.";
+    if (!gender) return "Please select a gender.";
+    if (!/^\d{12}$/.test(aadharNo)) return "Aadhar Number must be 12 digits.";
+
+    return null;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const storedAdminId = localStorage.getItem("adminId");
+    
+    const validationError = validateForm();
+    if (validationError) {
+      setError(validationError);
+      setSuccessMessage(null);
+      return;
+    }
 
+    const storedAdminId = localStorage.getItem("adminId");
     if (!storedAdminId) {
-      alert("Admin ID missing. Please log in again.");
+      setError("Admin ID missing. Please log in again.");
       return;
     }
 
@@ -62,7 +82,7 @@ const EditAdmin = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          newAdminId: adminData.adminId, // FIX: Backend expects newAdminId
+          newAdminId: adminData.adminId,
           adminName: adminData.adminName,
           email: adminData.email,
           gender: adminData.gender,
@@ -71,18 +91,19 @@ const EditAdmin = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to update profile");
+        throw new Error("Failed to update profile.");
       }
 
-      // Update localStorage if adminId has changed
+      // If adminId changed, update localStorage
       if (storedAdminId !== adminData.adminId) {
         localStorage.setItem("adminId", adminData.adminId);
       }
 
-      alert("Profile updated successfully");
+      setSuccessMessage("Profile updated successfully!");
+      setError(null);
     } catch (err) {
-      console.error("Error updating profile:", err);
-      alert("Failed to update profile");
+      setError(err.message || "Failed to update profile.");
+      setSuccessMessage(null);
     }
   };
 
@@ -90,14 +111,13 @@ const EditAdmin = () => {
     return <div className="loading-text">Loading...</div>;
   }
 
-  if (error) {
-    return <div className="error-message">{error}</div>;
-  }
-
   return (
     <div className="edit-admin-container">
       <div className="form-card">
         <h2 className="form-title">Edit Admin Profile</h2>
+
+        {error && <div className="error-message">{error}</div>}
+        {successMessage && <div className="success-message">{successMessage}</div>}
 
         <form onSubmit={handleSubmit} className="admin-form">
           <table className="admin-table">
@@ -127,7 +147,7 @@ const EditAdmin = () => {
               </tr>
               <tr>
                 <td><label>Aadhar No:</label></td>
-                <td><input type="text" name="aadharNo" value={adminData.aadharNo} onChange={handleChange} required /></td>
+                <td><input type="text" name="aadharNo" value={adminData.aadharNo} onChange={handleChange} required maxLength="12" /></td>
               </tr>
               <tr>
                 <td colSpan="2" className="button-row">

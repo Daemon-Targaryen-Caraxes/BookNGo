@@ -17,10 +17,10 @@ const BookingForm = () => {
       seatType === "AC"
         ? transport?.acSeatAmount
         : seatType === "Sleeper"
-        ? transport?.sleeperSeatAmount
-        : seatType === "Business"
-        ? transport?.businessSeatAmount
-        : transport?.normalSeatAmount || "",
+          ? transport?.sleeperSeatAmount
+          : seatType === "Business"
+            ? transport?.businessSeatAmount
+            : transport?.normalSeatAmount || "",
     mode: transport?.mode || "",
     name: transport?.name || "",
     no: transport?.number || "",
@@ -36,7 +36,7 @@ const BookingForm = () => {
     userId: user,
   });
 
-  const [errorMessage, setErrorMessage] = useState(""); // Error message state
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     if (transport && seatType) {
@@ -64,28 +64,31 @@ const BookingForm = () => {
     return seatId;
   };
 
+  const validateInput = () => {
+    if (!formData.passengerName.trim()) return "Passenger name is required.";
+    if (!/^[6-9]\d{9}$/.test(formData.phoneNo)) return "Invalid phone number.";
+    if (!formData.dob) return "Date of birth is required.";
+    if (!formData.age || formData.age <= 0) return "Invalid age.";
+    if (!/\d{12}$/.test(formData.aadhaar)) return "Aadhaar number must be 12 digits.";
+    if (!formData.gender) return "Gender is required.";
+    return "";
+  };
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  if (!transport || !seatType) {
-    return <p>Invalid booking details</p>;
-  }
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const validationError = validateInput();
+    if (validationError) {
+      setErrorMessage(validationError);
+      return;
+    }
+
     const currentDateTime = new Date().toISOString();
-
     const formattedDate = formData.date ? new Date(formData.date).toISOString().split("T")[0] : "";
-
-    const updatedFormData = {
-      ...formData,
-      date: formattedDate,
-      bookingDateTime: currentDateTime,
-      seatId: generateSeatNo(),
-    };
-
-    console.log("Submitting data:", updatedFormData);
+    const updatedFormData = { ...formData, date: formattedDate, bookingDateTime: currentDateTime, seatId: generateSeatNo() };
 
     try {
       const response = await fetch("http://localhost:3000/booking/add", {
@@ -124,7 +127,6 @@ const BookingForm = () => {
         navigate("/adminconfirmation", { state: { bookingDetails: updatedFormData } });
       }
     } catch (error) {
-      console.error("Error:", error.message);
       setErrorMessage(`Booking failed! Please try again. Error: ${error.message}`);
     }
   };
@@ -132,10 +134,10 @@ const BookingForm = () => {
   return (
     <div className="booking-form">
       <h2>Enter Passenger Details</h2>
-
       {errorMessage && <div className="error-message">{errorMessage}</div>}
-
       <form onSubmit={handleSubmit}>
+        {/* Form Fields */}
+
         <table>
           <tbody>
             <tr>
@@ -190,3 +192,4 @@ const BookingForm = () => {
 };
 
 export default BookingForm;
+

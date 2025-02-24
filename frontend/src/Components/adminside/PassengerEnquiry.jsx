@@ -1,28 +1,33 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 const PassengerEnquiry = () => {
   const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
   const [bookings, setBookings] = useState(null);
-  const navigate = useNavigate();
 
   const handleSearch = async () => {
-    if (phone.length === 10) {
-      try {
-        const response = await fetch(`http://localhost:3000/booking/search/${phone}`);
-        if (!response.ok) {
-          throw new Error("No bookings found for this phone number");
-        }
-        const data = await response.json();
-        setBookings(data);
-        setError("");
-      } catch (err) {
-        setBookings(null);
-        setError(err.message);
+    if (!/^\d{10}$/.test(phone)) {
+      setError("Please enter a valid 10-digit phone number.");
+      setBookings(null);
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:3000/booking/search/${phone}`);
+
+      if (!response.ok) {
+        throw new Error("No bookings found for this phone number.");
       }
-    } else {
-      setError("Invalid Number");
+
+      const data = await response.json();
+      if (data.length === 0) {
+        throw new Error("No bookings available.");
+      }
+
+      setBookings(data);
+      setError("");
+    } catch (err) {
+      setError(err.message);
       setBookings(null);
     }
   };
@@ -31,18 +36,24 @@ const PassengerEnquiry = () => {
     <>
       <div className="container">
         <h2>Passenger Enquiry</h2>
-        <div>{error && <p className="error-message">{error}</p>}</div>
+
+        {error && <p className="error-message">{error}</p>}
+
         <div>
-          <input type="number" name="phone-number" onChange={(event) => setPhone(event.target.value)} className="input-phone" required />
+          <input  type="text"  name="phone-number"  value={phone}  onChange={(event) => setPhone(event.target.value.replace(/\D/, ""))}   className="input-phone"  placeholder="Enter 10-digit phone number" maxLength="10"  required/>
         </div>
-        <button onClick={handleSearch} className="button-search">Search</button>
+
+        <button onClick={handleSearch} className="button-search">
+          Search
+        </button>
       </div>
-      <div className='allTickets'>
-        {bookings && bookings.length > 0 && (
+
+      {bookings && bookings.length > 0 && (
+        <div className="allTickets">
           <div className="booking-tickets">
-            {bookings.map((booking,index) => (
+            {bookings.map((booking, index) => (
               <div key={booking._id} className="booking-detail-item">
-                 <h2>Ticket {index+1}</h2>
+                <h2>Ticket {index + 1}</h2>
                 <p><strong>From:</strong> {booking.from}</p>
                 <p><strong>To:</strong> {booking.to}</p>
                 <p><strong>Time:</strong> {booking.time}</p>
@@ -57,12 +68,12 @@ const PassengerEnquiry = () => {
                 <p><strong>Aadhaar:</strong> {booking.aadhaar}</p>
                 <p><strong>Age:</strong> {booking.age}</p>
                 <p><strong>Gender:</strong> {booking.gender}</p>
-                <p><strong>booked Date:</strong> {new Date(booking.bookingDateTime).toLocaleDateString()}</p>
+                <p><strong>Booked Date:</strong> {new Date(booking.bookingDateTime).toLocaleDateString()}</p>
               </div>
             ))}
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </>
   );
 };

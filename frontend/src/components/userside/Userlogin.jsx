@@ -26,7 +26,6 @@ const Login = () => {
       const result = await response.json();
       if (response.ok) {
         localStorage.setItem("userId", userId);
-        // alert("Login successful!");
         navigate("/selecttraveloption"); 
       } else {
         setError(result.error);

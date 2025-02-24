@@ -305,7 +305,7 @@ h2 {
 }
 
 .unavailable-card {
-  background-color: #ffcccc;
+  background-color: rgba(220, 20, 60, 0.525);
 }
 
 .status {

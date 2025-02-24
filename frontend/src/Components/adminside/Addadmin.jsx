@@ -24,11 +24,23 @@ const AddAdmin = () => {
     });
   };
 
+  const validateInput = () => {
+    if (!/^[a-zA-Z\s]+$/.test(formData.adminName)) return "Admin name should only contain letters.";
+    if (!/^\S+@\S+\.\S+$/.test(formData.email)) return "Invalid email format.";
+    if (!["Male", "Female", "Other"].includes(formData.gender)) return "Please select a valid gender.";
+    if (!/^\d{12}$/.test(formData.aadharNo)) return "Aadhaar number must be 12 digits.";
+    if (!/^[a-zA-Z0-9]+$/.test(formData.adminId)) return "Admin ID should be alphanumeric.";
+    if (formData.password.length < 6) return "Password should be at least 6 characters.";
+    if (formData.password !== formData.confirmPassword) return "Passwords do not match.";
+    return "";
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
+    const validationError = validateInput();
+    if (validationError) {
+      setError(validationError);
       setSuccessMessage(null);
       return;
     }

@@ -21,6 +21,7 @@ const AddTransport = () => {
   });
 
   const [showPopup, setShowPopup] = useState(false);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
   const selectedMode = location.state?.selectedOption || 'bus';
@@ -29,8 +30,34 @@ const AddTransport = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const validateInput = () => {
+    if (!/^[a-zA-Z\s]+$/.test(formData.from)) return "From location should contain only letters.";
+    if (!/^[a-zA-Z\s]+$/.test(formData.to)) return "To location should contain only letters.";
+    if (!/^[a-zA-Z0-9]+$/.test(formData.number)) return "Transport number should be alphanumeric.";
+    if (!/^[a-zA-Z\s]+$/.test(formData.name)) return "Transport name should contain only letters.";
+    if (formData.normalSeats < 0 || formData.normalSeatAmount < 0) return "Seats and amounts cannot be negative.";
+    if (formData.sleeperSeats < 0 || formData.sleeperSeatAmount < 0) return "Seats and amounts cannot be negative.";
+    if (formData.acSeats < 0 || formData.acSeatAmount < 0) return "Seats and amounts cannot be negative.";
+    if (formData.businessSeats < 0 || formData.businessSeatAmount < 0) return "Seats and amounts cannot be negative.";
+    
+    const today = new Date().toISOString().split("T")[0];
+    if (formData.date < today) return "Date cannot be in the past.";
+    if (!formData.time) return "Time is required.";
+
+    return "";
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const validationError = validateInput();
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+
+    setError(null);
+
     const requestData = {
       ...formData,
       from: formData.from.toLowerCase(),
@@ -69,9 +96,9 @@ const AddTransport = () => {
           <>
             <tr>
               <td><label>Sleeper Seats:</label></td>
-              <td><input type="number" name="sleeperSeats" value={formData.sleeperSeats} onChange={handleChange} /></td>
+              <td><input type="number" name="sleeperSeats" value={formData.sleeperSeats} onChange={handleChange} min="0" /></td>
               <td><label>Sleeper Seat Amount:</label></td>
-              <td><input type="number" name="sleeperSeatAmount" value={formData.sleeperSeatAmount} onChange={handleChange} /></td>
+              <td><input type="number" name="sleeperSeatAmount" value={formData.sleeperSeatAmount} onChange={handleChange} min="0" /></td>
             </tr>
           </>
         );
@@ -80,9 +107,9 @@ const AddTransport = () => {
           <>
             <tr>
               <td><label>AC Seats:</label></td>
-              <td><input type="number" name="acSeats" value={formData.acSeats} onChange={handleChange} /></td>
+              <td><input type="number" name="acSeats" value={formData.acSeats} onChange={handleChange} min="0" /></td>
               <td><label>AC Seat Amount:</label></td>
-              <td><input type="number" name="acSeatAmount" value={formData.acSeatAmount} onChange={handleChange} /></td>
+              <td><input type="number" name="acSeatAmount" value={formData.acSeatAmount} onChange={handleChange} min="0" /></td>
             </tr>
           </>
         );
@@ -91,9 +118,9 @@ const AddTransport = () => {
           <>
             <tr>
               <td><label>Business Class Seats:</label></td>
-              <td><input type="number" name="businessSeats" value={formData.businessSeats} onChange={handleChange} /></td>
+              <td><input type="number" name="businessSeats" value={formData.businessSeats} onChange={handleChange} min="0" /></td>
               <td><label>Business Class Seat Amount:</label></td>
-              <td><input type="number" name="businessSeatAmount" value={formData.businessSeatAmount} onChange={handleChange} /></td>
+              <td><input type="number" name="businessSeatAmount" value={formData.businessSeatAmount} onChange={handleChange} min="0" /></td>
             </tr>
           </>
         );
@@ -106,6 +133,7 @@ const AddTransport = () => {
     <>
       <div className="container">
         <h2>{selectedMode.charAt(0).toUpperCase() + selectedMode.slice(1)} Add</h2>
+        {error && <div className="error-message">{error}</div>}
         <form onSubmit={handleSubmit}>
           <table>
             <tbody>
@@ -123,9 +151,9 @@ const AddTransport = () => {
               </tr>
               <tr>
                 <td><label>Normal Seats:</label></td>
-                <td><input type="number" name="normalSeats" value={formData.normalSeats} onChange={handleChange} required /></td>
+                <td><input type="number" name="normalSeats" value={formData.normalSeats} onChange={handleChange} required min="0" /></td>
                 <td><label>Normal Seat Amount:</label></td>
-                <td><input type="number" name="normalSeatAmount" value={formData.normalSeatAmount} onChange={handleChange} required /></td>
+                <td><input type="number" name="normalSeatAmount" value={formData.normalSeatAmount} onChange={handleChange} required min="0" /></td>
               </tr>
               {renderModeSpecificFields()}
               <tr>

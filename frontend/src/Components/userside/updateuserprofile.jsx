@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Header from "../Header";
 
 const UpdateUserProfile = () => {
   const userid = localStorage.getItem("userId");
@@ -11,7 +12,6 @@ const UpdateUserProfile = () => {
     gender: "",
     dob: "",
     aadhaar: "",
-    password: "",
   });
   const [newUserid, setNewUserid] = useState("");
   const [error, setError] = useState(null);
@@ -24,13 +24,30 @@ const UpdateUserProfile = () => {
         if (data.error) {
           setError(data.error);
         } else {
-          setUserData({ ...data, password: "" });
+          setUserData(data);
           setNewUserid(data.userid);
         }
       })
       .catch(() => setError("Failed to fetch user details"))
       .finally(() => setLoading(false));
   }, [userid]);
+
+  const validateForm = () => {
+    if (Object.values(userData).some((value) => value.trim() === "")) {
+      return "All fields are required.";
+    }
+
+    const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+    if (!gmailRegex.test(userData.gmail)) {
+      return "Enter a valid Gmail address.";
+    }
+
+    if (!/^[0-9]{12}$/.test(userData.aadhaar)) {
+      return "Aadhaar number must be exactly 12 digits.";
+    }
+
+    return "";
+  };
 
   const handleChange = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
@@ -44,6 +61,12 @@ const UpdateUserProfile = () => {
     e.preventDefault();
     setError(null);
 
+    const validationError = validateForm();
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+
     try {
       const response = await fetch(`http://localhost:3000/user/update/${userid}`, {
         method: "PUT",
@@ -55,15 +78,7 @@ const UpdateUserProfile = () => {
       if (!response.ok) {
         throw new Error(result.error || "Failed to update user");
       }
-
-      alert("User updated successfully");
-
-      if (newUserid !== userid) {
-        localStorage.setItem("userId", newUserid);
-        navigate(`/profile/${newUserid}`);
-      } else {
-        navigate("/selecttraveloption");
-      }
+      navigate("/selecttraveloption");
     } catch (err) {
       setError(err.message);
     }
@@ -74,6 +89,7 @@ const UpdateUserProfile = () => {
 
   return (
     <div className="form-container">
+      {/* <Header /> */}
       <h2 className="form-title">Edit User Details</h2>
       <form className="update-form" onSubmit={handleSubmit}>
         <table className="form-table">
