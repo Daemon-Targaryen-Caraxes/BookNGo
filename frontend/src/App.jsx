@@ -61,3 +61,52 @@ const App = () => {
 };
 
 export default App;
+// import React, { useState } from 'react';
+// import './App.css';
+
+// function App() {
+//   const [phoneNumber, setPhoneNumber] = useState('');
+//   const [message, setMessage] = useState('');
+//   const [status, setStatus] = useState('');
+
+//   const handleSendMessage = () => {
+//     if (!phoneNumber || !message) {
+//       alert('Please provide both phone number and message');
+//       return;
+//     }
+//     const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+//     window.open(whatsappURL, '_blank');
+//     setStatus('Message link opened in WhatsApp');
+//   };
+
+//   return (
+//     <div className="App">
+//       <header className="App-header">
+//         <h1>Send WhatsApp Message</h1>
+        
+//         <div className="form-container">
+//           <input
+//             type="text"
+//             className="input-field"
+//             placeholder="Enter Phone Number (e.g., +11234567890)"
+//             value={phoneNumber}
+//             onChange={(e) => setPhoneNumber(e.target.value)}
+//           />
+//           <textarea
+//             className="input-field"
+//             placeholder="Enter Message"
+//             value={message}
+//             onChange={(e) => setMessage(e.target.value)}
+//           />
+//           <button className="send-button" onClick={handleSendMessage}>
+//             Send Message
+//           </button>
+//         </div>
+        
+//         {status && <p className="status">{status}</p>}
+//       </header>
+//     </div>
+//   );
+// }
+
+// export default App;

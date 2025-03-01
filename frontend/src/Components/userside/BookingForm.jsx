@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-
+import { useLocation,Link} from "react-router-dom";
+import QRCode from "react-qr-code";
 const BookingForm = () => {
   const location = useLocation();
-  const navigate = useNavigate();
   const userId = localStorage.getItem("userId");
   const user = localStorage.getItem("userId") || localStorage.getItem("adminId");
   const { transport, seatType } = location.state || {};
-
+  const [timer, setTimer] = useState(360);
   const [formData, setFormData] = useState({
     from: transport?.from || "",
     to: transport?.to || "",
@@ -37,6 +36,7 @@ const BookingForm = () => {
   });
 
   const [errorMessage, setErrorMessage] = useState("");
+  const [showQR, setShowQR] = useState(false);
 
   useEffect(() => {
     if (transport && seatType) {
@@ -77,8 +77,10 @@ const BookingForm = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  
 
   const handleSubmit = async (e) => {
+    setShowQR(true);
     e.preventDefault();
     const validationError = validateInput();
     if (validationError) {
@@ -121,11 +123,6 @@ const BookingForm = () => {
         throw new Error(errorData.error || "Failed to decrease seats");
       }
 
-      if (userId) {
-        navigate("/confirmation", { state: { bookingDetails: updatedFormData } });
-      } else {
-        navigate("/adminconfirmation", { state: { bookingDetails: updatedFormData } });
-      }
     } catch (error) {
       setErrorMessage(`Booking failed! Please try again. Error: ${error.message}`);
     }
@@ -133,10 +130,9 @@ const BookingForm = () => {
 
   return (
     <div className="booking-form">
-      <h2>Enter Passenger Details</h2>
       {errorMessage && <div className="error-message">{errorMessage}</div>}
-      <form onSubmit={handleSubmit}>
-        {/* Form Fields */}
+     {!showQR ?(<form onSubmit={handleSubmit}>
+      <h2>Enter Passenger Details</h2>
 
         <table>
           <tbody>
@@ -153,8 +149,8 @@ const BookingForm = () => {
               <td><input type="text" value={formData.date} readOnly /></td>
             </tr>
             <tr>
-              <td><label>Seat No:</label></td>
-              <td><input type="text" value={formData.seatId} readOnly /></td>
+              <td><label>class :</label></td>
+              <td><input type="text" value={seatType} readOnly /></td>
               <td><label>Amount:</label></td>
               <td><input type="text" value={`₹${formData.amount}`} readOnly /></td>
             </tr>
@@ -186,10 +182,15 @@ const BookingForm = () => {
           </tbody>
         </table>
         <button type="submit">Pay</button>
-      </form>
+      </form>):(
+      <form className="qr-section">
+          <h3>Scan QR Code to Pay ₹{formData.amount}</h3>
+          <QRCode value={`upi://pay?pa=7981108414@ybl&pn=BookNGo&mc=&tid=&tr=&tn=TicketBooking&am=${formData.amount}&cu=INR`} />
+          <h4>after completed payment click on verify</h4>
+          <button className="verifybutton"><Link to="/confirmation" state={{ bookingDetails: formData }}>payment Done</Link></button>
+      </form>)}
     </div>
   );
 };
 
 export default BookingForm;
-

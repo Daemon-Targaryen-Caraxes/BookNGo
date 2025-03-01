@@ -90,7 +90,6 @@ transportRouter.post('/get-transport', async (req, res) => {
   }
 });
 
-// Get all transport route
 transportRouter.get('/transport', async (req, res) => {
   try {
     const transport = await Transport.find();

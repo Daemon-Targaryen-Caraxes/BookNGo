@@ -47,6 +47,9 @@ const Login = () => {
           <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} required />
           <button type="submit">Login</button>
         </form>
+        <p>
+          <a href="#" onClick={() => navigate("/user/forgot-password")}>Forgot Password?</a>
+        </p>
       </div>
     </div>
   );

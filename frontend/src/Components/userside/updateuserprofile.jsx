@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../Header";
 
 const UpdateUserProfile = () => {
   const userid = localStorage.getItem("userId");
   const navigate = useNavigate();
+   
   const [userData, setUserData] = useState({
     userid: "",
     username: "",
@@ -16,6 +16,7 @@ const UpdateUserProfile = () => {
   const [newUserid, setNewUserid] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [updated, setupdated] = useState(false);
 
   useEffect(() => {
     fetch(`http://localhost:3000/user/details/${userid}`)
@@ -33,9 +34,10 @@ const UpdateUserProfile = () => {
   }, [userid]);
 
   const validateForm = () => {
-    if (Object.values(userData).some((value) => value.trim() === "")) {
+    if (Object.values(userData).some((value) => String(value).trim() === "")) {
       return "All fields are required.";
     }
+    
 
     const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
     if (!gmailRegex.test(userData.gmail)) {
@@ -78,7 +80,10 @@ const UpdateUserProfile = () => {
       if (!response.ok) {
         throw new Error(result.error || "Failed to update user");
       }
-      navigate("/selecttraveloption");
+      setupdated(true)
+      setTimeout(() => {
+        setupdated(false)
+      },3000);
     } catch (err) {
       setError(err.message);
     }
@@ -89,7 +94,6 @@ const UpdateUserProfile = () => {
 
   return (
     <div className="form-container">
-      {/* <Header /> */}
       <h2 className="form-title">Edit User Details</h2>
       <form className="update-form" onSubmit={handleSubmit}>
         <table className="form-table">
@@ -130,6 +134,7 @@ const UpdateUserProfile = () => {
             </tr>
           </tbody>
         </table>
+      {updated && <h4 style={{color:"green"}}>profile update successfully</h4>}
       </form>
     </div>
   );
