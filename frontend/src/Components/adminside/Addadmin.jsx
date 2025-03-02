@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const AddAdmin = () => {
@@ -10,11 +10,31 @@ const AddAdmin = () => {
     aadharNo: '',
     adminId: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    otp: "",
   });
 
   const [error, setError] = useState(null);
+
+  const [otpSent, setOtpSent] = useState(false);
   const [successMessage, setSuccessMessage] = useState(null);
+  const [generatedOtp, setGeneratedOtp] = useState("");
+  const [otpVerified, setOtpVerified] = useState(false);
+  const [resendDisabled, setResendDisabled] = useState(false);
+  const [timer, setTimer] = useState(30);
+  useEffect(() => {
+    let countdown;
+    if (otpSent && timer > 0) {
+      countdown = setInterval(() => {
+        setTimer((prev) => prev - 1);
+      }, 1000);
+    }
+    if (timer === 0) {
+      setResendDisabled(false);
+      clearInterval(countdown);
+    }
+    return () => clearInterval(countdown);
+  }, [otpSent, timer]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,6 +42,46 @@ const AddAdmin = () => {
       ...formData,
       [name]: value
     });
+  };
+  const generateOtp = () => Math.floor(100000 + Math.random() * 900000).toString();
+  const sendOtp = async () => {
+    if (!/^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(formData.email)) {
+      setError("Enter a valid Gmail address.");
+      return;
+    }
+
+    setError("");
+    const otp = generateOtp();
+    setGeneratedOtp(otp);
+    setOtpSent(true);
+    setResendDisabled(true);
+    setTimer(30);
+
+    try {
+      const response = await fetch("http://localhost:3000/user/send-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ gmail: formData.email, otp }),
+      });
+
+      const result = await response.json();
+      if (!response.ok) {
+        setError(result.error || "Failed to send OTP.");
+        setOtpSent(false);
+        return;
+      }
+    } catch (err) {
+      setError("Error sending OTP.");
+      setOtpSent(false);
+    }
+  };
+  const verifyOtp = () => {
+    if (formData.otp.trim() === generatedOtp.trim()) {
+      setOtpVerified(true);
+      setError("");
+    } else {
+      setError("Invalid OTP. Try again.");
+    }
   };
 
   const validateInput = () => {
@@ -83,7 +143,7 @@ const AddAdmin = () => {
       <div className="form-card">
         <h2 className="form-title">Add New Admin</h2>
         {error && <div className="error-message">{error}</div>}
-        {successMessage && <div className="success-message">{successMessage}</div>}
+        {successMessage && <div style={{ textAlign: "center", color: "green" }}>{successMessage}</div>}
 
         <form onSubmit={handleSubmit} className="admin-form">
           <table className="admin-table">
@@ -96,6 +156,24 @@ const AddAdmin = () => {
                 <td><label>Email</label></td>
                 <td><input type="email" name="email" value={formData.email} onChange={handleChange} required /></td>
               </tr>
+              {!otpVerified && (
+                <>
+                  <button type="button" onClick={sendOtp} disabled={otpSent}>
+                    {otpSent ? "OTP Sent" : "Send OTP"}
+                  </button>
+                  {otpSent && (
+                    <>
+                      <input type="text" name="otp" value={formData.otp} onChange={handleChange} placeholder="Enter OTP" required />
+                      <button type="button" onClick={verifyOtp}>Verify OTP</button>
+                      <p>Resend OTP in {timer}s</p>
+                      <button type="button" onClick={sendOtp} disabled={resendDisabled}>
+                        Resend OTP
+                      </button>
+                    </>
+                  )}
+                </>
+              )}
+
               <tr>
                 <td><label>Gender</label></td>
                 <td>
@@ -124,7 +202,7 @@ const AddAdmin = () => {
                 <td><input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} required /></td>
               </tr>
               <tr>
-                <td colSpan="2" className="button-row">
+                <td colSpan="2" className="button-row" style={{ textAlign: "center" }}>
                   <button type="submit" className="submit-button">Add Admin</button>
                 </td>
               </tr>

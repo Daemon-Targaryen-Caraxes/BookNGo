@@ -32,7 +32,7 @@
 //   }
 //   const hashedPassword = await bcrypt.hash(password, 10);
 //   const newUser = new User({ username, gmail, gender, dob, aadhaar, userid, password: hashedPassword });
-  
+
 //   await sendMail(gmail, 'welcome to BookNGo', 'Your account is created successfully');
 //   try {
 //     await newUser.save();
@@ -59,7 +59,7 @@
 // userRouter.post('/login', async (req, res) => {
 //   const { userid, password } = req.body;
 //   console.log(userid, password);
-  
+
 //   const user = await User.findOne({ userid });
 
 //   if (!user) {
@@ -203,8 +203,13 @@ userRouter.post("/signup", async (req, res) => {
     const newUser = new User({ username, gmail, gender, dob, aadhaar, userid, password: hashedPassword });
 
     await newUser.save();
-    await sendMail(gmail, "Welcome to BookNGo", "Your account has been successfully created.");
-
+    (async () => {
+      await sendMail(
+        gmail,
+        "Welcome to BookNGo",
+        `Hi ${username},\nWelcome to BookNGo! Your account has been successfully created. We're excited to have you on board. If you need any assistance, feel free to contact us at support@bookngowebsite.com.\nBest, BOOKNGO.`
+      );
+    })();
     res.status(201).json({ message: "User registered successfully" });
   } catch (err) {
     res.status(500).json({ error: "Failed to register user", details: err.message });
@@ -217,8 +222,13 @@ userRouter.post("/send-otp", async (req, res) => {
     if (!gmail || !otp) {
       return res.status(400).json({ error: "Gmail and OTP are required." });
     }
-
-    await sendMail(gmail, "Gmail Verify OTP", `Your email verification OTP: ${otp}`);
+    (async () => {
+      await sendMail(
+        gmail,
+        "Gmail Verification OTP",
+        `Hi,\nYour email verification OTP is: ${otp}. Please use this code to complete the verification process.\nIf you did not request this, please ignore this message.\nBest, BOOKNGO.`
+      );
+    })();
     res.json({ message: "OTP sent successfully" });
   } catch (error) {
     res.status(500).json({ error: "Failed to send OTP", details: error.message });
@@ -229,7 +239,6 @@ userRouter.post("/login", async (req, res) => {
   try {
     const { userid, password } = req.body;
     const user = await User.findOne({ userid });
-
     if (!user) {
       return res.status(400).json({ error: "User not found" });
     }
@@ -240,8 +249,13 @@ userRouter.post("/login", async (req, res) => {
     }
 
     const token = jwt.sign({ userId: user._id }, "your_secret_key", { expiresIn: "1h" });
-    await sendMail(user.gmail, "Welcome to BookNGo", "Your account has been successfully logged in.");
-
+    (async () => {
+      await sendMail(
+        user.gmail,
+        "You're Logged In!",
+        `Hi ${user.username},\nYou are now logged in to your BookNGo website!\nIf you need any assistance, please reach out to us at support@bookngowebsite.com.\nBest, BOOKNGO.`
+      );
+    })();
     res.json({ message: "Login successful", token });
   } catch (err) {
     res.status(500).json({ error: "Error logging in", details: err.message });
@@ -287,8 +301,13 @@ userRouter.put("/change-password/:userid", async (req, res) => {
 
     user.password = await bcrypt.hash(newPassword, 10);
     await user.save();
-
-    await sendMail(user.gmail, "Password Change Notification", "Your password has been successfully changed.");
+    (async () => {
+      await sendMail(
+        user.gmail,
+        "Password Change Notification",
+        `Hi ${user.username},\nYour password has been successfully changed. If you didn't make this change, please contact us immediately at support@bookngowebsite.com.\nBest, BOOKNGO.`
+      );
+    })();
     res.json({ message: "Password updated successfully" });
   } catch (err) {
     res.status(500).json({ error: "Error changing password", details: err.message });
@@ -315,8 +334,13 @@ userRouter.put("/update/:userid", async (req, res) => {
 
     const updatedUser = await User.findOneAndUpdate({ _id: user._id }, updatedData, { new: true });
     if (!updatedUser) return res.status(500).json({ error: "Failed to update user" });
-
-    await sendMail(updatedUser.gmail, "Profile Updated", "Your profile has been successfully updated.");
+    (async () => {
+      await sendMail(
+        updatedUser.gmail,
+        "Profile Updated",
+        `Hi ${updatedUser.username},\nYour profile has been successfully updated. If you did not make these changes or have any questions, feel free to contact us at support@bookngowebsite.com.\nBest, BOOKNGO.`
+      );
+    })();
     res.json({ message: "User updated successfully", updatedUser });
   } catch (err) {
     res.status(500).json({ error: "Error updating user details", details: err.message });
