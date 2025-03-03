@@ -27,11 +27,11 @@ const ConfirmationPage = () => {
     doc.text(`Phone No: ${bookingDetails.phoneNo}`, 20, 110);
     doc.text(`DOB: ${new Date(bookingDetails.dob).toLocaleDateString()}`, 20, 120);
     doc.text(`Aadhaar No: ${bookingDetails.aadhaar}`, 20, 130);
-    doc.text(`Age: ${bookingDetails.age}`, 20, 140);
+    doc.text(`Age: ${bookingDetails.gmail}`, 20, 140);
     doc.text(`Gender: ${bookingDetails.gender}`, 20, 150);
     doc.text(`Seat No: ${bookingDetails.seatId}`, 20, 160);
     doc.text(`Amount: ₹${bookingDetails.amount}`, 20, 170);
-    
+    F
     doc.save("ticket.pdf");
   };
 

@@ -66,7 +66,7 @@ const PassengerEnquiry = () => {
                 <p><strong>Phone No:</strong> {booking.phoneNo}</p>
                 <p><strong>Date of Birth:</strong> {new Date(booking.dob).toLocaleDateString()}</p>
                 <p><strong>Aadhaar:</strong> {booking.aadhaar}</p>
-                <p><strong>Age:</strong> {booking.age}</p>
+                <p><strong>gmail:</strong> {booking.gmail}</p>
                 <p><strong>Gender:</strong> {booking.gender}</p>
                 <p><strong>Booked Date:</strong> {new Date(booking.bookingDateTime).toLocaleDateString()}</p>
               </div>

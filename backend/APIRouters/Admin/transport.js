@@ -78,6 +78,41 @@ transportRouter.put('/decreaseseat', async (req, res) => {
     res.status(500).json({ message: 'Internal server error', error: err.message });
   }
 });
+transportRouter.put('/increaseseat', async (req, res) => {
+  try {
+    const { from, to, date, number, seatType } = req.body;
+
+    if (!from || !to || !date || !number || !seatType) {
+      return res.status(400).json({ message: 'Missing required fields: from, to, date, number, seatType' });
+    }
+
+    const transport = await Transport.findOne({ from, to, date, number });
+    if (!transport) {
+      return res.status(404).json({ message: 'No matching transport found for the given criteria' });
+    }
+
+    const normalizedSeatType = seatType.toLowerCase();
+
+    if (normalizedSeatType === 'normal') {
+      transport.normalSeats += 1;
+    } else if (normalizedSeatType === 'ac') {
+      transport.acSeats += 1;
+    } else if (normalizedSeatType === 'sleeper') {
+      transport.sleeperSeats += 1;
+    } else if (normalizedSeatType === 'business') {
+      transport.businessSeats += 1;
+    } else {
+      return res.status(400).json({ message: 'Invalid seat type' });
+    }
+
+    await transport.save();
+    res.status(200).json({ message: 'Seat successfully increased', transport });
+  } catch (err) {
+    console.error('Error increasing seat:', err);
+    res.status(500).json({ message: 'Internal server error', error: err.message });
+  }
+});
+
 
 transportRouter.post('/get-transport', async (req, res) => {
   try {

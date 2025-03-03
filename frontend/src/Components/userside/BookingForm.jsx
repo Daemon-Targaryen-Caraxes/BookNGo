@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useLocation,Link} from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import QRCode from "react-qr-code";
+
 const BookingForm = () => {
   const location = useLocation();
   const userId = localStorage.getItem("userId");
@@ -16,10 +17,10 @@ const BookingForm = () => {
       seatType === "AC"
         ? transport?.acSeatAmount
         : seatType === "Sleeper"
-          ? transport?.sleeperSeatAmount
-          : seatType === "Business"
-            ? transport?.businessSeatAmount
-            : transport?.normalSeatAmount || "",
+        ? transport?.sleeperSeatAmount
+        : seatType === "Business"
+        ? transport?.businessSeatAmount
+        : transport?.normalSeatAmount || "",
     mode: transport?.mode || "",
     name: transport?.name || "",
     no: transport?.number || "",
@@ -28,7 +29,7 @@ const BookingForm = () => {
     phoneNo: "",
     dob: "",
     aadhaar: "",
-    age: "",
+    gmail: "",
     gender: "",
     bookingDateTime: "",
     seatId: "",
@@ -68,16 +69,17 @@ const BookingForm = () => {
     if (!formData.passengerName.trim()) return "Passenger name is required.";
     if (!/^[6-9]\d{9}$/.test(formData.phoneNo)) return "Invalid phone number.";
     if (!formData.dob) return "Date of birth is required.";
-    if (!formData.age || formData.age <= 0) return "Invalid age.";
     if (!/\d{12}$/.test(formData.aadhaar)) return "Aadhaar number must be 12 digits.";
     if (!formData.gender) return "Gender is required.";
+    if (!/\S+@\S+\.\S+/.test(formData.gmail)) return "Invalid Gmail address.";
     return "";
   };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  
+
+  const SendMail = () => {};
 
   const handleSubmit = async (e) => {
     setShowQR(true);
@@ -131,64 +133,68 @@ const BookingForm = () => {
   return (
     <div className="booking-form">
       {errorMessage && <div className="error-message">{errorMessage}</div>}
-     {!showQR ?(<form onSubmit={handleSubmit}>
-      <h2>Enter Passenger Details</h2>
-
-        <table>
-          <tbody>
-            <tr>
-              <td><label>From:</label></td>
-              <td><input type="text" value={formData.from} readOnly /></td>
-              <td><label>To:</label></td>
-              <td><input type="text" value={formData.to} readOnly /></td>
-            </tr>
-            <tr>
-              <td><label>Time:</label></td>
-              <td><input type="text" value={formData.time} readOnly /></td>
-              <td><label>Date:</label></td>
-              <td><input type="text" value={formData.date} readOnly /></td>
-            </tr>
-            <tr>
-              <td><label>class :</label></td>
-              <td><input type="text" value={seatType} readOnly /></td>
-              <td><label>Amount:</label></td>
-              <td><input type="text" value={`₹${formData.amount}`} readOnly /></td>
-            </tr>
-            <tr>
-              <td><label>Passenger Name:</label></td>
-              <td><input type="text" name="passengerName" value={formData.passengerName} onChange={handleChange} required /></td>
-              <td><label>Phone No:</label></td>
-              <td><input type="text" name="phoneNo" value={formData.phoneNo} onChange={handleChange} required /></td>
-            </tr>
-            <tr>
-              <td><label>DOB:</label></td>
-              <td><input type="date" name="dob" value={formData.dob} onChange={handleChange} required /></td>
-              <td><label>Age:</label></td>
-              <td><input type="number" name="age" value={formData.age} onChange={handleChange} required /></td>
-            </tr>
-            <tr>
-              <td><label>Aadhaar:</label></td>
-              <td><input type="text" name="aadhaar" value={formData.aadhaar} onChange={handleChange} required /></td>
-              <td><label>Gender:</label></td>
-              <td>
-                <select name="gender" value={formData.gender} onChange={handleChange} required>
-                  <option value="">Select</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
-                </select>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <button type="submit">Pay</button>
-      </form>):(
-      <form className="qr-section">
+      {!showQR ? (
+        <form onSubmit={handleSubmit}>
+          <h2>Enter Passenger Details</h2>
+          <table>
+            <tbody>
+              <tr>
+                <td><label>From:</label></td>
+                <td><input type="text" value={formData.from} readOnly /></td>
+                <td><label>To:</label></td>
+                <td><input type="text" value={formData.to} readOnly /></td>
+              </tr>
+              <tr>
+                <td><label>Time:</label></td>
+                <td><input type="text" value={formData.time} readOnly /></td>
+                <td><label>Date:</label></td>
+                <td><input type="text" value={formData.date} readOnly /></td>
+              </tr>
+              <tr>
+                <td><label>Class :</label></td>
+                <td><input type="text" value={seatType} readOnly /></td>
+                <td><label>Amount:</label></td>
+                <td><input type="text" value={`₹${formData.amount}`} readOnly /></td>
+              </tr>
+              <tr>
+                <td><label>Passenger Name:</label></td>
+                <td><input type="text" name="passengerName" value={formData.passengerName} onChange={handleChange} required /></td>
+                <td><label>Phone No:</label></td>
+                <td><input type="text" name="phoneNo" value={formData.phoneNo} onChange={handleChange} required /></td>
+              </tr>
+              <tr>
+                <td><label>DOB:</label></td>
+                <td><input type="date" name="dob" value={formData.dob} onChange={handleChange} required /></td>
+                <td><label>Gmail:</label></td>
+                <td><input type="email" name="gmail" value={formData.gmail} onChange={handleChange} required /></td>
+              </tr>
+              <tr>
+                <td><label>Aadhaar:</label></td>
+                <td><input type="text" name="aadhaar" value={formData.aadhaar} onChange={handleChange} required /></td>
+                <td><label>Gender:</label></td>
+                <td>
+                  <select name="gender" value={formData.gender} onChange={handleChange} required>
+                    <option value="">Select</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <button type="submit">Pay</button>
+        </form>
+      ) : (
+        <form className="qr-section">
           <h3>Scan QR Code to Pay ₹{formData.amount}</h3>
           <QRCode value={`upi://pay?pa=7981108414@ybl&pn=BookNGo&mc=&tid=&tr=&tn=TicketBooking&am=${formData.amount}&cu=INR`} />
-          <h4>after completed payment click on verify</h4>
-          <button className="verifybutton"><Link to="/confirmation" state={{ bookingDetails: formData }}>payment Done</Link></button>
-      </form>)}
+          <h4>After completing payment, click on verify</h4>
+          <button className="verifybutton">
+            <Link to="/confirmation" state={{ bookingDetails: formData }} onClick={() => SendMail()}>Payment Done</Link>
+          </button>
+        </form>
+      )}
     </div>
   );
 };

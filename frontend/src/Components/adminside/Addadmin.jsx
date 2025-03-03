@@ -15,13 +15,13 @@ const AddAdmin = () => {
   });
 
   const [error, setError] = useState(null);
-
-  const [otpSent, setOtpSent] = useState(false);
   const [successMessage, setSuccessMessage] = useState(null);
+  const [otpSent, setOtpSent] = useState(false);
   const [generatedOtp, setGeneratedOtp] = useState("");
   const [otpVerified, setOtpVerified] = useState(false);
   const [resendDisabled, setResendDisabled] = useState(false);
   const [timer, setTimer] = useState(30);
+
   useEffect(() => {
     let countdown;
     if (otpSent && timer > 0) {
@@ -43,7 +43,9 @@ const AddAdmin = () => {
       [name]: value
     });
   };
+
   const generateOtp = () => Math.floor(100000 + Math.random() * 900000).toString();
+
   const sendOtp = async () => {
     if (!/^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(formData.email)) {
       setError("Enter a valid Gmail address.");
@@ -75,6 +77,7 @@ const AddAdmin = () => {
       setOtpSent(false);
     }
   };
+
   const verifyOtp = () => {
     if (formData.otp.trim() === generatedOtp.trim()) {
       setOtpVerified(true);
@@ -125,8 +128,12 @@ const AddAdmin = () => {
           aadharNo: '',
           adminId: '',
           password: '',
-          confirmPassword: ''
+          confirmPassword: '',
+          otp: "",
         });
+        setGeneratedOtp("");
+        setOtpVerified(false);
+        setOtpSent(false);
         setError(null);
       } else {
         setError(data.error || 'Failed to add new admin');
@@ -157,21 +164,24 @@ const AddAdmin = () => {
                 <td><input type="email" name="email" value={formData.email} onChange={handleChange} required /></td>
               </tr>
               {!otpVerified && (
-                <>
+                <tr>
+                <td colSpan="2" className="button-row" style={{ textAlign: "center" }}>
                   <button type="button" onClick={sendOtp} disabled={otpSent}>
                     {otpSent ? "OTP Sent" : "Send OTP"}
                   </button>
+
                   {otpSent && (
-                    <>
-                      <input type="text" name="otp" value={formData.otp} onChange={handleChange} placeholder="Enter OTP" required />
+                    < div >
+                      <input type="text" name="otp" value={formData.otp} onChange={handleChange} placeholder="Enter OTP" style={{width:"150px"}} required />
                       <button type="button" onClick={verifyOtp}>Verify OTP</button>
                       <p>Resend OTP in {timer}s</p>
                       <button type="button" onClick={sendOtp} disabled={resendDisabled}>
                         Resend OTP
                       </button>
-                    </>
+                    </div>
                   )}
-                </>
+                </td>
+                </tr>
               )}
 
               <tr>

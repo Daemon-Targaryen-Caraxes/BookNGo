@@ -76,7 +76,7 @@ adminRouter.put('/:adminId/editprofile', async (req, res) => {
       await SendMail(
         email,
         "Profile Updated",
-        `Hi ${updatedUser.username},\nYour admin account profile has been successfully updated. If you did not make these changes or have any questions, feel free to contact us at support@bookngowebsite.com.\nBest, BOOKNGO.`
+        `Hi ${adminName},\nYour admin account profile has been successfully updated. If you did not make these changes or have any questions, feel free to contact us at support@bookngowebsite.com.\nBest, BOOKNGO.`
       );
     })();
     admin.adminId = newAdminId;

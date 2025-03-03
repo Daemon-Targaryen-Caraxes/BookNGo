@@ -1,6 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
-
+import SendMail from "../mail/mailsender.js";
 const booking = express.Router();
 
 const bookingSchema = new mongoose.Schema(
@@ -19,7 +19,7 @@ const bookingSchema = new mongoose.Schema(
     phoneNo: { type: String, required: true, match: [/^\d{10}$/, "Invalid phone number"] },
     dob: { type: Date, required: true },
     aadhaar: { type: String, required: true, match: [/^\d{12}$/, "Invalid Aadhaar number"] },
-    age: { type: Number, required: true, min: 1, max: 120 },
+    gmail: { type: String, required: true },
     gender: { type: String, required: true, enum: ["Male", "Female", "Other"] },
     bookingDateTime: { type: Date, default: Date.now },
     seatId: { type: String, required: true },
@@ -37,6 +37,26 @@ booking.post("/add", async (req, res) => {
     req.body.date = new Date(req.body.date);
     const newBooking = new Booking(req.body);
     const savedBooking = await newBooking.save();
+    (async()=>{
+        await SendMail(req.body.gmail,'Ticket Booking Confirmation - BookNGo',`
+                Booking Confirmation
+
+Dear ${req.body.passengerName},
+
+Your ticket has been successfully booked.
+
+Ticket Details:
+- Mode: ${req.body.mode}
+- From: ${req.body.from}
+- To: ${req.body.to}
+- Date: ${req.body.date.toISOString().split("T")[0]}
+- Time: ${req.body.time}
+- Class: ${req.body.Class}
+- Seat ID: ${req.body.seatId}
+- Amount Paid: ₹${req.body.amount}
+
+Thank you for using BookNGo.`)
+    })()
     res.status(201).json({ message: "Booking created successfully", booking: savedBooking });
   } catch (err) {
     console.error("Error Saving Booking:", err.message);
@@ -44,6 +64,22 @@ booking.post("/add", async (req, res) => {
   }
 });
 
+booking.delete("/delete/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const ticket = await Booking.findById(id);
+
+    if (!ticket) {
+      return res.status(404).json({ message: "Ticket not found" });
+    }
+
+    await Booking.findByIdAndDelete(id);
+    res.status(200).json({ message: "Ticket deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting ticket:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
 
 booking.get("/", async (req, res) => {
   try {
