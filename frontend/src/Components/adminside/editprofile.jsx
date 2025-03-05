@@ -11,7 +11,7 @@ const EditAdmin = () => {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [successMessage, setSuccessMessage] = useState(null);
+  const [updated, setupdated] = useState(false);
 
   useEffect(() => {
     const adminId = localStorage.getItem("adminId");
@@ -49,7 +49,7 @@ const EditAdmin = () => {
 
   const validateForm = () => {
     const { adminName, email, gender, aadharNo } = adminData;
-    
+
     if (!adminName.trim()) return "Admin Name is required.";
     if (!email.trim() || !/^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/.test(email))
       return "Enter a valid email address.";
@@ -61,11 +61,10 @@ const EditAdmin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     const validationError = validateForm();
     if (validationError) {
       setError(validationError);
-      setSuccessMessage(null);
       return;
     }
 
@@ -93,17 +92,17 @@ const EditAdmin = () => {
       if (!response.ok) {
         throw new Error("Failed to update profile.");
       }
-
-      // If adminId changed, update localStorage
       if (storedAdminId !== adminData.adminId) {
         localStorage.setItem("adminId", adminData.adminId);
       }
-
-      setSuccessMessage("Profile updated successfully!");
+      setupdated(true)
+      setTimeout(() => {
+        setupdated(false)
+      }, 3000);
       setError(null);
     } catch (err) {
       setError(err.message || "Failed to update profile.");
-      setSuccessMessage(null);
+
     }
   };
 
@@ -117,7 +116,6 @@ const EditAdmin = () => {
         <h2 className="form-title">Edit Admin Profile</h2>
 
         {error && <div className="error-message">{error}</div>}
-        {successMessage && <div className="success-message">{successMessage}</div>}
 
         <form onSubmit={handleSubmit} className="admin-form">
           <table className="admin-table">
@@ -149,13 +147,11 @@ const EditAdmin = () => {
                 <td><label>Aadhar No:</label></td>
                 <td><input type="text" name="aadharNo" value={adminData.aadharNo} onChange={handleChange} required maxLength="12" /></td>
               </tr>
-              <tr>
-                <td colSpan="2" className="button-row">
-                  <button type="submit" className="submit-button">Save Changes</button>
-                </td>
-              </tr>
+
             </tbody>
           </table>
+          <button type="submit" className="submit-button">Update Admin</button>
+          {updated && <h4 style={{ color: "green" }}>profile update successfully</h4>}
         </form>
       </div>
     </div>

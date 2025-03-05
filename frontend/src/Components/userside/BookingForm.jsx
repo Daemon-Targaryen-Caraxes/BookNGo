@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import QRCode from "react-qr-code";
 
 const BookingForm = () => {
   const location = useLocation();
-  const userId = localStorage.getItem("userId");
   const user = localStorage.getItem("userId") || localStorage.getItem("adminId");
   const { transport, seatType } = location.state || {};
-  const [timer, setTimer] = useState(360);
   const [formData, setFormData] = useState({
     from: transport?.from || "",
     to: transport?.to || "",
@@ -17,10 +15,10 @@ const BookingForm = () => {
       seatType === "AC"
         ? transport?.acSeatAmount
         : seatType === "Sleeper"
-        ? transport?.sleeperSeatAmount
-        : seatType === "Business"
-        ? transport?.businessSeatAmount
-        : transport?.normalSeatAmount || "",
+          ? transport?.sleeperSeatAmount
+          : seatType === "Business"
+            ? transport?.businessSeatAmount
+            : transport?.normalSeatAmount || "",
     mode: transport?.mode || "",
     name: transport?.name || "",
     no: transport?.number || "",
@@ -44,6 +42,17 @@ const BookingForm = () => {
       setFormData((prev) => ({ ...prev, seatId: generateSeatNo() }));
     }
   }, [transport, seatType]);
+  const navigate = useNavigate();
+
+  const handlePaymentDone = (e) => {
+    e.preventDefault();
+    const destination = localStorage.getItem("adminId") ? "/adminconfirmation" : "/confirmation";
+
+    navigate(destination, {
+      state: { bookingDetails: formData },
+    });
+
+  };
 
   const generateSeatNo = () => {
     let seatId = "";
@@ -79,7 +88,7 @@ const BookingForm = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const SendMail = () => {};
+  const SendMail = () => { };
 
   const handleSubmit = async (e) => {
     setShowQR(true);
@@ -190,9 +199,10 @@ const BookingForm = () => {
           <h3>Scan QR Code to Pay ₹{formData.amount}</h3>
           <QRCode value={`upi://pay?pa=7981108414@ybl&pn=BookNGo&mc=&tid=&tr=&tn=TicketBooking&am=${formData.amount}&cu=INR`} />
           <h4>After completing payment, click on verify</h4>
-          <button className="verifybutton">
-            <Link to="/confirmation" state={{ bookingDetails: formData }} onClick={() => SendMail()}>Payment Done</Link>
+          <button className="verifybutton" onClick={handlePaymentDone}>
+            Payment Done
           </button>
+
         </form>
       )}
     </div>

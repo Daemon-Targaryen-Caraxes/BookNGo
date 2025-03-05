@@ -47,6 +47,7 @@ function AdminLogin() {
         <form onSubmit={handleSubmit}>
           <input type="text" id="adminId" value={adminId}  onChange={(e) => setAdminId(e.target.value)}  placeholder="AdminId"    required />
           <input type="password" id="password" value={password}  onChange={(e) => setPassword(e.target.value)}  placeholder="Password"  required />
+          <a style={{marginLeft:"120px",fontSize:"13px",color:"blue"}} onClick={() => navigate("/resetadminpassword")}>Forgot Password?</a>
           <button type="submit">Login</button>
         </form>
       </div>

@@ -14,6 +14,54 @@ const AdminSchema = new mongoose.Schema({
 }, { collection: "Admin" });
 
 const Admin = mongoose.model('Admin', AdminSchema);
+adminRouter.post("/sendotpforresetpassword", async (req, res) => {
+  try {
+    const { adminId, otp } = req.body;
+
+    if (!adminId || !otp) {
+      return res.status(400).json({ error: "User ID and OTP are required." });
+    }
+
+    const user = await Admin.findOne({ adminId });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    const gmail = user.email; 
+
+    await SendMail(
+      gmail,
+      "Gmail Verification OTP",
+      `Hi,\nYour email verification OTP is: ${otp}. Please use this code to complete the verification process.\nIf you did not request this, please ignore this message.\n\nBest, BOOKNGO.`
+    );
+
+    res.json({ message: "OTP sent successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to send OTP", details: error.message });
+  }
+});
+adminRouter.put("/reset-password", async (req, res) => {
+  try {
+    const { adminId, password } = req.body;
+    if (!adminId || !password) {
+      return res.status(400).json({ error: "User ID and new password are required." });
+    }
+
+    const user = await Admin.findOne({ adminId });
+    if (!user) return res.status(404).json({ error: "User not found" });
+    user.password = await bcrypt.hash(password, 10);
+    await user.save();
+    await SendMail(
+      user.email,
+      "Password Change Notification",
+      `Hi ${user.username},\n\nYour password has been successfully changed. If you didn't make this change, please contact us immediately at support@bookngowebsite.com.\n\nBest, BOOKNGO.`
+    );
+    res.json({ message: "Password updated successfully" });
+  } catch (err) {
+    res.status(500).json({ error: "Error changing password", details: err.message });
+  }
+});
 
 adminRouter.get('/', async (req, res) => {
   try {

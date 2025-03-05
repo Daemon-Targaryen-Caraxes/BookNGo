@@ -40,16 +40,17 @@ const Login = () => {
     <div className="useradminlogin">
       <Header />
       <div className="container">
-        <h2>Login</h2>
+        <h2>User Login</h2>
         {error && <p className="error">{error}</p>}
         <form onSubmit={handleLogin}>
           <input type="text" placeholder="User ID" onChange={(e) => setUserId(e.target.value)} required />
           <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} required />
+          <a style={{marginLeft:"120px",fontSize:"13px",color:"blue"}} onClick={() => navigate("/resetpassword")}>Forgot Password?</a>
           <button type="submit">Login</button>
         </form>
-        <p>
-          <a href="#" onClick={() => navigate("/user/forgot-password")}>Forgot Password?</a>
-        </p>
+        <a>
+        <a style={{color:"blue",marginTop:"50px"}}onClick={() => navigate("/signup")}><u>Signup</u></a>
+        </a>
       </div>
     </div>
   );
