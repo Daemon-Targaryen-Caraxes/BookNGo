@@ -28,7 +28,7 @@ adminRouter.post("/sendotpforresetpassword", async (req, res) => {
       return res.status(404).json({ error: "User not found." });
     }
 
-    const gmail = user.email; 
+    const gmail = user.email;
 
     await SendMail(
       gmail,

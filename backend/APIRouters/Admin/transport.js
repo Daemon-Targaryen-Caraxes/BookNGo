@@ -36,7 +36,7 @@ transportRouter.post('/add-transport', async (req, res) => {
 
     const newTransport = new Transport(req.body);
     await newTransport.save();
-    
+
     res.status(201).json({ message: 'Transport added successfully!' });
   } catch (err) {
     console.error('Error adding transport:', err);

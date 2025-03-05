@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const UpdateUserProfile = () => {
   const userid = localStorage.getItem("userId");
   const navigate = useNavigate();
-   
+
   const [userData, setUserData] = useState({
     userid: "",
     username: "",
@@ -37,7 +37,7 @@ const UpdateUserProfile = () => {
     if (Object.values(userData).some((value) => String(value).trim() === "")) {
       return "All fields are required.";
     }
-    
+
 
     const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
     if (!gmailRegex.test(userData.gmail)) {
@@ -83,7 +83,7 @@ const UpdateUserProfile = () => {
       setupdated(true)
       setTimeout(() => {
         setupdated(false)
-      },3000);
+      }, 3000);
     } catch (err) {
       setError(err.message);
     }
@@ -134,7 +134,7 @@ const UpdateUserProfile = () => {
             </tr>
           </tbody>
         </table>
-      {updated && <h4 style={{color:"green"}}>profile update successfully</h4>}
+        {updated && <h4 style={{ color: "green" }}>profile update successfully</h4>}
       </form>
     </div>
   );

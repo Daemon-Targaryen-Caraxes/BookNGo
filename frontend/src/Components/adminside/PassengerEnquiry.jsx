@@ -40,7 +40,7 @@ const PassengerEnquiry = () => {
         {error && <p className="error-message">{error}</p>}
 
         <div>
-          <input  type="text"  name="phone-number"  value={phone}  onChange={(event) => setPhone(event.target.value.replace(/\D/, ""))}   className="input-phone"  placeholder="Enter 10-digit phone number" maxLength="10"  required/>
+          <input type="text" name="phone-number" value={phone} onChange={(event) => setPhone(event.target.value.replace(/\D/, ""))} className="input-phone" placeholder="Enter 10-digit phone number" maxLength="10" required />
         </div>
 
         <button onClick={handleSearch} className="button-search">

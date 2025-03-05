@@ -39,7 +39,7 @@ const AddTransport = () => {
     if (formData.sleeperSeats < 0 || formData.sleeperSeatAmount < 0) return "Seats and amounts cannot be negative.";
     if (formData.acSeats < 0 || formData.acSeatAmount < 0) return "Seats and amounts cannot be negative.";
     if (formData.businessSeats < 0 || formData.businessSeatAmount < 0) return "Seats and amounts cannot be negative.";
-    
+
     const today = new Date().toISOString().split("T")[0];
     if (formData.date < today) return "Date cannot be in the past.";
     if (!formData.time) return "Time is required.";

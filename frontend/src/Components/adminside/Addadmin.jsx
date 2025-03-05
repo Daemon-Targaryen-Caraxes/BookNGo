@@ -165,22 +165,22 @@ const AddAdmin = () => {
               </tr>
               {!otpVerified && (
                 <tr>
-                <td colSpan="2" className="button-row" style={{ textAlign: "center" }}>
-                  <button type="button" onClick={sendOtp} disabled={otpSent}>
-                    {otpSent ? "OTP Sent" : "Send OTP"}
-                  </button>
+                  <td colSpan="2" className="button-row" style={{ textAlign: "center" }}>
+                    <button type="button" onClick={sendOtp} disabled={otpSent}>
+                      {otpSent ? "OTP Sent" : "Send OTP"}
+                    </button>
 
-                  {otpSent && (
-                    < div >
-                      <input type="text" name="otp" value={formData.otp} onChange={handleChange} placeholder="Enter OTP" style={{width:"150px"}} required />
-                      <button type="button" onClick={verifyOtp}>Verify OTP</button>
-                      <p>Resend OTP in {timer}s</p>
-                      <button type="button" onClick={sendOtp} disabled={resendDisabled}>
-                        Resend OTP
-                      </button>
-                    </div>
-                  )}
-                </td>
+                    {otpSent && (
+                      < div >
+                        <input type="text" name="otp" value={formData.otp} onChange={handleChange} placeholder="Enter OTP" style={{ width: "150px" }} required />
+                        <button type="button" onClick={verifyOtp}>Verify OTP</button>
+                        <p>Resend OTP in {timer}s</p>
+                        <button type="button" onClick={sendOtp} disabled={resendDisabled}>
+                          Resend OTP
+                        </button>
+                      </div>
+                    )}
+                  </td>
                 </tr>
               )}
 

@@ -1,4 +1,4 @@
-import { Link ,useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 const UseradminHeader = () => {
   const navigate = useNavigate();
@@ -17,10 +17,10 @@ const UseradminHeader = () => {
           <Link to="/TravelSearchForm" state={{ selectedOption: "train" }}>book train</Link>
           <Link>change password</Link>
           <Link> history</Link>
-          <Link onClick={()=>setShowPopup(!showPopup)}>logout</Link>
+          <Link onClick={() => setShowPopup(!showPopup)}>logout</Link>
         </nav>
-       </div>
-       {/* {showPopup && (
+      </div>
+      {/* {showPopup && (
           <div className="popup" onClick={()=>setShowPopup(!showPopup)}>
             <div className="popup-con">
               <h2>confirm to logout</h2>
@@ -31,7 +31,7 @@ const UseradminHeader = () => {
             </div>
           </div>
         )} */}
-      </>
-   );
+    </>
+  );
 }
 export default UseradminHeader;

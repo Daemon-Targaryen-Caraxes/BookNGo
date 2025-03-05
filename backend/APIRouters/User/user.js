@@ -36,13 +36,15 @@ userRouter.post("/sendotpforresetpassword", async (req, res) => {
       return res.status(404).json({ error: "User not found." });
     }
 
-    const gmail = user.gmail; 
+    const gmail = user.gmail;
 
-   (async()=>{ await sendMail(
-      gmail,
-      "Gmail Verification OTP",
-      `Hi,\nYour email verification OTP is: ${otp}. Please use this code to complete the verification process.\nIf you did not request this, please ignore this message.\n\nBest, BOOKNGO.`
-    );});
+    (async () => {
+      await sendMail(
+        gmail,
+        "Gmail Verification OTP",
+        `Hi,\nYour email verification OTP is: ${otp}. Please use this code to complete the verification process.\nIf you did not request this, please ignore this message.\n\nBest, BOOKNGO.`
+      );
+    });
 
     res.json({ message: "OTP sent successfully" });
   } catch (error) {

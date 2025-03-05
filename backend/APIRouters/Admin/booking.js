@@ -37,8 +37,8 @@ booking.post("/add", async (req, res) => {
     req.body.date = new Date(req.body.date);
     const newBooking = new Booking(req.body);
     const savedBooking = await newBooking.save();
-    (async()=>{
-        await SendMail(req.body.gmail,'Ticket Booking Confirmation - BookNGo',`
+    (async () => {
+      await SendMail(req.body.gmail, 'Ticket Booking Confirmation - BookNGo', `
                 Booking Confirmation
 
 Dear ${req.body.passengerName},
@@ -67,16 +67,16 @@ Thank you for using BookNGo.`)
 booking.delete("/delete/:id", async (req, res) => {
   try {
 
-    const {gmail,amount}=req.body;
+    const { gmail, amount } = req.body;
     const { id } = req.params;
     const ticket = await Booking.findById(id);
     if (!ticket) {
       return res.status(404).json({ message: "Ticket not found" });
     }
-   console.log(gmail);
+    console.log(gmail);
     await Booking.findByIdAndDelete(id);
-    (async()=>{
-      await SendMail(gmail,'Ticket cancelled Confirmation',`cancelled Confirmation,\n \nthe Amount  ₹${amount} refund with 24hours\n thanks for using BOOkNGO`);
+    (async () => {
+      await SendMail(gmail, 'Ticket cancelled Confirmation', `cancelled Confirmation,\n \nthe Amount  ₹${amount} refund with 24hours\n thanks for using BOOkNGO`);
     })()
 
     res.status(200).json({ message: "Ticket deleted successfully" });
@@ -111,7 +111,7 @@ booking.get("/search/:phoneNo", async (req, res) => {
 
 booking.get("/:id", async (req, res) => {
   const { id } = req.params;
-  
+
   try {
     const booking = await Booking.findById(id);
     if (!booking) {

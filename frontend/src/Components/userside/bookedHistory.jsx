@@ -153,7 +153,7 @@ const BookedHistory = () => {
     try {
       const response = await fetch(`http://localhost:3000/booking/delete/${bookingId}`, {
         method: "DELETE",
-        body: JSON.stringify({ gmail,amount }),
+        body: JSON.stringify({ gmail, amount }),
         headers: { "Content-Type": "application/json" },
       });
 
@@ -165,7 +165,7 @@ const BookedHistory = () => {
         });
 
         setBookings(bookings.filter((booking) => booking._id !== bookingId));
-        setSelectedBooking(null); 
+        setSelectedBooking(null);
       } else {
         const data = await response.json();
         alert(data.error || "Error deleting booking.");

@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 const SelectOptionPage = () => {
   const navigate = useNavigate();
-  
-  const userId=localStorage.getItem("userId");
+
+  const userId = localStorage.getItem("userId");
 
   const handleSelection = (option) => {
     if (userId) {

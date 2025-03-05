@@ -3,10 +3,10 @@ import React from "react";
 const Header = () => {
   return (
     <>
-    <header style={headerStyle}>
-      <h1 style={titleStyle}>WELCOME TO  BOOKNGO</h1>
-    </header>
-   </>
+      <header style={headerStyle}>
+        <h1 style={titleStyle}>WELCOME TO  BOOKNGO</h1>
+      </header>
+    </>
   );
 };
 
@@ -14,7 +14,7 @@ const headerStyle = {
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  padding: "25px 0 0 0", 
+  padding: "25px 0 0 0",
   color: "white",
 };
 

@@ -15,7 +15,7 @@ const ConfirmationPage = () => {
     doc.setFontSize(18);
     doc.text("Booking Confirmation", 20, 20);
     doc.setFontSize(12);
-    
+
     doc.text(`Train Name: ${bookingDetails.name}`, 20, 30);
     doc.text(`Train No: ${bookingDetails.no}`, 20, 40);
     doc.text(`From: ${bookingDetails.from}`, 20, 50);
@@ -31,7 +31,7 @@ const ConfirmationPage = () => {
     doc.text(`Gender: ${bookingDetails.gender}`, 20, 150);
     doc.text(`Seat No: ${bookingDetails.seatId}`, 20, 160);
     doc.text(`Amount: ₹${bookingDetails.amount}`, 20, 170);
-    F
+
     doc.save("ticket.pdf");
   };
 

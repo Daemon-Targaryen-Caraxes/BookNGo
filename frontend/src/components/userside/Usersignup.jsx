@@ -22,7 +22,7 @@ const SignUp = () => {
   const [otpVerified, setOtpVerified] = useState(false);
   const [resendDisabled, setResendDisabled] = useState(false);
   const [timer, setTimer] = useState(30);
-  
+
   useEffect(() => {
     let countdown;
     if (otpSent && timer > 0) {
@@ -83,7 +83,7 @@ const SignUp = () => {
       setError("Invalid OTP. Try again.");
     }
   };
-  
+
 
   const validateForm = () => {
     if (Object.values(formData).some((value) => value.trim() === "")) {
@@ -144,7 +144,7 @@ const SignUp = () => {
         <form onSubmit={handleSubmit}>
           <input type="text" name="username" value={formData.username} onChange={handleChange} placeholder="Username" required />
           <input type="text" name="gmail" value={formData.gmail} onChange={handleChange} placeholder="Gmail" required />
-          
+
           {!otpVerified && (
             <>
               <button type="button" onClick={sendOtp} disabled={otpSent}>
@@ -173,7 +173,7 @@ const SignUp = () => {
           <input type="text" name="userid" value={formData.userid} onChange={handleChange} placeholder="User ID" required />
           <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password" required />
           <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} placeholder="Confirm Password" required />
-          
+
           <button type="submit" disabled={!otpVerified}>Sign Up</button>
         </form>
       </div>

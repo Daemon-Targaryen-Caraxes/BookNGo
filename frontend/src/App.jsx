@@ -27,11 +27,11 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/resetpassword" element={<ResetPassword/>} />
+        <Route path="/resetpassword" element={<ResetPassword />} />
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path='/resetadminpassword' element={<ForgotAdminPassword/>}/>
+        <Route path='/resetadminpassword' element={<ForgotAdminPassword />} />
         <Route path="/AdminLogin" element={<AdminLogin />} />
         <Route path="/" element={<AdminLayout />}>
           <Route path="/changeadminpassword" element={<ChangeadminPassword />} />
