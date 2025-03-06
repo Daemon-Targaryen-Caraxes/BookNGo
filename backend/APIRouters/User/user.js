@@ -37,14 +37,13 @@ userRouter.post("/sendotpforresetpassword", async (req, res) => {
     }
 
     const gmail = user.gmail;
+    console.log(gmail)
 
-    (async () => {
-      await sendMail(
-        gmail,
-        "Gmail Verification OTP",
-        `Hi,\nYour email verification OTP is: ${otp}. Please use this code to complete the verification process.\nIf you did not request this, please ignore this message.\n\nBest, BOOKNGO.`
-      );
-    });
+    sendMail(
+      gmail,
+      "Gmail Verification OTP",
+      `Hi,\nYour email verification OTP is: ${otp}. Please use this code to complete the verification process.\nIf you did not request this, please ignore this message.\n\nBest, BOOKNGO.`
+    );
 
     res.json({ message: "OTP sent successfully" });
   } catch (error) {

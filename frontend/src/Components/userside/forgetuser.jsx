@@ -140,7 +140,6 @@ const ForgotPassword = () => {
           {otpVerified && (
             <>
               <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Enter new password" required />
-              <label>Confirm Password:</label>
               <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} placeholder="Confirm new password" required />
               <button type="button" onClick={resetPassword}>Reset Password</button>
             </>
