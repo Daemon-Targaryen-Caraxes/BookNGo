@@ -6,7 +6,7 @@ const transportSchema = new mongoose.Schema({
   to: { type: String, required: true },
   number: { type: String, required: true },
   name: { type: String, required: true },
-  normalSeats: { type: Number, default: 0 },
+  normalSeats: { type: Number, required: true},
   normalSeatAmount: { type: Number, required: true },
   sleeperSeats: { type: Number, default: 0 },
   sleeperSeatAmount: { type: Number },
@@ -46,13 +46,13 @@ transportRouter.post('/add-transport', async (req, res) => {
 
 transportRouter.put('/decreaseseat', async (req, res) => {
   try {
-    const { from, to, date, number, seatType } = req.body;
+    const { from, to, date, number, seatType,mode } = req.body;
 
     if (!from || !to || !date || !number || !seatType) {
       return res.status(400).json({ message: 'Missing required fields: from, to, date, number, seatType' });
     }
 
-    const transport = await Transport.findOne({ from, to, date, number });
+    const transport = await Transport.findOne({ from, to, date, number ,mode});
     if (!transport) {
       return res.status(404).json({ message: 'No matching transport found for the given criteria' });
     }

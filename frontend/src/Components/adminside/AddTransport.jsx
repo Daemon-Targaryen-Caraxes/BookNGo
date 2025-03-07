@@ -35,14 +35,18 @@ const AddTransport = () => {
     if (!/^[a-zA-Z\s]+$/.test(formData.to)) return "To location should contain only letters.";
     if (!/^[a-zA-Z0-9]+$/.test(formData.number)) return "Transport number should be alphanumeric.";
     if (!/^[a-zA-Z\s]+$/.test(formData.name)) return "Transport name should contain only letters.";
-    if (formData.normalSeats < 0 || formData.normalSeatAmount < 0) return "Seats and amounts cannot be negative.";
-    if (formData.sleeperSeats < 0 || formData.sleeperSeatAmount < 0) return "Seats and amounts cannot be negative.";
-    if (formData.acSeats < 0 || formData.acSeatAmount < 0) return "Seats and amounts cannot be negative.";
-    if (formData.businessSeats < 0 || formData.businessSeatAmount < 0) return "Seats and amounts cannot be negative.";
 
-    const today = new Date().toISOString().split("T")[0];
-    if (formData.date < today) return "Date cannot be in the past.";
-    if (!formData.time) return "Time is required.";
+    // Ensure numerical values are valid
+    if (parseInt(formData.normalSeats) < 0 || parseInt(formData.normalSeatAmount) < 0) return "Seats and amounts cannot be negative.";
+    if (parseInt(formData.sleeperSeats) < 0 || parseInt(formData.sleeperSeatAmount) < 0) return "Seats and amounts cannot be negative.";
+    if (parseInt(formData.acSeats) < 0 || parseInt(formData.acSeatAmount) < 0) return "Seats and amounts cannot be negative.";
+    if (parseInt(formData.businessSeats) < 0 || parseInt(formData.businessSeatAmount) < 0) return "Seats and amounts cannot be negative.";
+
+    const today = new Date();
+    const inputDate = new Date(formData.date);
+    if (inputDate < today) return "Date cannot be in the past.";
+
+    if (!formData.time.trim()) return "Time is required.";
 
     return "";
   };
@@ -87,6 +91,23 @@ const AddTransport = () => {
   const handlePopupClose = () => {
     setShowPopup(false);
     navigate('/adminselecttraveloption');
+    setFormData({
+      from: '',
+      to: '',
+      number: '',
+      name: '',
+      normalSeats: '',
+      normalSeatAmount: '',
+      sleeperSeats: '',
+      sleeperSeatAmount: '',
+      acSeats: '',
+      acSeatAmount: '',
+      businessSeats: '',
+      businessSeatAmount: '',
+      date: '',
+      time: '',
+      mode: 'bus',
+    });
   };
 
   const renderModeSpecificFields = () => {

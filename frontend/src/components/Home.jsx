@@ -7,8 +7,8 @@ const Home = () => {
     <div className="home1">
       <Header />
       <div className="container-button">
-        <button onClick={() => navigate("/login")}>Are you User?</button>
-        <button onClick={() => navigate("AdminLogin")}>Are you Admin?</button>
+        <button onClick={() => navigate("/login")}>User login</button>
+        <button onClick={() => navigate("AdminLogin")}>Admin login</button>
       </div>
     </div>
   );

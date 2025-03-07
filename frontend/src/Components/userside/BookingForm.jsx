@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate, Link } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import QRCode from "react-qr-code";
 
 const BookingForm = () => {
@@ -15,10 +15,10 @@ const BookingForm = () => {
       seatType === "AC"
         ? transport?.acSeatAmount
         : seatType === "Sleeper"
-          ? transport?.sleeperSeatAmount
-          : seatType === "Business"
-            ? transport?.businessSeatAmount
-            : transport?.normalSeatAmount || "",
+        ? transport?.sleeperSeatAmount
+        : seatType === "Business"
+        ? transport?.businessSeatAmount
+        : transport?.normalSeatAmount || "",
     mode: transport?.mode || "",
     name: transport?.name || "",
     no: transport?.number || "",
@@ -42,16 +42,62 @@ const BookingForm = () => {
       setFormData((prev) => ({ ...prev, seatId: generateSeatNo() }));
     }
   }, [transport, seatType]);
+
   const navigate = useNavigate();
 
-  const handlePaymentDone = (e) => {
+  const handlePaymentDone = async (e) => {
     e.preventDefault();
-    const destination = localStorage.getItem("adminId") ? "/adminconfirmation" : "/confirmation";
+    const validationError = validateInput();
+    if (validationError) {
+      setErrorMessage(validationError);
+      return;
+    }
 
-    navigate(destination, {
-      state: { bookingDetails: formData },
-    });
+    const currentDateTime = new Date().toISOString();
+    const formattedDate = formData.date ? new Date(formData.date).toISOString().split("T")[0] : "";
+    const updatedFormData = { ...formData, date: formattedDate, bookingDateTime: currentDateTime, seatId: generateSeatNo() };
 
+    try {
+      // Submit booking data
+      const response = await fetch("http://localhost:3000/booking/add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedFormData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to submit the booking");
+      }
+
+      const seatUpdateData = {
+        from: transport.from,
+        to: transport.to,
+        date: transport.date,
+        number: transport.number,
+        seatType: seatType,
+        mode:transport.mode,
+      };
+
+      const response1 = await fetch("http://localhost:3000/transport/decreaseseat", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(seatUpdateData),
+      });
+
+      if (!response1.ok) {
+        const errorData = await response1.json();
+        throw new Error(errorData.error || "Failed to decrease seats");
+      }
+      if (user) {
+        navigate("/confirmation", { state: { bookingDetails: formData } });
+      } else {
+        navigate("/adminconfirmation", { state: { bookingDetails: formData } });
+      }
+
+    } catch (error) {
+      setErrorMessage(`Booking failed! Please try again. Error: ${error.message}`);
+    }
   };
 
   const generateSeatNo = () => {
@@ -88,10 +134,7 @@ const BookingForm = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const SendMail = () => { };
-
   const handleSubmit = async (e) => {
-    setShowQR(true);
     e.preventDefault();
     const validationError = validateInput();
     if (validationError) {
@@ -99,51 +142,14 @@ const BookingForm = () => {
       return;
     }
 
-    const currentDateTime = new Date().toISOString();
-    const formattedDate = formData.date ? new Date(formData.date).toISOString().split("T")[0] : "";
-    const updatedFormData = { ...formData, date: formattedDate, bookingDateTime: currentDateTime, seatId: generateSeatNo() };
-
-    try {
-      const response = await fetch("http://localhost:3000/booking/add", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedFormData),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to submit the booking");
-      }
-
-      const seatUpdateData = {
-        from: transport.from,
-        to: transport.to,
-        date: transport.date,
-        number: transport.number,
-        seatType: seatType,
-      };
-
-      const response1 = await fetch("http://localhost:3000/transport/decreaseseat", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(seatUpdateData),
-      });
-
-      if (!response1.ok) {
-        const errorData = await response1.json();
-        throw new Error(errorData.error || "Failed to decrease seats");
-      }
-
-    } catch (error) {
-      setErrorMessage(`Booking failed! Please try again. Error: ${error.message}`);
-    }
+    setShowQR(true); 
   };
 
   return (
     <div className="booking-form">
-      {errorMessage && <div className="error-message">{errorMessage}</div>}
       {!showQR ? (
         <form onSubmit={handleSubmit}>
+          {errorMessage && <div className="error-message">{errorMessage}</div>}
           <h2>Enter Passenger Details</h2>
           <table>
             <tbody>
@@ -202,7 +208,6 @@ const BookingForm = () => {
           <button className="verifybutton" onClick={handlePaymentDone}>
             Payment Done
           </button>
-
         </form>
       )}
     </div>
