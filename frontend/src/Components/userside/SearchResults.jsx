@@ -36,7 +36,6 @@ const TransportCard = ({ transport, onBook }) => {
           <p className="price">₹{transport.normalSeatAmount || "-"}</p>
           <button disabled={transport.normalSeats === 0} onClick={() => handleBook("Normal")}>Book Normal</button>
         </div>
-
         {transport.mode === "bus" && (
           <div className={`class-card ${transport.sleeperSeats === 0 ? "unavailable-card" : ""}`}>
             <p className="class-name">Sleeper Seats</p>

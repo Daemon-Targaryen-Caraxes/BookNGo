@@ -19,7 +19,7 @@ h2 {
   position: fixed;
   height: 100%;
   width: 100%;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("./assets/Abc.webp");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("./assets/tellme.webp");
   background-size: cover;
 }
 
@@ -211,8 +211,8 @@ select {
 
 .container-button {
   display: flex;
-  margin-top: 350px;
-  gap: 150px;
+  margin-top: 30px;
+  gap: 220px;
   align-items: center;
   justify-content: center;
 }
@@ -293,7 +293,7 @@ select {
   top: 0;
   left: 0;
   height: 100%;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("./assets/loginpage.webp");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("./assets/signup.webp");
   background-size: cover;
 }
 
@@ -494,4 +494,36 @@ h2 {
 .verifybutton a {
   text-decoration: none;
 
+}
+.welcomepageheader {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: black;
+  padding: 15px 30px;
+  height: 70px;
+  border-bottom: 2px solid white;
+}
+
+.welcomepageheader img {
+  height: 60px;
+}
+
+.welcomepageheader h1 {
+  font-size: 2.4rem;
+  color: white;
+}
+
+.welcomepageheader div {
+  display: flex;
+  gap: 20px;
+  background-color: black;
+}
+.welcomepageheader div button{
+  height: 40px;
+  background-color:#007bff;
+}
+.welcomepageheader div button:hover{
+  background-color: #0056b3;
 }

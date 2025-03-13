@@ -126,8 +126,7 @@ const SignUp = () => {
 
       const result = await response.json();
       if (response.ok) {
-        localStorage.setItem("userId", formData.userid);
-        navigate("/selecttraveloption");
+        navigate("/login");
       } else {
         setError(result.error || "Signup failed.");
       }
