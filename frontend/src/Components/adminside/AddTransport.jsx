@@ -193,7 +193,7 @@ const AddTransport = () => {
         <div className="popup1">
           <div className="popup-con1">
             <h2>Transport Added Successfully!</h2>
-            <button onClick={handlePopupClose} className="popup-button">OK</button>
+            <button onClick={handlePopupClose} style={{marginLeft:'170px'}} className="popup-button">OK</button>
           </div>
         </div>
       )}

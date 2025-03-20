@@ -5,6 +5,7 @@ import QRCode from "react-qr-code";
 const BookingForm = () => {
   const location = useLocation();
   const user = localStorage.getItem("userId") || localStorage.getItem("adminId");
+  const user1 = localStorage.getItem("userId");
   const { transport, seatType } = location.state || {};
   const [formData, setFormData] = useState({
     from: transport?.from || "",
@@ -58,7 +59,6 @@ const BookingForm = () => {
     const updatedFormData = { ...formData, date: formattedDate, bookingDateTime: currentDateTime, seatId: generateSeatNo() };
 
     try {
-      // Submit booking data
       const response = await fetch("http://localhost:3000/booking/add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -89,7 +89,7 @@ const BookingForm = () => {
         const errorData = await response1.json();
         throw new Error(errorData.error || "Failed to decrease seats");
       }
-      if (user) {
+      if (user1) {
         navigate("/confirmation", { state: { bookingDetails: formData } });
       } else {
         navigate("/adminconfirmation", { state: { bookingDetails: formData } });

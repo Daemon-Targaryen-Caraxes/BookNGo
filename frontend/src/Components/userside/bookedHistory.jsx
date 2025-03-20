@@ -210,7 +210,7 @@ const BookedHistory = () => {
                   {selectedBooking && selectedBooking._id === booking._id && (
                     <div className="popup1" style={{ background: "none" }} onClick={() => setSelectedBooking(null)}>
                       <div className="popup-con1">
-                        <h2>Are you sure you want to delete this ticket?</h2>
+                        <h2>Are you sure you want to cancel your ticket?</h2>
                         <h4>When your ticket is cancelled, the money will be refunded within 24 hours.</h4>
                         <div className="yesnobuttton">
                           <button onClick={() => setSelectedBooking(null)}>No</button>
@@ -223,7 +223,7 @@ const BookedHistory = () => {
                   )}
                 </div>
                 <button className="delete-button" onClick={() => setSelectedBooking(booking)} disabled={isPastBooking}>
-                  {isPastBooking ? "Travel date passed" : "Delete Ticket"}
+                  {isPastBooking ? "Travel date passed" : "cancel Ticket"}
                 </button>
               </div>
             );

@@ -15,22 +15,21 @@ const ConfirmationPage = () => {
     doc.setFontSize(18);
     doc.text("Booking Confirmation", 20, 20);
     doc.setFontSize(12);
-
     doc.text(`Train Name: ${bookingDetails.name}`, 20, 30);
-    doc.text(`Train No: ${bookingDetails.no}`, 20, 40);
-    doc.text(`From: ${bookingDetails.from}`, 20, 50);
-    doc.text(`To: ${bookingDetails.to}`, 20, 60);
-    doc.text(`Date: ${new Date(bookingDetails.date).toLocaleDateString()}`, 20, 70);
-    doc.text(`Time: ${bookingDetails.time}`, 20, 80);
-    doc.text(`Class: ${bookingDetails.Class}`, 20, 90);
-    doc.text(`Passenger Name: ${bookingDetails.passengerName}`, 20, 100);
-    doc.text(`Phone No: ${bookingDetails.phoneNo}`, 20, 110);
-    doc.text(`DOB: ${new Date(bookingDetails.dob).toLocaleDateString()}`, 20, 120);
-    doc.text(`Aadhaar No: ${bookingDetails.aadhaar}`, 20, 130);
-    doc.text(`Age: ${bookingDetails.gmail}`, 20, 140);
-    doc.text(`Gender: ${bookingDetails.gender}`, 20, 150);
-    doc.text(`Seat No: ${bookingDetails.seatId}`, 20, 160);
-    doc.text(`Amount: ₹${bookingDetails.amount}`, 20, 170);
+    doc.text(`Train No: ${bookingDetails.no}`, 20, 36);
+    doc.text(`From: ${bookingDetails.from}`, 20, 42);
+    doc.text(`To: ${bookingDetails.to}`, 20, 48);
+    doc.text(`Date: ${new Date(bookingDetails.date).toLocaleDateString()}`, 20, 54);
+    doc.text(`Time: ${bookingDetails.time}`, 20, 60);
+    doc.text(`Class: ${bookingDetails.Class}`, 20, 66);
+    doc.text(`Passenger Name: ${bookingDetails.passengerName}`, 20, 72);
+    doc.text(`Phone No: ${bookingDetails.phoneNo}`, 20, 78);
+    doc.text(`DOB: ${new Date(bookingDetails.dob).toLocaleDateString()}`, 20, 84);
+    doc.text(`Aadhaar No: ${bookingDetails.aadhaar}`, 20, 90);
+    doc.text(`Age: ${bookingDetails.gmail}`, 20, 96);
+    doc.text(`Gender: ${bookingDetails.gender}`, 20, 102);
+    doc.text(`Seat No: ${bookingDetails.seatId}`, 20, 108);
+    doc.text(`Amount: ₹${bookingDetails.amount}`, 20, 114);
 
     doc.save("ticket.pdf");
   };

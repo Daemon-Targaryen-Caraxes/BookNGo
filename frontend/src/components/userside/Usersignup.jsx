@@ -104,6 +104,10 @@ const SignUp = () => {
     if (!/^[0-9]{12}$/.test(formData.aadhaar)) {
       return "Aadhaar number must be exactly 12 digits.";
     }
+    
+    const today = new Date();
+    const inputDate = new Date(formData.dob);
+    if (inputDate > today) return "Date cannot be in the past.";
     return "";
   };
 

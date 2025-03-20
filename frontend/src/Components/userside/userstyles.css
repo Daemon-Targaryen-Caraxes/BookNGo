@@ -69,7 +69,6 @@
   width: 200px;
 }
 
-/* Profile Container */
 .profile-container {
   width: 100%;
   max-width: 500px;
@@ -82,7 +81,6 @@
   text-align: center;
 }
 
-/* Title Styling */
 .profile-title {
   font-size: 24px;
   font-weight: bold;
@@ -305,47 +303,6 @@ h2 {
   font-weight: bold;
 }
 
-/* .class-card {
-  background: #f8f8f8;
-  padding: 10px;
-  margin-top: 10px;
-  border-radius: 5px;
-  text-align: center;
-}
-
-.unavailable-card {
-  background-color: rgba(220, 20, 60, 0.525);
-}
-
-.status {
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.status.available {
-  color: green;
-}
-
-.status.unavailable {
-  color: red;
-}
-
-.price {
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.unavailable-card {
-  background-color: rgba(220, 20, 60, 0.6) !important; /* Ensure it applies */
-  /* padding: 10px;
-  border-radius: 5px;
-}
-
-.disabled-button {
-  background-color: #ccc !important;
-  cursor: not-allowed;
-  pointer-events: none;
-} */ 
 .transport-class {
   display: flex;
   flex-wrap: wrap;
@@ -357,7 +314,7 @@ h2 {
   width: 250px;
   padding: 15px;
   border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   background-color: #fff;
   text-align: center;
   transition: transform 0.2s ease-in-out;
@@ -367,13 +324,11 @@ h2 {
   transform: scale(1.05);
 }
 
-/* If no seats available, turn card red */
 .unavailable-card {
-  background-color: #ffcccc; /* Light red */
+  background-color: #ffcccc; 
   border: 2px solid #ff4444;
 }
 
-/* Status styling */
 .status {
   font-weight: bold;
   margin-bottom: 10px;
