@@ -20,17 +20,6 @@ const UseradminHeader = () => {
           <Link onClick={() => setShowPopup(!showPopup)}>logout</Link>
         </nav>
       </div>
-      {/* {showPopup && (
-          <div className="popup" onClick={()=>setShowPopup(!showPopup)}>
-            <div className="popup-con">
-              <h2>confirm to logout</h2>
-              <div className="yesnobuttton">
-              <button onClick={() => navigate("/")}>logout</button>
-              <button onClick={() => navigate(-1)}>cancel</button>
-              </div>
-            </div>
-          </div>
-        )} */}
     </>
   );
 }
