@@ -5,17 +5,18 @@ import userRouter from "./APIRouters/User/user.js";
 import adminRouter from "./APIRouters/Admin/admin.js";
 import transportRouter from "./APIRouters/Admin/transport.js";
 import bookingRouter from "./APIRouters/Admin/booking.js";
-
+import dotenv from "dotenv";
+dotenv.config();
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: process.env.FRONTEND_URL,
   methods: ['GET', 'POST', 'PUT', 'DELETE']
 }));
 
-mongoose.connect('mongodb://127.0.0.1:27017/BookNGo', { family: 4 })
+mongoose.connect(process.env.MONGO_URL, { family: 4 })
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.error('MongoDB Connection Error:', err));
 
