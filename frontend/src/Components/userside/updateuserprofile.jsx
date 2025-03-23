@@ -75,8 +75,9 @@ const UpdateUserProfile = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...userData, newUserid }),
       });
-
+      localStorage.setItem("userId", newUserid);
       const result = await response.json();
+
       if (!response.ok) {
         throw new Error(result.error || "Failed to update user");
       }

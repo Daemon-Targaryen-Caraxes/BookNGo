@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { data, useLocation, useNavigate } from "react-router-dom";
 import QRCode from "react-qr-code";
 
 const BookingForm = () => {
@@ -119,7 +119,6 @@ const BookingForm = () => {
     }
     return seatId;
   };
-
   const validateInput = () => {
     if (!formData.passengerName.trim()) return "Passenger name is required.";
     if (!/^[6-9]\d{9}$/.test(formData.phoneNo)) return "Invalid phone number.";
@@ -127,6 +126,10 @@ const BookingForm = () => {
     if (!/\d{12}$/.test(formData.aadhaar)) return "Aadhaar number must be 12 digits.";
     if (!formData.gender) return "Gender is required.";
     if (!/\S+@\S+\.\S+/.test(formData.gmail)) return "Invalid Gmail address.";
+    const today = new Date();
+    const inputDate = new Date(formData.dob);
+    if (inputDate > today) return "Date can be in the past.";
+
     return "";
   };
 

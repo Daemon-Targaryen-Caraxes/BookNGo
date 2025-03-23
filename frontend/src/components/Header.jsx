@@ -5,7 +5,7 @@ const Header = () => {
   return (
     <>
       <header className="welcomepageheader">
-        <h1 onClick={()=>{navigate('/')}}>BOOKNGO</h1>
+        <h1 onClick={()=>{navigate('/')}} style={{cursor:'pointer'}}>BOOKNGO</h1>
         <div style={{marginTop:'10px',marginRight:'70px'}}>
           <button onClick={() => navigate("/signup")}>SIGN&nbsp;UP</button>
           <button onClick={() => navigate("/login")}>USER</button>

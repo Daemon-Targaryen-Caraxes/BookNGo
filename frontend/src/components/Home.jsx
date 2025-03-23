@@ -6,12 +6,15 @@ const Home = () => {
   return (
     <div className="home1">
       <Header />
-      <div style={headerStyle}>
-        <h1 style={titleStyle}>
+      {/* <div style={headerStyle}> */}
+        {/* <h1 style={titleStyle}>
           WELCOME TO BOOKNGO
-        </h1>
-      </div>
-      <h3 style={{ color: 'rgb(255, 250, 250)', fontSize: '31px', marginTop: '80px' }}>
+        </h1> */}
+      {/* </div> */}
+      <p style={{fontFamily:'gt-super, Georgia, Cambria, "Times New Roman", Times, serif',color:'white',fontSize:'129px',paddingLeft:'60px',margin:'120px 0 0 0'}}>
+      Plan, Book & Go Anywhere
+      </p>
+      {/* <p style={{ color: 'rgb(255, 250, 250)', fontSize: '', marginTop: '80px' }}>
         <span style={{ marginLeft: '130px' }}></span>
         Your one-stop solution for seamless travel booking.
         Plan your journey with ease.
@@ -28,9 +31,10 @@ const Home = () => {
         Trusted by thousands of happy customers.
         Navigate through our simple and intuitive UI.
         Book your next trip in just a few clicks.
-        Start your journey with BookNGo today! </h3>
-      <div className="container-button">
-        <button onClick={() => navigate("/login")} style={{ fontSize: "27px", borderRadius: '10px' }}>Start Booking &nbsp;&nbsp;&gt;</button>
+        Start your journey with BookNGo today! </p> */}
+        <p style={{color:'white',fontSize:'25px',paddingLeft:'60px',fontFamily:'sohne, "Helvetica Neue", Helvetica, Arial, sans-serif'}}>Your one-stop destination for booking bus, train, and flight tickets with ease. </p>
+      <div >
+        <button onClick={() => navigate("/login")} style={{ fontSize: "27px", borderRadius: '8px', padding:'8px 22px', margin:'10px 0 0 1220px' }}>Start Booking</button>
       </div>
     </div>
   );

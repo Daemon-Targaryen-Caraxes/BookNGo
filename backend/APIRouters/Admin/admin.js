@@ -29,13 +29,11 @@ adminRouter.post("/sendotpforresetpassword", async (req, res) => {
     }
 
     const gmail = user.email;
-
-    await SendMail(
+    SendMail(
       gmail,
       "Gmail Verification OTP",
       `Hi,\nYour email verification OTP is: ${otp}. Please use this code to complete the verification process.\nIf you did not request this, please ignore this message.\n\nBest, BOOKNGO.`
     );
-
     res.json({ message: "OTP sent successfully" });
   } catch (error) {
     res.status(500).json({ error: "Failed to send OTP", details: error.message });
@@ -52,7 +50,7 @@ adminRouter.put("/reset-password", async (req, res) => {
     if (!user) return res.status(404).json({ error: "User not found" });
     user.password = await bcrypt.hash(password, 10);
     await user.save();
-    await SendMail(
+    SendMail(
       user.email,
       "Password Change Notification",
       `Hi ${user.username},\n\nYour password has been successfully changed. If you didn't make this change, please contact us immediately at support@bookngowebsite.com.\n\nBest, BOOKNGO.`
@@ -79,13 +77,11 @@ adminRouter.post('/login', async (req, res) => {
     const admin = await Admin.findOne({ adminId });
     if (!admin) return res.status(404).json({ error: 'Admin not found' });
     if (!(await bcrypt.compare(password, admin.password))) return res.status(400).json({ error: 'Invalid password' });
-    (async () => {
-      await SendMail(
+      SendMail(
         admin.email,
         "You're Logged In!",
         `Hi ${admin.adminName},\nYou are now logged in to your BookNGo website!\nIf you need any assistance, please reach out to us at support@bookngowebsite.com.\nBest, BOOKNGO.`
       );
-    })();
     res.json({ message: 'Login successful', adminId: admin.adminId });
   } catch {
     res.status(500).json({ error: 'Login failed' });
@@ -120,13 +116,11 @@ adminRouter.put('/:adminId/editprofile', async (req, res) => {
         return res.status(400).json({ error: 'New Admin ID is already in use' });
       }
     }
-    (async () => {
-      await SendMail(
+      SendMail(
         email,
         "Profile Updated",
         `Hi ${adminName},\nYour admin account profile has been successfully updated. If you did not make these changes or have any questions, feel free to contact us at support@bookngowebsite.com.\nBest, BOOKNGO.`
       );
-    })();
     admin.adminId = newAdminId;
     admin.adminName = adminName;
     admin.email = email;
@@ -157,13 +151,11 @@ adminRouter.put('/:adminId/change-password', async (req, res) => {
     if (!updatedAdmin) {
       return res.status(404).json({ error: 'Admin not found' });
     }
-    (async () => {
-      await SendMail(
-        updatedAdmin.email,
-        "Password Change Notification",
-        `Hi ${updatedAdmin.adminName},\nYour password has been successfully changed. If you didn't make this change, please contact us immediately at support@bookngowebsite.com.\nBest, BOOKNGO.`
-      );
-    })();
+    SendMail(
+      updatedAdmin.email,
+      "Password Change Notification",
+      `Hi ${updatedAdmin.adminName},\nYour password has been successfully changed. If you didn't make this change, please contact us immediately at support@bookngowebsite.com.\nBest, BOOKNGO.`
+    );
     res.json({ message: 'Password updated successfully' });
   } catch (err) {
     res.status(500).json({ error: 'Failed to change password' });
@@ -178,13 +170,11 @@ adminRouter.post('/add', async (req, res) => {
     if (await Admin.findOne({ adminId })) return res.status(400).json({ error: 'Admin ID already exists' });
     const hashedPassword = await bcrypt.hash(password, 10);
     const newAdmin = new Admin({ adminName, email, gender, aadharNo, adminId, password: hashedPassword });
-    (async () => {
-      await SendMail(
+      SendMail(
         email,
         "Welcome to BookNGo",
         `Hi ${adminName},\nWelcome to BookNGo! Your admin account has been created successfully. We're excited to have you on board. If you need any assistance, feel free to contact us at support@bookngowebsite.com.\nBest, BOOKNGO.`
       );
-    })();
     await newAdmin.save();
     res.status(201).json({ message: 'Admin created successfully', adminId: newAdmin.adminId });
   } catch {

@@ -37,8 +37,7 @@ booking.post("/add", async (req, res) => {
     req.body.date = new Date(req.body.date);
     const newBooking = new Booking(req.body);
     const savedBooking = await newBooking.save();
-    (async () => {
-      await SendMail(req.body.gmail, 'Ticket Booking Confirmation - BookNGo', `
+    SendMail(req.body.gmail, 'Ticket Booking Confirmation - BookNGo', `
                 Booking Confirmation
 
 Dear ${req.body.passengerName},
@@ -56,7 +55,6 @@ Ticket Details:
 - Amount Paid: ₹${req.body.amount}
 
 Thank you for using BookNGo.`)
-    })()
     res.status(201).json({ message: "Booking created successfully", booking: savedBooking });
   } catch (err) {
     console.error("Error Saving Booking:", err.message);
@@ -75,9 +73,7 @@ booking.delete("/delete/:id", async (req, res) => {
     }
     console.log(gmail);
     await Booking.findByIdAndDelete(id);
-    (async () => {
-      await SendMail(gmail, 'Ticket cancelled Confirmation', `cancelled Confirmation,\n \nthe Amount  ₹${amount} refund with 24hours\n thanks for using BOOkNGO`);
-    })()
+    SendMail(gmail, 'Ticket cancelled Confirmation', `cancelled Confirmation,\n \nthe Amount  ₹${amount} refund with 24hours\n thanks for using BOOkNGO`);
 
     res.status(200).json({ message: "Ticket deleted successfully" });
   } catch (error) {

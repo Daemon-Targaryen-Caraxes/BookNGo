@@ -145,7 +145,7 @@ const SignUp = () => {
       <div className="container" style={{ width: "320px" }}>
         <h2>Sign Up</h2>
         {error && <p className="error">{error}</p>}
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} >
           <input type="text" name="username" value={formData.username} onChange={handleChange} placeholder="Username" required />
           <input type="text" name="gmail" value={formData.gmail} onChange={handleChange} placeholder="Gmail" required />
 
