@@ -8,15 +8,15 @@ import bookingRouter from "./APIRouters/Admin/booking.js";
 import dotenv from "dotenv";
 dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
 app.use(express.json());
 app.use(cors({
-  origin: process.env.FRONTEND_URL,
+  origin:process.env.FRONTEND_URL,
+  credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE']
 }));
-
-mongoose.connect("mongodb+srv://bookngowebsite:Saivenkat14424@bookngo.kvtkp.mongodb.net/?retryWrites=true&w=majority&appName=BookNGo", { family: 4 })
+mongoose.connect(process.env.MONGO_URI, { family: 4 })
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.error('MongoDB Connection Error:', err));
 
@@ -35,6 +35,6 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });
 
